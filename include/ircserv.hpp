@@ -17,6 +17,7 @@
 # include <poll.h>
 # include <unistd.h>
 
+#define BUFF_SIZE 1024
 // Function prototypes
 int testing(int argc, char **argv);
 
