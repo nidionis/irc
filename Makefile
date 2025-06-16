@@ -1,6 +1,6 @@
 # Compiler settings
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include
 DEBUG_FLAGS = -g3 -O0 -DDEBUG
 
 # Project settings
@@ -8,12 +8,13 @@ NAME = ircserv
 SRC_DIR = src
 OBJ_DIR = obj
 DEBUG_DIR = debug
+INCLUDE_DIR = include
 
 # Source files (update these as you add more source files)
-SRCS = main.cpp \
-       Server.cpp \
-       Client.cpp \
-       Channel.cpp
+SRCS = main.cpp
+       #Server.cpp \
+       #Client.cpp \
+       #Channel.cpp
 
 # Object files
 OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
