@@ -18,6 +18,7 @@
 # include <unistd.h>
 
 #define BUFF_SIZE 1024
+#define ERROR -1
 // Function prototypes
 int testing(int argc, char **argv);
 

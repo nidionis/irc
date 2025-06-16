@@ -1,6 +1,25 @@
 #include "ircserv.hpp"
 
 /**
+ * Initialize a server socket with reuse address option
+ * @return Socket file descriptor or -1 on error
+ */
+int initializeServerSocket() {
+    int server_fd;
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        std::cerr << "Socket creation failed" << std::endl;
+        return ERROR;
+    }
+    int opt = 1;
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        std::cerr << "setsockopt failed" << std::endl;
+        close(server_fd);
+        return ERROR;
+    }
+    return server_fd;
+}
+
+/**
  * Basic testing function that sets up a socket and prints received strings
  * @param argc Argument count
  * @param argv Argument values
@@ -9,22 +28,15 @@
 int testing(int argc, char **argv)
 {
     (void)argc;
-    int port = std::atoi(argv[1]);
     int server_fd, client_fd;
+
+    server_fd = initializeServerSocket();
+    if (server_fd < 0) {
+        return ERROR;
+    }
+
     struct sockaddr_in address;
-    char buffer[BUFF_SIZE] = {0};
-    int addrlen = sizeof(address);
-
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        std::cerr << "Socket creation failed" << std::endl;
-        return 1;
-    }
-    int opt = 1;
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-        std::cerr << "setsockopt failed" << std::endl;
-        return 1;n
-    }
-
+    int port = std::atoi(argv[1]);
     // Setup address structure
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
@@ -45,6 +57,7 @@ int testing(int argc, char **argv)
     std::cout << "Server listening on port " << port << std::endl;
     std::cout << "Password: " << argv[2] << std::endl;
 
+    int addrlen = sizeof(address);
     // Accept a connection
     if ((client_fd = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
         std::cerr << "Accept failed" << std::endl;
@@ -53,6 +66,7 @@ int testing(int argc, char **argv)
 
     std::cout << "Client connected" << std::endl;
 
+    char buffer[BUFF_SIZE] = {0};
     // Basic receive and print loop
     while(1) {
         // Clear buffer
