@@ -16,6 +16,10 @@ int main(int argc, char **argv)
 
     std::cout << "Starting IRC server..." << std::endl;
     Server server;
+    server.initSocket();
+    server.configureAndBindSocket(0);
+    while (1)
+        server.printing_loop(0);
     (void)server;
     sleep(20);
     //testing(argc, argv);

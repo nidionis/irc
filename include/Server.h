@@ -5,14 +5,17 @@
 #ifndef SERVER_H
 #define SERVER_H
 #define MAX_SOCKET 3
+#define MAX_CONN 3
+#define UNDEFINED -1
 
 #include <ircserv.hpp>
 
 class Server {
-    int             _nb_socket;
-    int             _port;
-    int             _sockets[MAX_SOCKET];
-    std::string     _passwd;
+    int                         _nb_socket;
+    int                         _port;
+    int                         _sockets[MAX_SOCKET];
+    struct sockaddr_in   _addresses[MAX_SOCKET];
+    std::string                 _passwd;
 public:
     Server();
     Server(Server &src);
@@ -20,6 +23,9 @@ public:
     Server &operator=(Server &src);
 
     int initSocket();
+    bool unBlockSocket(int i_socket);
+    bool configureAndBindSocket(int i_socket);
+    int printing_loop(int i_socket);
 };
 
 
