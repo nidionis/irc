@@ -5,6 +5,7 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 
+#include "ircserv.hpp"
 
 
 class Handler {

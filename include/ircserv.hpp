@@ -3,8 +3,6 @@
 
 # include <iostream>
 # include <string>
-# include <vector>
-# include <map>
 # include <cstring>
 # include <cstdlib>
 # include <cerrno>
@@ -16,6 +14,12 @@
 # include <fcntl.h>
 # include <poll.h>
 # include <unistd.h>
+
+#include <Channel.h>
+#include <Client.h>
+#include <Server.h>
+#include <Message.h>
+#include <Handler.h>
 
 #define BUFF_SIZE 1024
 #define ERROR -1

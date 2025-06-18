@@ -5,6 +5,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include "ircserv.hpp"
 
 
 class Message {

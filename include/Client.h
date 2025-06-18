@@ -5,6 +5,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include "ircserv.hpp"
 
 
 class Client {

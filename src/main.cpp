@@ -15,5 +15,9 @@ int main(int argc, char **argv)
     }
 
     std::cout << "Starting IRC server..." << std::endl;
-    return testing(argc, argv);
+    Server server;
+    (void)server;
+    sleep(20);
+    //testing(argc, argv);
+    return 0;
 }
