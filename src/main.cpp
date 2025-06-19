@@ -20,10 +20,8 @@ int main(int argc, char **argv)
     server.configureAndBindSocket(0);
     Client client;
     client.acceptConn(server.getFd(0), server.getSockAddr(0));
-    while (1)
-        client.printing_loop();
-    (void)server;
-    sleep(20);
-    //testing(argc, argv);
+    while (client.printing_loop() != QUIT) {
+        continue ;
+    }
     return 0;
 }

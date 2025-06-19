@@ -32,6 +32,4 @@ public:
     int printing_loop(int i_socket);
 };
 
-
-
 #endif //SERVER_H

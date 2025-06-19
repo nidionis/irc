@@ -7,6 +7,7 @@
 
 #include "ircserv.hpp"
 #define UNDEFINED_FD -1
+#define QUIT -2
 
 class Client {
     std::string _nickname;
@@ -20,6 +21,7 @@ public:
     Client &operator=(Client &src);
 
     int acceptConn(int server_fd, struct sockaddr_in& address);
+    // debug purpose only
     int printing_loop();
 };
 

@@ -27,7 +27,6 @@ int Client::printing_loop() {
     while (1) {
         bytes_read = read(_fd, buffer, BUFF_SIZE - 1);
         if (bytes_read <= 0) {
-            // Add detailed error reporting
             if (bytes_read < 0) {
                 std::cerr << "Read failed: "
                           << strerror(errno)  // Print system error description
@@ -36,7 +35,7 @@ int Client::printing_loop() {
                 return ERROR;
             } else {
                 std::cerr << "Connection closed by peer" << std::endl;
-                return OK;  // Graceful connection closure
+                return QUIT;
             }
         }
         buffer[bytes_read] = '\0';
