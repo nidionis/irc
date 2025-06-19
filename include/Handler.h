@@ -9,9 +9,15 @@
 
 
 class Handler {
+    Client _client;
+public:
+    Handler();
+    Handler(Client &client);
+    Handler(Handler &src);
+    ~Handler();
+    Handler &operator=(Handler &src);
 
+    int accept();
 };
-
-
 
 #endif //HANDLER_H

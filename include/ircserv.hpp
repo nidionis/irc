@@ -16,8 +16,8 @@
 # include <unistd.h>
 
 #include <Channel.h>
-#include <Client.h>
 #include <Server.h>
+#include <Client.h>
 #include <Message.h>
 #include <Handler.h>
 

@@ -37,6 +37,14 @@ int Server::initSocket() {
     return server_fd;
 }
 
+struct sockaddr_in &Server::getSockAddr(int i_socket) {
+    return _addresses[i_socket];
+}
+
+int Server::getFd(int i_socket) {
+    return _sockets[i_socket];
+}
+
 bool Server::unBlockSocket(int i_socket) {
     int server_socket = _sockets[i_socket];
     int flags = fcntl(server_socket, F_GETFL, 0);
@@ -88,39 +96,37 @@ int Server::printing_loop(int i_socket) {
         if (bytes_read <= 0) {
             // Add detailed error reporting
             if (bytes_read < 0) {
-                //std::cerr << "Read failed: "
-                //          << strerror(errno)  // Print system error description
-                //          << " (Error code: " << errno << ")"
-                //          << std::endl;
+                std::cerr << "Read failed: "
+                          << strerror(errno)  // Print system error description
+                          << " (Error code: " << errno << ")"
+                          << std::endl;
 
-                //// Handle specific error scenarios
-                //switch(errno) {
-                //    case EAGAIN:    // Non-blocking socket, no data
-                //        break ;
-                //    //case EWOULDBLOCK:
-                //    //    std::cerr << "No data available (non-blocking socket)" << std::endl;
-                //    //    break;
-                //    case EBADF:     // Invalid file descriptor
-                //        std::cerr << "Invalid socket descriptor" << std::endl;
-                //        break;
-                //    case EINTR:     // Interrupted system call
-                //        std::cerr << "Read interrupted" << std::endl;
-                //        continue;   // Try reading again
-                //    default:
-                //        break;
-                //}
+                // Handle specific error scenarios
+                switch(errno) {
+                    case EAGAIN:    // Non-blocking socket, no data
+                        break ;
+                    //case EWOULDBLOCK:
+                    //    std::cerr << "No data available (non-blocking socket)" << std::endl;
+                    //    break;
+                    case EBADF:     // Invalid file descriptor
+                        std::cerr << "Invalid socket descriptor" << std::endl;
+                        break;
+                    case EINTR:     // Interrupted system call
+                        std::cerr << "Read interrupted" << std::endl;
+                        continue;   // Try reading again
+                    default:
+                        break;
+                }
 
-                //return ERROR;
+                return ERROR;
             } else {
                 std::cerr << "Connection closed by peer" << std::endl;
                 return OK;  // Graceful connection closure
             }
         }
         sleep(2);
-
         // Null-terminate buffer for safe string handling
         buffer[bytes_read] = '\0';
-
         // Optional: process received data
          std::cout << "Received: " << buffer << std::endl;
     }

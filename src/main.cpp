@@ -18,6 +18,8 @@ int main(int argc, char **argv)
     Server server;
     server.initSocket();
     server.configureAndBindSocket(0);
+    Client client;
+    client.accept(server.getFd(0), server.getSockAddr(0));
     while (1)
         server.printing_loop(0);
     (void)server;
