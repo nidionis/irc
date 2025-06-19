@@ -13,17 +13,33 @@ Client::Client(Client &src) {(void)src;}
 
 Client &Client::operator=(Client &src) {(void)src; return (src);}
 
-int Client::accept(int server_fd, struct sockaddr_in& address) {
+int Client::acceptConn(int server_fd, struct sockaddr_in& address) {
     int addrlen = sizeof(struct sockaddr_in);
-    if (_fd == UNDEFINED_FD) {
-        // trow error
-        std::cerr << "Accept failed" << std::endl;
-        return ERROR;
-    }
-    if ((_fd = ::accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
-        // trow error
-        std::cerr << "Accept failed" << std::endl;
-        return ERROR;
+    while ((_fd = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+        continue;
     }
     return OK;
+}
+
+int Client::printing_loop() {
+    unsigned char buffer[BUFF_SIZE];
+    int bytes_read;
+    while (1) {
+        bytes_read = read(_fd, buffer, BUFF_SIZE - 1);
+        if (bytes_read <= 0) {
+            // Add detailed error reporting
+            if (bytes_read < 0) {
+                std::cerr << "Read failed: "
+                          << strerror(errno)  // Print system error description
+                          << " (Error code: " << errno << ")"
+                          << std::endl;
+                return ERROR;
+            } else {
+                std::cerr << "Connection closed by peer" << std::endl;
+                return OK;  // Graceful connection closure
+            }
+        }
+        buffer[bytes_read] = '\0';
+        std::cout << "Received: " << buffer << std::endl;
+    }
 }

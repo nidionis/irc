@@ -76,78 +76,11 @@ bool Server::configureAndBindSocket(int i_socket) {
         std::cerr << "Bind failed" << std::endl;
         return false;
     }
-
     if (listen(_sockets[i_socket], MAX_CONN) < 0) {
         //thow error
         std::cerr << "Listen failed" << std::endl;
         return false;
     }
-
     std::cout << "Server listening on port " << _port << std::endl;
     return true;
 }
-
-int Server::printing_loop(int i_socket) {
-    unsigned char buffer[BUFF_SIZE];
-    int bytes_read;
-
-    while (1) {
-        bytes_read = read(_sockets[i_socket], buffer, BUFF_SIZE - 1);
-        if (bytes_read <= 0) {
-            // Add detailed error reporting
-            if (bytes_read < 0) {
-                std::cerr << "Read failed: "
-                          << strerror(errno)  // Print system error description
-                          << " (Error code: " << errno << ")"
-                          << std::endl;
-
-                // Handle specific error scenarios
-                switch(errno) {
-                    case EAGAIN:    // Non-blocking socket, no data
-                        break ;
-                    //case EWOULDBLOCK:
-                    //    std::cerr << "No data available (non-blocking socket)" << std::endl;
-                    //    break;
-                    case EBADF:     // Invalid file descriptor
-                        std::cerr << "Invalid socket descriptor" << std::endl;
-                        break;
-                    case EINTR:     // Interrupted system call
-                        std::cerr << "Read interrupted" << std::endl;
-                        continue;   // Try reading again
-                    default:
-                        break;
-                }
-
-                return ERROR;
-            } else {
-                std::cerr << "Connection closed by peer" << std::endl;
-                return OK;  // Graceful connection closure
-            }
-        }
-        sleep(2);
-        // Null-terminate buffer for safe string handling
-        buffer[bytes_read] = '\0';
-        // Optional: process received data
-         std::cout << "Received: " << buffer << std::endl;
-    }
-}
-
-//int Server::printing_loop(int i_socket) {
-//
-//    unsigned char buffer[BUFF_SIZE];
-//    int bytes_read;
-//
-//    while (1) {
-//        bytes_read = read(_sockets[i_socket], buffer, BUFF_SIZE - 1);
-//        if (bytes_read <= 0) {
-//            if (bytes_read < 0) {
-//                std::cerr << "Read failed" << std::endl;
-//                return ERROR;
-//            } else {
-//                std::cerr << "toto" << std::endl;
-//            }
-//        }
-//    }
-//    std::cout << "Received: " << buffer << std::endl;
-//    return OK;
-//}

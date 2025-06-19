@@ -19,7 +19,8 @@ public:
     Client(Client &src);
     Client &operator=(Client &src);
 
-    int accept(int server_fd, struct sockaddr_in& address);
+    int acceptConn(int server_fd, struct sockaddr_in& address);
+    int printing_loop();
 };
 
 #endif //CLIENT_H
