@@ -11,15 +11,28 @@ Client::~Client() {}
 
 Client::Client(Client &src) {(void)src;}
 
-Client &Client::operator=(Client &src) {(void)src; return (src);}
-
-int Client::acceptConn(int server_fd, struct sockaddr_in& address) {
-    int addrlen = sizeof(struct sockaddr_in);
-    while ((_fd = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
-        continue;
-    }
-    return OK;
+Client &Client::operator=(const Client &src) {
+    if (this == &src)
+        return *this;
+    _nickname = src._nickname;
+    _username = src._username;
+    _hostname = src._hostname;
+    _fd = src._fd;
+    // Add any other fields that need copying here
+    return *this;
 }
+
+void Client::setFd(int fd) {
+    _fd = fd;
+}
+
+//int Client::acceptConn(int server_fd, struct sockaddr_in& address) {
+//    int addrlen = sizeof(struct sockaddr_in);
+//    while ((_fd = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+//        continue;
+//    }
+//    return OK;
+//}
 
 int Client::printing_loop() {
     unsigned char buffer[BUFF_SIZE];

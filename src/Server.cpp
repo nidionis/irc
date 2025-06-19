@@ -90,3 +90,14 @@ bool Server::listenUp(int i_socket) {
     std::cout << "Server listening on port " << _port << std::endl;
     return true;
 }
+
+Client *Server::acceptConn(int i_socket) {
+    int fd;
+    int addrlen = sizeof(struct sockaddr_in);
+    Client *client = new Client();
+    while ((fd = accept(_sockets[i_socket], (struct sockaddr *)&_addresses[i_socket], (socklen_t*)&addrlen)) < 0) {
+        continue;
+    }
+    client->setFd(fd);
+    return client;
+}

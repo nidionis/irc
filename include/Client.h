@@ -18,9 +18,9 @@ public:
     Client();
     ~Client();
     Client(Client &src);
-    Client &operator=(Client &src);
+    Client &operator=(const Client &src);
 
-    int acceptConn(int server_fd, struct sockaddr_in& address);
+    void    setFd(int fd);
     // debug purpose only
     int printing_loop();
 };

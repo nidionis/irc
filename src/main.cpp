@@ -16,11 +16,10 @@ int main(int argc, char **argv)
     std::cout << "Starting IRC server..." << std::endl;
 
     Server server;
-    Client client;
     server.initSocket();
     server.listenUp(0);
-    client.acceptConn(server.getFd(0), server.getSockAddr(0));
-    while (client.printing_loop() != QUIT) {
+    Client *client = server.acceptConn(0);
+    while (client->printing_loop() != QUIT) {
         continue ;
     }
     return 0;
