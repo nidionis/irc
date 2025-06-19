@@ -26,7 +26,7 @@ public:
     struct sockaddr_in &getSockAddr(int i_socket);
     int getFd(int i_socket);
     bool unBlockSocket(int i_socket);
-    bool configureAndBindSocket(int i_socket);
+    bool listenUp(int i_socket);
 
     //testing purpose only
     int printing_loop(int i_socket);

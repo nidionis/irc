@@ -18,6 +18,16 @@ Server &Server::operator=(Server &src) {
     return *this;
 }
 
+static bool setReuseAddr(int server_fd) {
+    int reuseAddrFlag = 1;
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuseAddrFlag, sizeof(reuseAddrFlag)) < 0) {
+        std::cerr << "setsockopt(SO_REUSEADDR) failed" << std::endl;
+        close(server_fd);
+        return false;
+    }
+    return true;
+}
+
 int Server::initSocket() {
     int server_fd;
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -25,11 +35,8 @@ int Server::initSocket() {
         std::cerr << "Socket creation failed" << std::endl;
         return ERROR;
     }
-    int opt = 1;
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-        //throw error
-        std::cerr << "setsockopt failed" << std::endl;
-        close(server_fd);
+    if (!setReuseAddr(server_fd)) {
+        //thow error
         return ERROR;
     }
     this->_sockets[this->_nb_socket] = server_fd;
@@ -59,25 +66,24 @@ bool Server::unBlockSocket(int i_socket) {
     return true;
 }
 
-bool Server::configureAndBindSocket(int i_socket) {
-    struct sockaddr_in &address = _addresses[i_socket];
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(_port);
+static void configureSockAddr(struct sockaddr_in &sockAddr, int port) {
+    sockAddr.sin_family = AF_INET;
+    sockAddr.sin_addr.s_addr = INADDR_ANY;
+    sockAddr.sin_port = htons(port);
+}
 
-    if (i_socket == UNDEFINED && _nb_socket > 0) {
-        i_socket = _nb_socket - 1;
-    } else if (i_socket >= MAX_SOCKET) {
-        //thow error
+bool Server::listenUp(int i_socket) {
+    if (i_socket >= MAX_SOCKET) {
+        // throw error
         return false;
     }
-    if (bind(_sockets[i_socket], (struct sockaddr *)&address, sizeof(address)) < 0) {
-        //thow error
+    struct sockaddr_in &sockAddr = _addresses[i_socket];
+    configureSockAddr(sockAddr, _port);
+    if (bind(_sockets[i_socket], (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
         std::cerr << "Bind failed" << std::endl;
         return false;
     }
     if (listen(_sockets[i_socket], MAX_CONN) < 0) {
-        //thow error
         std::cerr << "Listen failed" << std::endl;
         return false;
     }

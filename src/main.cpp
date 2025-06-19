@@ -13,12 +13,12 @@ int main(int argc, char **argv)
         std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
         return 1;
     }
-
     std::cout << "Starting IRC server..." << std::endl;
+
     Server server;
-    server.initSocket();
-    server.configureAndBindSocket(0);
     Client client;
+    server.initSocket();
+    server.listenUp(0);
     client.acceptConn(server.getFd(0), server.getSockAddr(0));
     while (client.printing_loop() != QUIT) {
         continue ;
