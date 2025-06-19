@@ -52,14 +52,13 @@ int Server::getFd(int i_socket) {
     return _sockets[i_socket];
 }
 
-bool Server::unBlockSocket(int i_socket) {
-    int server_socket = _sockets[i_socket];
-    int flags = fcntl(server_socket, F_GETFL, 0);
+static bool unBlockSocket(int fd) {
+    int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) {
         std::cerr << "Failed to get socket flags" << std::endl;
         return false;
     }
-    if (fcntl(server_socket, F_SETFL, flags | O_NONBLOCK) == -1) {
+    if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
         std::cerr << "Failed to set non-blocking mode" << std::endl;
         return false;
     }
@@ -79,6 +78,7 @@ bool Server::listenUp(int i_socket) {
     }
     struct sockaddr_in &sockAddr = _addresses[i_socket];
     configureSockAddr(sockAddr, _port);
+    unBlockSocket(_sockets[i_socket]);
     if (bind(_sockets[i_socket], (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
         std::cerr << "Bind failed" << std::endl;
         return false;
