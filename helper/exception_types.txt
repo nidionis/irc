@@ -12,3 +12,22 @@ _Errors detectable only at run time._
     - `std::range_error`
     - `std::overflow_error`
     - `std::underflow_error`
+
+#include <exception>
+#include <cstring>  // For strcpy in C++98
+
+class MyException : public std::exception {
+    char msg[100];
+public:
+    MyException(const char* message) {
+        strncpy(msg, message, 99);
+        msg[99] = '\0'; // Ensure null-termination
+    }
+
+    virtual const char* what() const throw() {
+        return msg;
+    }
+};
+
+usage
+throw MyException("Custom error occurred!");

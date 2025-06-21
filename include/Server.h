@@ -12,7 +12,7 @@
 
 class Client;
 
-class Server {
+class Server : std::exception {
     int                         _nb_socket;
     int                         _port;
     int                         _sockets[MAX_SOCKET];
@@ -21,17 +21,19 @@ class Server {
 public:
     Server();
     Server(Server &src);
-    ~Server();
+    ~Server() throw ();
     Server &operator=(Server &src);
 
-    int initSocket();
+    int initSocket() throw(std::exception);
     struct sockaddr_in &getSockAddr(int i_socket);
     int getFd(int i_socket);
     bool listenUp(int i_socket);
     Client *acceptConn(int i_socket);
 
     //testing purpose only
-    int printing_loop(int i_socket);
+    int printing_loop(int i_socket) throw(std::exception) ;
+
+
 };
 
 #endif //SERVER_H
