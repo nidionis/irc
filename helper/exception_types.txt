@@ -1,0 +1,14 @@
+- `std::exception`
+_Base class for all standard exceptions._
+- `std::logic_error`
+_Errors in program logic (should be prevented)._
+    - `std::invalid_argument`
+    - `std::domain_error`
+    - `std::length_error`
+    - `std::out_of_range`
+
+- `std::runtime_error`
+_Errors detectable only at run time._
+    - `std::range_error`
+    - `std::overflow_error`
+    - `std::underflow_error`
