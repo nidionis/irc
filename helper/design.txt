@@ -1,7 +1,35 @@
-features:
+runs using:
+
+./ircserv <port> <password>
+
+port: The port number on which your IRC server will be listening for incoming
+IRC connections.
+
+password: The connection password. It will be needed by any IRC client that tries
+to connect to your server.
+
+client referewnce : Konversation (bulting Ubuntu IRC client)
+
+
+basic features:
 
 server must run indefinitely by default
 clients must be able to connect and send requests
 server receive requests and respond to the client
-client <-> server communication can be done at distance
-several clients must be able to connect witrh server at the same time
+client / server communication can be done at distance
+several clients must be able to connect to server at the same time
+clients must be able to privately communicate between each others through the server
+all client messages must be forwarded to all clients that are currently connected
+to use the server, clients must first join a channel. joining a channel that does not exist creates it
+when creating a channel, client should be set as operator by default
+when joining a channel, client should be set as regular user by default
+THE SERVER SHOULD NEVER LOG CLIENTS CONVERSATIONS
+
+clients can be of two types : operators and regular users
+client / server has to be done via TCP/IP (v4 or v6)
+client must be able to : authenticate (unique ID?), set nickname, (set?) username,
+	join channel, send and receive private messages
+operators can use channel commands : KICK, INVITE, TOPIC, MODE (i, t, k, o, l)
+
+
+should the server data/status (registered clients/channels...) persists after closing it???
