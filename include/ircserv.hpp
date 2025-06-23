@@ -3,8 +3,6 @@
 
 # include <iostream>
 # include <string>
-# include <vector>
-# include <map>
 # include <cstring>
 # include <cstdlib>
 # include <cerrno>
@@ -16,10 +14,17 @@
 # include <fcntl.h>
 # include <poll.h>
 # include <unistd.h>
+# include <exception>
 
 #define BUFF_SIZE 1024
 #define ERROR -1
 #define OK 0
+
+#include <Channel.h>
+#include <Server.h>
+#include <Client.h>
+#include <Message.h>
+#include <Handler.h>
 
 // Function prototypes
 int testing(int argc, char **argv);

@@ -1,0 +1,7 @@
+features:
+
+server must run indefinitely by default
+clients must be able to connect and send requests
+server receive requests and respond to the client
+client <-> server communication can be done at distance
+several clients must be able to connect witrh server at the same time

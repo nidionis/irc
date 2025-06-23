@@ -36,28 +36,20 @@ bool configureAndBindSocket(int server_fd, int port, struct sockaddr_in& address
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(port);
 
-    // Bind socket to port
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
         std::cerr << "Bind failed" << std::endl;
         return false;
     }
-
-    // Listen for connections
     if (listen(server_fd, 3) < 0) {
         std::cerr << "Listen failed" << std::endl;
         return false;
     }
-
     std::cout << "Server listening on port " << port << std::endl;
     return true;
 }
 
 int printing_loop(int client_fd, char *buffer) {
-
-    // Clear buffer
     memset(buffer, 0, BUFF_SIZE);
-
-    // Read data from client
     int bytes_read = read(client_fd, buffer, BUFF_SIZE);
     if (bytes_read <= 0) {
         if (bytes_read < 0)

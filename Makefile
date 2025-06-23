@@ -12,10 +12,12 @@ INCLUDE_DIR = include
 
 # Source files (update these as you add more source files)
 SRCS = main.cpp \
-		testing.cpp
-       #Server.cpp \
-       #Client.cpp \
-       #Channel.cpp
+		testing.cpp \
+       Server.cpp \
+       Client.cpp \
+       Handler.cpp \
+       Message.cpp \
+       Channel.cpp
 
 # Object files
 OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)

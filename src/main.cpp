@@ -13,7 +13,24 @@ int main(int argc, char **argv)
         std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
         return 1;
     }
-
+    close(0);
     std::cout << "Starting IRC server..." << std::endl;
-    return testing(argc, argv);
+
+    Server server;
+    server.initSocket();
+    server.listenUp(0);
+    Client *client = server.acceptConn(0);
+    while (client->printing_loop() != QUIT) {
+        continue ;
+    }
+//    char ch;
+//    while (std::cin.get(ch)) {
+//        if (ch == '\r' || ch == '\n') {
+//            // Handle command...
+//
+//            // Show prompt after carriage return
+//            std::cout << "> " << std::flush;
+//        }
+//    }
+    return 0;
 }
