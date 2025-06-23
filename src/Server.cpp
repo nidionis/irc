@@ -26,13 +26,13 @@ static bool setReuseAddr(int server_fd) {
     return true;
 }
 
-int Server::initSocket() throw(std::exception) {
+int Server::initSocket() throw(std::runtime_error) {
     int server_fd;
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        throw std::exception("Socket creation failed") ;
+        throw std::runtime_error("Socket creation failed") ;
     }
     if (!setReuseAddr(server_fd)) {
-        throw("Setting socket failed");
+        throw std::runtime_error("Setting socket failed");
     }
     this->_sockets[this->_nb_socket] = server_fd;
     this->_nb_socket++;
@@ -50,10 +50,10 @@ int Server::getFd(int i_socket) {
 static bool unBlockSocket(int fd) {
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) {
-        throw("Failed to get socket flags");
+        throw std::runtime_error("Failed to get socket flags");
     }
     if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
-        throw("Failed to set non-blocking mode");
+        throw std::runtime_error("Failed to set non-blocking mode");
     }
     return true;
 }
@@ -66,16 +66,16 @@ static void configureSockAddr(struct sockaddr_in &sockAddr, int port) {
 
 bool Server::listenUp(int i_socket) {
     if (i_socket >= MAX_SOCKET) {
-        throw("Too many sockets");
+        throw std::runtime_error("Too many sockets");
     }
     struct sockaddr_in &sockAddr = _addresses[i_socket];
     configureSockAddr(sockAddr, _port);
     unBlockSocket(_sockets[i_socket]);
     if (bind(_sockets[i_socket], (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
-        throw("Bind failed");
+        throw std::runtime_error("Bind failed");
     }
     if (listen(_sockets[i_socket], MAX_CONN) < 0) {
-        throw("Listen failed");
+        throw std::runtime_error("Listen failed");
     }
     std::cout << "Server listening on port " << _port << std::endl;
     return true;
