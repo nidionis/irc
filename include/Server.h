@@ -24,7 +24,7 @@ public:
     ~Server() throw ();
     Server &operator=(Server &src);
 
-    int initSocket() throw(std::exception);
+    int initSocket() throw(std::runtime_error);
     struct sockaddr_in &getSockAddr(int i_socket);
     int getFd(int i_socket);
     bool listenUp(int i_socket);
