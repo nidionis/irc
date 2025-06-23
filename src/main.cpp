@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     Server server;
     server.initSocket();
     server.listenUp(0);
-    while ()
+    while (1)
     {
         Client *client = server.acceptConn(0);
         while (client->printing_loop() != QUIT) {

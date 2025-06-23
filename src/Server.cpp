@@ -91,3 +91,10 @@ Client *Server::acceptConn(int i_socket) {
     client->setFd(fd);
     return client;
 }
+
+Client *Server::listenConn(int i_socket) {
+    Client *client = server.acceptConn(0);
+    while (client->printing_loop() != QUIT) {
+        continue ;
+    return client;
+}
