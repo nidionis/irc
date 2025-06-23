@@ -28,8 +28,8 @@ public:
     struct sockaddr_in &getSockAddr(int i_socket);
     int getFd(int i_socket);
     bool listenUp(int i_socket);
-    Client *acceptConn(int i_socket);
-    Client *listenConn(int i_socket);
+    Client *waitConn(int i_socket);
+    Client *renameThisFunctionPlease(int i_socket);
 
 
     //testing purpose only

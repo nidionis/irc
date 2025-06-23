@@ -81,7 +81,7 @@ bool Server::listenUp(int i_socket) {
     return true;
 }
 
-Client *Server::acceptConn(int i_socket) {
+Client *Server::waitConn(int i_socket) {
     int fd;
     int addrlen = sizeof(struct sockaddr_in);
     Client *client = new Client();
@@ -92,9 +92,19 @@ Client *Server::acceptConn(int i_socket) {
     return client;
 }
 
-Client *Server::listenConn(int i_socket) {
-    Client *client = server.acceptConn(0);
+Client *Server::renameThisFunctionPlease(int i_socket) {
+    while (1) {
+        try {
+            this->listenUp(i_socket);
+        } catch (const std::runtime_error &e) {
+            continue;
+        }
+        break;
+    }
+    Client *client = this->waitConn(i_socket);
     while (client->printing_loop() != QUIT) {
-        continue ;
-    return client;
+        continue;
+    }
+    //delete client;
+    return NULL;
 }
