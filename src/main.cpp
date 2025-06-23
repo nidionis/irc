@@ -19,10 +19,13 @@ int main(int argc, char **argv)
     Server server;
     server.initSocket();
     server.listenUp(0);
-    Client *client = server.acceptConn(0);
-    while (client->printing_loop() != QUIT) {
-        continue ;
+    while ()
+    {
+        Client *client = server.acceptConn(0);
+        while (client->printing_loop() != QUIT) {
+            continue ;
     }
+}
 //    char ch;
 //    while (std::cin.get(ch)) {
 //        if (ch == '\r' || ch == '\n') {
