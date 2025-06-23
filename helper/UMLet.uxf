@@ -44,14 +44,14 @@ should the server data/status (registered clients/channels...) persists after cl
       <h>162</h>
     </coordinates>
     <panel_attributes>Note..
-=&gt; cat helper/design.txt 
+=&gt; cat helper/design.txt
 
 client referewnce : Konversation (bulting Ubuntu IRC client)
 
 
 basic features:
 
-server 
+server
 
 
 
@@ -68,16 +68,11 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1575</x>
-      <y>612</y>
-      <w>396</w>
-      <h>279</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Server&gt;&gt;
 --
 -fd: int
 - clients Client[array]
-
 --
 *Client listenUp(int socketID)
 connectionRequest(int sicketID)
