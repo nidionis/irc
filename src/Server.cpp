@@ -29,7 +29,7 @@ static bool setReuseAddr(int server_fd) {
 int Server::initSocket() throw(std::exception) {
     int server_fd;
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        throw("Socket creation failed");
+        throw std::exception("Socket creation failed") ;
     }
     if (!setReuseAddr(server_fd)) {
         throw("Setting socket failed");
