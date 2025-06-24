@@ -2,7 +2,7 @@
 // Created by n on 16/06/25.
 //
 
-#include "Server.h"
+#include <Server.h>
 
 Server::Server() : _nb_socket(0), _port(6667), _passwd("<PASSWORD>") {}
 
@@ -72,10 +72,11 @@ bool Server::listenUp(int i_socket) {
     if (i_socket >= MAX_SOCKET) {
         throw std::runtime_error("Too many sockets");
     }
+    struct pollfd &pfd = _sockets[i_socket];
     struct sockaddr_in &sockAddr = _addresses[i_socket];
     configureSockAddr(sockAddr, _port);
-    unBlockSocket(_sockets[i_socket].fd);
-    if (bind(_sockets[i_socket].fd, (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
+    unBlockSocket(pfd.fd);
+    if (bind(pfd.fd, (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
         throw std::runtime_error("Bind failed");
     }
     if (listen(_sockets[i_socket].fd, MAX_CONN) < 0) {
@@ -93,6 +94,47 @@ Client *Server::waitConn(int i_socket) {
         continue;
     }
     client->setFd(fd);
+    return client;
+}
+
+Client *Server::testing_poll(int i_socket) {
+    struct pollfd pfd_cli;
+    struct pollfd &pfd = _sockets[i_socket];
+    //int addrlen = sizeof(struct sockaddr_in);
+    pfd.events = POLL_IN;
+    Client *client = new Client();
+    while (1) {
+        int activity = ::poll(&pfd, _nb_socket, -1);
+        if (activity < 0) {
+            throw std::runtime_error("Poll error");
+        }
+        if (pfd.revents & POLLIN) {
+            socklen_t addrlen = sizeof(struct sockaddr_in);
+            pfd_cli.fd = ::accept(pfd.fd, \
+                                (struct sockaddr *)&_addresses[i_socket], \
+                                &addrlen);
+            if (pfd_cli.fd < 0) {
+                throw std::runtime_error("Accept failed");
+            }
+            printf("New client connected, socket pfd_cli is %d\n", pfd_cli.fd);
+            pfd_cli.events = POLLIN;
+        }
+        char buffer[BUFF_SIZE + 1];
+        for (int i = 1; i < MAX_SOCKET + 1; i++) {
+            if (pfd_cli.fd != -1 && pfd_cli.revents & POLLIN) {
+                memset(buffer, 0, BUFF_SIZE);
+                ssize_t bytes_read = recv(pfd_cli.fd, buffer, BUFF_SIZE, 0);
+
+                if (bytes_read <= 0) {
+                    printf("Client disconnected, socket fd %d\n", pfd_cli.fd);
+                    pfd_cli.fd = -1;
+                } else {
+                    printf("Received from socket %d: %s", pfd_cli.fd, buffer);
+                }
+            }
+        }
+        continue;
+    }
     return client;
 }
 

@@ -21,15 +21,7 @@ int main(int argc, char **argv)
     Client *client;
     while (1)
     {
-        //actually configure, bind, listen, accept the connection to a socket
-        // then use a printing_loop
-        //but bugs : se second socket cannot bind
-        client = server.renameThisFunctionPlease(0);
-        delete client;
-        std::cout << "-----------------------------------------------\n" ;
-
-        server.initSocket();
-        client = server.renameThisFunctionPlease(1);
+        client = server.testing_poll(0);
         delete client;
     }
     return 0;
