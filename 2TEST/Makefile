@@ -6,11 +6,11 @@
 #    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/10 16:30:54 by lahlsweh          #+#    #+#              #
-#    Updated: 2025/06/23 15:15:01 by lahlsweh         ###   ########.fr        #
+#    Updated: 2025/06/24 12:01:23 by lahlsweh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = test_irc_serv
+NAME = test_ircserv
 
 COMPILATOR = c++
 
