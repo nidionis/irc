@@ -18,22 +18,19 @@ int main(int argc, char **argv)
 
     Server server;
     server.initSocket();
-    server.listenUp(0);
+    Client *client;
     while (1)
     {
-        Client *client = server.acceptConn(0);
-        while (client->printing_loop() != QUIT) {
-            continue ;
+        //actually configure, bind, listen, accept the connection to a socket
+        // then use a printing_loop
+        //but bugs : se second socket cannot bind
+        client = server.renameThisFunctionPlease(0);
+        delete client;
+        std::cout << "-----------------------------------------------\n" ;
+
+        server.initSocket();
+        client = server.renameThisFunctionPlease(1);
+        delete client;
     }
-}
-//    char ch;
-//    while (std::cin.get(ch)) {
-//        if (ch == '\r' || ch == '\n') {
-//            // Handle command...
-//
-//            // Show prompt after carriage return
-//            std::cout << "> " << std::flush;
-//        }
-//    }
     return 0;
 }

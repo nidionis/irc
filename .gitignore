@@ -3,3 +3,6 @@
 
 2TEST/main.o
 2TESTtest_ircserv
+
+*.o
+.vimrc
