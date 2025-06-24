@@ -1,1 +1,8 @@
-.idea
+1MAIN/obj/*.o
+1MAIN/ircserv
+
+2TEST/main.o
+2TESTtest_ircserv
+
+*.o
+.vimrc

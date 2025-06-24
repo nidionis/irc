@@ -8,7 +8,6 @@
  */
 int main(int argc, char **argv)
 {
-    Client *client;
     if (argc != 3)
     {
         std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
@@ -19,6 +18,7 @@ int main(int argc, char **argv)
 
     Server server;
     server.initSocket();
+    Client *client;
     while (1)
     {
         //actually configure, bind, listen, accept the connection to a socket
@@ -32,4 +32,5 @@ int main(int argc, char **argv)
         client = server.renameThisFunctionPlease(1);
         delete client;
     }
+    return 0;
 }
