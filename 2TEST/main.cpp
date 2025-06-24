@@ -5,21 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 16:34:07 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/24 16:36:10 by lahlsweh         ###   ########.fr       */
+/*   Created: 2025/06/23 15:15:22 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/06/24 17:10:57 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*  printf() : <stdio.h>
-	memset() : <string.h>
-	 close() : <unistd.h>
-	 htons() : <arpa/inet.h>
-	socket() : <sys/socket.h>
+    memset() : <string.h>
+     close() : <unistd.h>
+     htons() : <arpa/inet.h>
+    socket() : <sys/socket.h>
 setsockopt() : <sys/socket.h>
-	  bind() : <sys/socket.h>
-	listen() : <sys/socket.h>
-	accept() : <sys/socket.h>
-	  recv() : <sys/socket.h>*/
+      bind() : <sys/socket.h>
+    listen() : <sys/socket.h>
+    accept() : <sys/socket.h>
+      recv() : <sys/socket.h>*/
 
 /*typedef unsigned long socklen_t
 
@@ -41,8 +41,7 @@ typedef struct sockaddr_in
 	unsigned char	sin_zero[sizeof(sockaddr) - sizeof(unsigned short) - sizeof(unsigned short) - sizeof(in_addr)];
 };*/
 
-/*
-AF_INET -> stands for Address Family: Internet (IPv4)
+/*AF_INET -> stands for Address Family: Internet (IPv4)
 
 htons(PORT) used because:
 Host byte order: The byte order your machine uses internally.
@@ -103,21 +102,27 @@ int	main(void)
 	bind(fd_server_socket, (struct sockaddr *)&IPV4_server_socket_address, sizeof(IPV4_server_socket_address));
 	listen(fd_server_socket, QUEUE_SIZE);
 	printf("Server listening on port %d...\n", PORT);
-
 	while (1)
 	{
-		bytes_read = recv(fd_client_socket, buffer, (BUFFER_SIZE - 1), MSG_DONTWAIT);
-		if (bytes_read == 0) { printf("Client disconnected.\n"); break; }
-		else if (bytes_read < 0)
+		fd_client_socket = accept(fd_server_socket, (struct sockaddr *)&IPV4_client_socket_address, (socklen_t *)&client_addrlen);
+		printf("Client connected from %s:%d\n", inet_ntoa(IPV4_client_socket_address.sin_addr), ntohs(IPV4_client_socket_address.sin_port));
+		while (1)
 		{
-			// No data available now, just continue (or maybe sleep a bit)
-			if (errno == EAGAIN || errno == EWOULDBLOCK) { continue ; }
-			else { perror("recv"); break ; }
-		}
-		else
-		{
-			buffer[bytes_read] = '\0';
-			printf("Received: %s", buffer);
+			bytes_read = recv(fd_client_socket, buffer, (BUFFER_SIZE - 1), MSG_DONTWAIT);
+			if (bytes_read == 0) { printf("Client disconnected.\n"); break; }
+			else if (bytes_read < 0)
+			{
+				if (errno == EAGAIN || errno == EWOULDBLOCK)
+				{
+					// No data available now, just continue (or maybe sleep a bit)
+					continue ;
+				}
+			}
+			else
+			{
+				buffer[bytes_read] = '\0';
+				printf("Received: %s", buffer);
+			}
 		}
 	}
 	close(fd_client_socket);
