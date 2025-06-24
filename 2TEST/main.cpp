@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:15:22 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/24 17:10:57 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:20:15 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(void)
 	int					fd_server_socket;
 	int					fd_client_socket;
 	char				client_ip4[INET_ADDRSTRLEN];
-	char				buffer[BUFFER_SIZE] = {0};
+	char				buffer[BUFFER_SIZE];
 	int					opt_toggle = 1;
 	socklen_t			client_addrlen = sizeof(IPV4_client_socket_address);
 	ssize_t				bytes_read;
@@ -108,6 +108,7 @@ int	main(void)
 		printf("Client connected from %s:%d\n", inet_ntoa(IPV4_client_socket_address.sin_addr), ntohs(IPV4_client_socket_address.sin_port));
 		while (1)
 		{
+			memset(buffer, 0, BUFFER_SIZE);
 			bytes_read = recv(fd_client_socket, buffer, (BUFFER_SIZE - 1), MSG_DONTWAIT);
 			if (bytes_read == 0) { printf("Client disconnected.\n"); break; }
 			else if (bytes_read < 0)
