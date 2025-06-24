@@ -26,25 +26,29 @@ static bool setReuseAddr(int server_fd) {
     return true;
 }
 
-int Server::initSocket() throw(std::runtime_error) {
-    int server_fd;
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+struct pollfd Server::initSocket() throw(std::runtime_error) {
+    struct pollfd pfd;
+    if ((pfd.fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         throw std::runtime_error("Socket creation failed") ;
     }
-    if (!setReuseAddr(server_fd)) {
+    if (!setReuseAddr(pfd.fd)) {
         throw std::runtime_error("Setting socket failed");
     }
-    this->_sockets[this->_nb_socket] = server_fd;
+    this->_sockets[this->_nb_socket] = pfd;
     this->_nb_socket++;
-    return server_fd;
+    return pfd;
 }
 
 struct sockaddr_in &Server::getSockAddr(int i_socket) {
     return _addresses[i_socket];
 }
 
-int Server::getFd(int i_socket) {
+struct pollfd &Server::getPfd(int i_socket) {
     return _sockets[i_socket];
+}
+
+int Server::getFd(int i_socket) {
+    return _sockets[i_socket].fd;
 }
 
 static bool unBlockSocket(int fd) {
@@ -70,11 +74,11 @@ bool Server::listenUp(int i_socket) {
     }
     struct sockaddr_in &sockAddr = _addresses[i_socket];
     configureSockAddr(sockAddr, _port);
-    unBlockSocket(_sockets[i_socket]);
-    if (bind(_sockets[i_socket], (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
+    unBlockSocket(_sockets[i_socket].fd);
+    if (bind(_sockets[i_socket].fd, (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
         throw std::runtime_error("Bind failed");
     }
-    if (listen(_sockets[i_socket], MAX_CONN) < 0) {
+    if (listen(_sockets[i_socket].fd, MAX_CONN) < 0) {
         throw std::runtime_error("Listen failed");
     }
     std::cout << "Server listening on port " << _port << std::endl;
@@ -85,7 +89,7 @@ Client *Server::waitConn(int i_socket) {
     int fd;
     int addrlen = sizeof(struct sockaddr_in);
     Client *client = new Client();
-    while ((fd = accept(_sockets[i_socket], (struct sockaddr *)&_addresses[i_socket], (socklen_t*)&addrlen)) < 0) {
+    while ((fd = accept(_sockets[i_socket].fd, (struct sockaddr *)&_addresses[i_socket], (socklen_t*)&addrlen)) < 0) {
         continue;
     }
     client->setFd(fd);

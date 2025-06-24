@@ -15,8 +15,8 @@ class Client;
 class Server : std::exception {
     int                         _nb_socket;
     int                         _port;
-    int                         _sockets[MAX_SOCKET];
-    struct sockaddr_in   _addresses[MAX_SOCKET];
+    struct pollfd               _sockets[MAX_SOCKET];
+    struct sockaddr_in          _addresses[MAX_SOCKET];
     std::string                 _passwd;
 public:
     Server();
@@ -24,9 +24,10 @@ public:
     ~Server() throw ();
     Server &operator=(Server &src);
 
-    int initSocket() throw(std::runtime_error);
+    struct pollfd initSocket() throw(std::runtime_error);
     struct sockaddr_in &getSockAddr(int i_socket);
     int getFd(int i_socket);
+    struct pollfd &getPfd(int i_socket);
     bool listenUp(int i_socket);
     Client *waitConn(int i_socket);
     Client *renameThisFunctionPlease(int i_socket);
