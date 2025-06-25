@@ -12,7 +12,6 @@ INCLUDE_DIR = include
 
 # Source files (update these as you add more source files)
 SRCS = main.cpp \
-		testing.cpp \
        Server.cpp \
        Client.cpp \
        Handler.cpp \

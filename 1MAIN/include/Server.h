@@ -30,7 +30,7 @@ public:
     struct pollfd &getPfd (int i_socket);
     bool listenUp(int i_socket);
     Client *waitConn(int i_socket);
-    Client *testing_poll(int i_socket);
+    void testing_poll(int i_socket);
     Client *renameThisFunctionPlease(int i_socket);
 
     //testing purpose only

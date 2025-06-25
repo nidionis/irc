@@ -18,11 +18,7 @@ int main(int argc, char **argv)
 
     Server server;
     server.initSocket();
-    Client *client;
-    while (1)
-    {
-        client = server.testing_poll(0);
-        delete client;
-    }
+    //server.listenUp(0);
+    server.renameThisFunctionPlease(0);
     return 0;
 }

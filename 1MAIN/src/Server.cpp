@@ -8,15 +8,15 @@ Server::Server() : _nb_socket(0), _port(6667), _passwd("<PASSWORD>") {}
 
 Server::~Server() throw() {}
 
-Server::Server(Server &src) {
-    (void)src;
-    (void)_port;
-}
-
-Server &Server::operator=(Server &src) {
-    (void)src;
-    return *this;
-}
+//Server::Server(Server &src) {
+//    (void)src;
+//    (void)_port;
+//}
+//
+//Server &Server::operator=(Server &src) {
+//    (void)src;
+//    return *this;
+//}
 
 static bool setReuseAddr(int server_fd) {
     int reuseAddrFlag = 1;
@@ -28,14 +28,17 @@ static bool setReuseAddr(int server_fd) {
 
 struct pollfd Server::initSocket() throw(std::runtime_error) {
     struct pollfd pfd;
-    if ((pfd.fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        throw std::runtime_error("Socket creation failed") ;
+    while ((pfd.fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+        continue ;
+    }
+    if (pfd.fd < 0) {
+        throw std::runtime_error("Socket creation failed");
     }
     if (!setReuseAddr(pfd.fd)) {
         throw std::runtime_error("Setting socket failed");
     }
+    pfd.events = POLLIN;
     this->_sockets[this->_nb_socket] = pfd;
-    pfd.events = POLL_IN;
     this->_nb_socket++;
     return pfd;
 }
@@ -80,7 +83,7 @@ bool Server::listenUp(int i_socket) {
     if (bind(pfd.fd, (struct sockaddr *)&sockAddr, sizeof(sockAddr)) < 0) {
         throw std::runtime_error("Bind failed");
     }
-    if (listen(_sockets[i_socket].fd, MAX_SOCKET) < 0) {
+    if (listen(pfd.fd, MAX_SOCKET) < 0) {
         throw std::runtime_error("Listen failed");
     }
     std::cout << "Server listening on port " << _port << std::endl;
@@ -98,34 +101,11 @@ Client *Server::waitConn(int i_socket) {
     return client;
 }
 
-Client *Server::testing_poll(int nb_sockets) {
-    while (1) {
-        int activity = ::poll(this->_sockets, _nb_socket, -1);
-        if (activity < 0) {
-            throw std::runtime_error("Poll error");
-        }
-        for (int i = 0; i < nb_sockets; i++) {
-            if (_sockets[i].revents != 0) {
-                //printf("  fd=%d; events: %s%s%s\n", _sockets[i].fd,
-                //       (_sockets[i].revents & POLLIN)  ? "POLLIN "  : "",
-                //       (_sockets[i].revents & POLLHUP) ? "POLLHUP " : "",
-                //       (_sockets[i].revents & POLLERR) ? "POLLERR " : "");
-
-                if (_sockets[i].revents & POLLIN) {
-                    char buf[10];
-                    ssize_t s = read(_sockets[i].fd, buf, sizeof(buf));
-                    if (s == -1)
-                        exit(-1);
-                    printf("    read %zd bytes: %.*s\n", s, (int) s, buf);
-                //} else {                /* POLLERR | POLLHUP */
-                //    printf("    closing fd %d\n", _sockets[i].fd);
-                //    if (close(_sockets[i].fd) == -1)
-                //        errExit("close");
-                //    _nb_socket--;
-                }
-            }
-
-        }
+void Server::testing_poll(int nb_sockets) {
+    (void)nb_sockets;
+    int activity = ::poll(this->_sockets, _nb_socket, -1);
+    if (activity < 0) {
+        throw std::runtime_error("Poll error");
     }
 }
 
@@ -142,6 +122,5 @@ Client *Server::renameThisFunctionPlease(int i_socket) {
     while (client->printing_loop() != QUIT) {
         continue;
     }
-    //delete client;
     return NULL;
 }
