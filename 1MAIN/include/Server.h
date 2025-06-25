@@ -5,7 +5,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 #define MAX_SOCKET 3
-#define MAX_CONN 3
+//#define MAX_CONN 3
 #define UNDEFINED -1
 
 #include <ircserv.hpp>
