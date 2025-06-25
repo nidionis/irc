@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
             errExit("poll");
         printf("Ready: %d\n", ready);
         /* Deal with array returned by poll() */
-
         for (int j = 0; j < nfds; j++) {
             char buf[10];
 
