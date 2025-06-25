@@ -18,16 +18,9 @@ Server::~Server() throw() {}
 //    return *this;
 //}
 
-static bool ft_setsockopt(int server_fd) {
-    int reuseAddrFlag = 1;
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuseAddrFlag, sizeof(reuseAddrFlag)) < 0) {
-        return false;
-    }
-    if (setsockopt(server_fd, SOL_SOCKET, SO_KEEPALIVE, &reuseAddrFlag, sizeof(reuseAddrFlag)) < 0) {
-        return false;
-    }
-    return true;
-}
+static void configureSockAddr(struct sockaddr_in &sockAddr, int port);
+static bool unBlockSocket(int fd);
+static bool ft_setsockopt(int server_fd);
 
 struct pollfd Server::initSocket() throw(std::runtime_error) {
     struct pollfd pfd;
@@ -40,39 +33,10 @@ struct pollfd Server::initSocket() throw(std::runtime_error) {
     if (!ft_setsockopt(pfd.fd)) {
         throw std::runtime_error("Setting socket failed");
     }
-    pfd.events = POLLIN;
+    pfd.events = POLLIN | POLLHUP;
     this->_sockets[this->_nb_socket] = pfd;
     this->_nb_socket++;
     return pfd;
-}
-
-struct sockaddr_in &Server::getSockAddr(int i_socket) {
-    return _addresses[i_socket];
-}
-
-struct pollfd &Server::getPfd(int i_socket) {
-    return _sockets[i_socket];
-}
-
-int Server::getFd(int i_socket) {
-    return _sockets[i_socket].fd;
-}
-
-static bool unBlockSocket(int fd) {
-    int flags = fcntl(fd, F_GETFL, 0);
-    if (flags == -1) {
-        throw std::runtime_error("Failed to get socket flags");
-    }
-    if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
-        throw std::runtime_error("Failed to set non-blocking mode");
-    }
-    return true;
-}
-
-static void configureSockAddr(struct sockaddr_in &sockAddr, int port) {
-    sockAddr.sin_family = AF_INET;
-    sockAddr.sin_addr.s_addr = INADDR_ANY;
-    sockAddr.sin_port = htons(port);
 }
 
 bool Server::listenUp(int i_socket) {
@@ -93,7 +57,7 @@ bool Server::listenUp(int i_socket) {
     return true;
 }
 
-Client *Server::waitConn(int i_socket) {
+Client *Server::connection(int i_socket) {
     int fd;
     int addrlen = sizeof(struct sockaddr_in);
     Client *client = new Client();
@@ -106,29 +70,87 @@ Client *Server::waitConn(int i_socket) {
     return client;
 }
 
-void Server::testing_poll(int nb_sockets) {
-    (void)nb_sockets;
-    int activity = ::poll(this->_sockets, _nb_socket, -1);
+void Server::pollRun() {
+    int activity;
+    activity = ::poll(_sockets, _nb_socket, -1);
     if (activity < 0) {
         throw std::runtime_error("Poll error");
     }
 }
 
-Client *Server::renameThisFunctionPlease(int i_socket) {
-    while (1) {
-        try {
-            this->listenUp(i_socket);
-        } catch (const std::runtime_error &e) {
-            continue;
-        }
-        break;
-    }
-    while (1)
-    {
-        Client *client = this->waitConn(i_socket);
-        while (client->printing_loop() != QUIT) {
-            continue;
+int Server::receivingSocket() {
+    //printf("nb_socket = %d\n", _nb_socket);
+    for (int j = 0; j < _nb_socket; j++) {
+        printf("revents = %d\n", _sockets[j].revents);
+        if (_sockets[j].revents & POLLIN) {
+            return j;
         }
     }
-    return NULL;
+    throw std::runtime_error("Nothing to receive");
+}
+
+//Client *Server::listenAndConn(int i_socket) {
+//    while (1) {
+//        try {
+//            this->listenUp(i_socket);
+//        } catch (const std::runtime_error &e) {
+//            continue;
+//        }
+//        break;
+//    }
+//    while (1)
+//    {
+//        Client *client = this->connection(i_socket);
+//        while (client->printing_loop() != QUIT) {
+//            continue;
+//        }
+//    }
+//    return NULL;
+//}
+
+/*
+ *getter and setters
+ */
+struct sockaddr_in &Server::getSockAddr(int i_socket) {
+    return _addresses[i_socket];
+}
+
+struct pollfd &Server::getPfd(int i_socket) {
+    return _sockets[i_socket];
+}
+
+int Server::getFd(int i_socket) {
+    return _sockets[i_socket].fd;
+}
+
+/* static functions
+ * used to configure socket options
+ * or set variables
+ */
+static bool ft_setsockopt(int server_fd) {
+    int reuseAddrFlag = 1;
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuseAddrFlag, sizeof(reuseAddrFlag)) < 0) {
+        return false;
+    }
+    if (setsockopt(server_fd, SOL_SOCKET, SO_KEEPALIVE, &reuseAddrFlag, sizeof(reuseAddrFlag)) < 0) {
+        return false;
+    }
+    return true;
+}
+
+static bool unBlockSocket(int fd) {
+    int flags = fcntl(fd, F_GETFL, 0);
+    if (flags == -1) {
+        throw std::runtime_error("Failed to get socket flags");
+    }
+    if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1) {
+        throw std::runtime_error("Failed to set non-blocking mode");
+    }
+    return true;
+}
+
+static void configureSockAddr(struct sockaddr_in &sockAddr, int port) {
+    sockAddr.sin_family = AF_INET;
+    sockAddr.sin_addr.s_addr = INADDR_ANY;
+    sockAddr.sin_port = htons(port);
 }

@@ -29,9 +29,10 @@ public:
     int getFd(int i_socket);
     struct pollfd &getPfd (int i_socket);
     bool listenUp(int i_socket);
-    Client *waitConn(int i_socket);
-    void testing_poll(int i_socket);
-    Client *renameThisFunctionPlease(int i_socket);
+    Client *connection(int i_socket);
+    void pollRun();
+    int receivingSocket() ;
+    Client *listenAndConn(int i_socket);
 
     //testing purpose only
     int printing_loop(int i_socket) throw(std::exception) ;

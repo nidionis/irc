@@ -18,7 +18,12 @@ int main(int argc, char **argv)
 
     Server server;
     server.initSocket();
-    //server.listenUp(0);
-    server.renameThisFunctionPlease(0);
+    server.listenUp(0);
+    server.pollRun();
+    while (1) {
+        int socket_receiving  = server.receivingSocket();
+        std::cout << socket_receiving << std::endl;
+        sleep(1);
+    }
     return 0;
 }
