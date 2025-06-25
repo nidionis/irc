@@ -18,9 +18,12 @@ Server::~Server() throw() {}
 //    return *this;
 //}
 
-static bool setReuseAddr(int server_fd) {
+static bool ft_setsockopt(int server_fd) {
     int reuseAddrFlag = 1;
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuseAddrFlag, sizeof(reuseAddrFlag)) < 0) {
+        return false;
+    }
+    if (setsockopt(server_fd, SOL_SOCKET, SO_KEEPALIVE, &reuseAddrFlag, sizeof(reuseAddrFlag)) < 0) {
         return false;
     }
     return true;
@@ -28,13 +31,13 @@ static bool setReuseAddr(int server_fd) {
 
 struct pollfd Server::initSocket() throw(std::runtime_error) {
     struct pollfd pfd;
-    while ((pfd.fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+    while ((pfd.fd = socket(AF_INET, SOCK_STREAM, IPPROTO_IP)) == 0) {
         continue ;
     }
     if (pfd.fd < 0) {
         throw std::runtime_error("Socket creation failed");
     }
-    if (!setReuseAddr(pfd.fd)) {
+    if (!ft_setsockopt(pfd.fd)) {
         throw std::runtime_error("Setting socket failed");
     }
     pfd.events = POLLIN;
@@ -97,6 +100,8 @@ Client *Server::waitConn(int i_socket) {
     while ((fd = accept(_sockets[i_socket].fd, (struct sockaddr *)&_addresses[i_socket], (socklen_t*)&addrlen)) < 0) {
         continue;
     }
+    //error handling not implemented
+    std::cout << "Client connected." << std::endl;
     client->setFd(fd);
     return client;
 }
@@ -118,9 +123,12 @@ Client *Server::renameThisFunctionPlease(int i_socket) {
         }
         break;
     }
-    Client *client = this->waitConn(i_socket);
-    while (client->printing_loop() != QUIT) {
-        continue;
+    while (1)
+    {
+        Client *client = this->waitConn(i_socket);
+        while (client->printing_loop() != QUIT) {
+            continue;
+        }
     }
     return NULL;
 }

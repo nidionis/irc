@@ -52,6 +52,6 @@ int Client::printing_loop() {
             }
         }
         buffer[bytes_read] = '\0';
-        std::cout << "Received: " << buffer << std::endl;
+        std::cout << "Received: " << buffer;
     }
 }
