@@ -6,18 +6,18 @@
 #    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/10 16:30:54 by lahlsweh          #+#    #+#              #
-#    Updated: 2025/06/25 13:53:10 by lahlsweh         ###   ########.fr        #
+#    Updated: 2025/06/25 13:24:39 by lahlsweh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = test_ircserv
+NAME = poll_test
 
 COMPILATOR = c++
 
 CFLAGS = -std=c++98 -Wall -Wextra -Werror -I./includes -pedantic -g3 -fsanitize=leak,address,undefined,integer,null,float-divide-by-zero
 OFLAGS = -std=c++98 -Wall -Wextra -Werror -I./includes -pedantic -g3 -fsanitize=leak,address,undefined,integer,null,float-divide-by-zero
 
-FILES = new_main \
+FILES = main \
 
 SOURCES = $(foreach f, $(FILES), ./$(f))
 OBJECTS = $(foreach f, $(FILES), ./$(f).o)
