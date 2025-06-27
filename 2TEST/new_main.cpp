@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 13:52:54 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 14:17:32 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:43:06 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ poll() is used to handle several connections simultaneously*/
 #define MAX_CLIENTS 3
 #define MAX_CONNECTIONS (MAX_CLIENTS + 1)
 #define QUEUE_SIZE 16
-
 
 int	main(void)
 {

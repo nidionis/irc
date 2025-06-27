@@ -6,7 +6,7 @@
 #    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/27 13:48:14 by lahlsweh          #+#    #+#              #
-#    Updated: 2025/06/27 15:02:19 by lahlsweh         ###   ########.fr        #
+#    Updated: 2025/06/27 17:29:21 by lahlsweh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ INCLUDE_DIR = include
 # Source files (update these as you add more source files)
 SRCS = main.cpp \
        Server.cpp \
-       #Client.cpp \
+       Client.cpp \
 
 # Object files
 OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)

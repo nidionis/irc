@@ -6,14 +6,14 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:39 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 15:50:57 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:35:12 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-//class	Client;
+class	Client;
 
 struct poll_data_t
 {
@@ -30,9 +30,7 @@ private:
 	int					fd_server_socket;
 	char				buffer[BUFFER_SIZE];
 
-	struct sockaddr_in	IPV4_client_socket_address;
-	int					fd_client_socket;
-	socklen_t			client_addrlen;
+	std::vector<Client>	vector_clients;
 
 	void				initServerSocket(void);
 	void				setServerSockopt(void);

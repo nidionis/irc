@@ -6,17 +6,16 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 16:07:17 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:39:38 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 #include "Server.hpp"
-//#include "Client.hpp"
+#include "Client.hpp"
 
 Server::Server(void)
 {
-	memset(&IPV4_server_socket_address, 0, sizeof(IPV4_server_socket_address));
 	return ;
 }
 
@@ -37,7 +36,6 @@ void	Server::serverSetup(void)
 void				Server::initServerSocket(void)
 {
 	memset(&IPV4_server_socket_address, 0, sizeof(IPV4_server_socket_address));
-	memset(&IPV4_client_socket_address, 0, sizeof(IPV4_client_socket_address));
 	IPV4_server_socket_address.sin_family = AF_INET;
 	IPV4_server_socket_address.sin_port = htons(PORT);
 	IPV4_server_socket_address.sin_addr.s_addr = INADDR_ANY;
@@ -107,57 +105,69 @@ void Server::pollFailHandler(poll_data_t* poll_data)
 
 void Server::pollClientConnect(poll_data_t* poll_data)
 {
+	Client	new_client;
+	
 	if (poll_data->fds[poll_data->i].fd == fd_server_socket)
 	{
-		client_addrlen = sizeof(IPV4_client_socket_address);
-		fd_client_socket = accept(fd_server_socket, (struct sockaddr *)&IPV4_client_socket_address, &client_addrlen);
-		fcntl(fd_client_socket, F_SETFL, O_NONBLOCK);
+		memset(&new_client.IPV4_client_socket_address, 0, sizeof(IPV4_server_socket_address));
+		new_client.client_addrlen = sizeof(new_client.IPV4_client_socket_address);
+		new_client.fd_client_socket = accept(fd_server_socket, (struct sockaddr *)&new_client.IPV4_client_socket_address, &new_client.client_addrlen);
+		fcntl(new_client.fd_client_socket, F_SETFL, O_NONBLOCK);
+		vector_clients.push_back(new_client);
 		if (poll_data->fd_i < MAX_CONNECTIONS)
 		{
-			poll_data->fds[poll_data->fd_i].fd = fd_client_socket;
+			poll_data->fds[poll_data->fd_i].fd = new_client.fd_client_socket;
 			poll_data->fds[poll_data->fd_i].events = POLLIN;
 			poll_data->fd_i++;
-			printf("Client connected: %s:%d\n", inet_ntoa(IPV4_client_socket_address.sin_addr),
-				   ntohs(IPV4_client_socket_address.sin_port));
+			std::cout << "Client connected: " << inet_ntoa(new_client.IPV4_client_socket_address.sin_addr)
+					<< ':' << ntohs(new_client.IPV4_client_socket_address.sin_port) << std::endl;
 		}
 		else
 		{
-			printf("Error: connection attempt failed.\n");
-			close(fd_client_socket);
+			std::cout << "Error: connection attempt failed." << std::endl;
+			close(new_client.fd_client_socket);
+			new_client.fd_client_socket = -1;
 		}
 	}
 	else
 	{
-		pollClientDisconnect(poll_data);
+		ssize_t	recv_read;
+	
+		memset(buffer, 0, BUFFER_SIZE);
+		recv_read = recv(poll_data->fds[poll_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
+		if (recv_read == -1)
+		{
+			;
+		}
+		else if (recv_read == 0)
+		{
+			pollClientDisconnect(poll_data);
+		}
+		else
+		{
+			if (recv_read < BUFFER_SIZE) { buffer[recv_read] = '\0'; }
+			else { buffer[BUFFER_SIZE - 1] = '\0'; }
+			printf("Received from fd %d: %s", poll_data->fds[poll_data->i].fd, buffer);
+		}
 	}
-	return;
+	return ;
 }
 
 void Server::pollClientDisconnect(poll_data_t* poll_data)
 {
-	ssize_t	recv_read;
-	
-	memset(buffer, 0, BUFFER_SIZE);
-	recv_read = recv(poll_data->fds[poll_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
-	if (recv_read == -1)
+	printf("Client on fd %d disconnected.\n", poll_data->fds[poll_data->i].fd);
+	for (size_t i = 0; i < vector_clients.size(); i++)
 	{
-		;
+		if (vector_clients[i].fd_client_socket == poll_data->fds[poll_data->i].fd)
+		{
+			vector_clients.erase(vector_clients.begin() + i);
+			break ;
+		}
 	}
-	else if (recv_read == 0)
-	{
-		printf("Client on fd %d disconnected.\n", poll_data->fds[poll_data->i].fd);
-		close(poll_data->fds[poll_data->i].fd);
-		poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_i - 1];
-		poll_data->fd_i--;
-		poll_data->i--;
-	}
-
-	else
-	{
-		if (recv_read < BUFFER_SIZE) { buffer[recv_read] = '\0'; }
-		else { buffer[BUFFER_SIZE - 1] = '\0'; }
-		printf("Received from fd %d: %s", poll_data->fds[poll_data->i].fd, buffer);
-	}
+	close(poll_data->fds[poll_data->i].fd);
+	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_i - 1];
+	poll_data->fd_i--;
+	poll_data->i--;
 	return;
 }
 
