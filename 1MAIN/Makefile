@@ -1,6 +1,18 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/06/27 13:48:14 by lahlsweh          #+#    #+#              #
+#    Updated: 2025/06/27 15:02:19 by lahlsweh         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # Compiler settings
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -pedantic -g3 -fsanitize=leak,address,undefined,integer,null,float-divide-by-zero
 DEBUG_FLAGS = -g3 -O0 -DDEBUG
 
 # Project settings
@@ -13,10 +25,7 @@ INCLUDE_DIR = include
 # Source files (update these as you add more source files)
 SRCS = main.cpp \
        Server.cpp \
-       Client.cpp \
-       Handler.cpp \
-       Message.cpp \
-       Channel.cpp
+       #Client.cpp \
 
 # Object files
 OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)

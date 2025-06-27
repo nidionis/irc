@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 13:52:54 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 13:10:15 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:17:32 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ bind() associates a socket with a specific IP address and port number
 memset() is used to properly empty and cleanup buffer before subsequent recv() calls. fills buffer data with '\0'
 
 recv() is used to receive data from client and assign it to buffer
-MSG_DONTWAIT -> Make the call non-blocking. useful for multi-client handling*/
+MSG_DONTWAIT -> Make the call non-blocking. useful for multi-client handling
+
+fcntl() is used to ensure the fd_sockets are non-blocking
+
+poll() is used to handle several connections simultaneously*/
 
 #include <stdio.h>
 #include <string.h>

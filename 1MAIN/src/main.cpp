@@ -1,29 +1,35 @@
-#include "ircserv.hpp"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/27 13:57:59 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/06/27 14:39:21 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/**
- * Main entry point for the IRC server
- * @param argc Argument count
- * @param argv Argument values
- * @return Exit status code
- */
+#include "main.hpp"
+#include "Server.hpp"
+
 int main(int argc, char **argv)
 {
-    if (argc != 3)
-    {
-        std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
-        return 1;
-    }
-    close(0);
-    std::cout << "Starting IRC server..." << std::endl;
+	if (argc != 3)
+	{
+		std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
+		return (1);
+	}
+	std::cout << "Starting IRC server..." << std::endl;
 
-    Server server;
-    server.initSocket();
-    server.listenUp(0);
-    server.pollRun();
-    while (1) {
-        int socket_receiving  = server.receivingSocket();
-        std::cout << socket_receiving << std::endl;
-        sleep(1);
-    }
-    return 0;
+	Server	server;
+
+	server.serverSetup();
+	server.pollLoop();
+	server.serverCleanup();
+
+	/*server.initSocket();
+	server.listenUp(0);
+	server.pollRun();*/
+	return 0;
 }
