@@ -18,19 +18,12 @@ int main(int argc, char **argv)
 
     Server server;
     server.initSocket();
-    Client *client;
-    while (1)
-    {
-        //actually configure, bind, listen, accept the connection to a socket
-        // then use a printing_loop
-        //but bugs : se second socket cannot bind
-        client = server.renameThisFunctionPlease(0);
-        delete client;
-        std::cout << "-----------------------------------------------\n" ;
-
-        server.initSocket();
-        client = server.renameThisFunctionPlease(1);
-        delete client;
+    server.listenUp(0);
+    server.pollRun();
+    while (1) {
+        int socket_receiving  = server.receivingSocket();
+        std::cout << socket_receiving << std::endl;
+        sleep(1);
     }
     return 0;
 }

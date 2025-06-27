@@ -15,6 +15,7 @@
 # include <poll.h>
 # include <unistd.h>
 # include <exception>
+# include <stdio.h>
 
 #define BUFF_SIZE 1024
 #define ERROR -1

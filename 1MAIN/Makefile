@@ -12,7 +12,6 @@ INCLUDE_DIR = include
 
 # Source files (update these as you add more source files)
 SRCS = main.cpp \
-		testing.cpp \
        Server.cpp \
        Client.cpp \
        Handler.cpp \
@@ -63,6 +62,7 @@ re: fclean all
 
 # Debug rebuild
 debug_re: fclean debug
+
 
 # Ensure these targets don't conflict with files
 .PHONY: all clean fclean re debug debug_re
