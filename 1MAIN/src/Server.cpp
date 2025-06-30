@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 18:39:38 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:48:55 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 
 Server::Server(void)
 {
+	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
+	this->fd_server_socket = -1;
+	memset(this->buffer, 0, BUFFER_SIZE);
+	this->vector_clients.empty();
 	return ;
 }
 
@@ -30,17 +34,20 @@ void	Server::serverSetup(void)
 	setServerSockopt();
 	bindServerSocket();
 	listenServerSocket();
+	std::cout << "Server listening on port " << PORT << "..." << std::endl;
 	return ;
 }
 
 void				Server::initServerSocket(void)
 {
-	memset(&IPV4_server_socket_address, 0, sizeof(IPV4_server_socket_address));
-	IPV4_server_socket_address.sin_family = AF_INET;
-	IPV4_server_socket_address.sin_port = htons(PORT);
-	IPV4_server_socket_address.sin_addr.s_addr = INADDR_ANY;
-	fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	fcntl(fd_server_socket, F_SETFL, O_NONBLOCK);
+	this->IPv4_serv_sock_addr.sin_family = AF_INET;
+	this->IPv4_serv_sock_addr.sin_port = htons(PORT);
+	this->IPv4_serv_sock_addr.sin_addr.s_addr = INADDR_ANY;
+	this->fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (this->fd_server_socket == -1)
+		{ throw (std::runtime_error("socket() error")); }
+	if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1)
+		{ throw (std::runtime_error("fcntl() error")); }
 	return ;
 }
 
@@ -48,54 +55,59 @@ void				Server::setServerSockopt(void)
 {
 	int	opt_toggle = 1;
 	
-	setsockopt(fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle));
-	setsockopt(fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle));
+	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle)) == -1)
+		{ throw (std::runtime_error("setsockopt() SO_REUSEADDR error")); }
+	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle)) == -1)
+		{ throw (std::runtime_error("setsockopt() SO_KEEPALIVE error")); }
 	return ;
 }
 
 void				Server::bindServerSocket(void)
 {
-	bind(fd_server_socket, (struct sockaddr *)&IPV4_server_socket_address, sizeof(IPV4_server_socket_address));
+	if (bind(this->fd_server_socket, (struct sockaddr *)&this->IPv4_serv_sock_addr, sizeof(this->IPv4_serv_sock_addr)) == -1)
+		{ throw (std::runtime_error("bind() error")); }
 	return ;
 }
 
 void				Server::listenServerSocket(void)
 {
-	listen(fd_server_socket, QUEUE_SIZE);
-	std::cout << "Server listening on port " << PORT << "..." << std::endl;
+	if (listen(this->fd_server_socket, QUEUE_SIZE) == -1)
+		{ throw (std::runtime_error("listen() error")); }
 	return ;
 }
 
 void Server::pollLoop(void)
 {
-	poll_data_t poll_data;
+	poll_data poll_data;
 	
 	poll_data.fd_i = 1;
 	poll_data.err_check = 0;
-	poll_data.fds[0].fd = fd_server_socket;
+	poll_data.fds[0].fd = this->fd_server_socket;
 	poll_data.fds[0].events = POLLIN;
-	while (1)
+	while (true)
 	{
 		poll_data.err_check = poll(poll_data.fds, poll_data.fd_i, -1);
-		if (poll_data.err_check == -1 && errno == EINTR) { continue; }
+		if (poll_data.err_check == -1)
+		{
+			if (errno == EINTR)  { continue; }
+			else { pollDataCleanup(&poll_data); throw (std::runtime_error("poll() error")); }
+		}
 		for (poll_data.i = 0; poll_data.i < poll_data.fd_i; poll_data.i++)
 		{
 			if (poll_data.fds[poll_data.i].revents & (POLLERR | POLLHUP | POLLNVAL))
-			{
-				pollFailHandler(&poll_data);
-			}
+				{ pollFailHandler(&poll_data); }
 			else if (poll_data.fds[poll_data.i].revents & POLLIN)
 			{
-				pollClientConnect(&poll_data);
+				pollClientHandler(&poll_data);
 			}
 		}
 	}
 	return;
 }
 
-void Server::pollFailHandler(poll_data_t* poll_data)
+void Server::pollFailHandler(poll_data* poll_data)
 {
-	printf("Error/hangup on fd %d: Closing.\n", poll_data->fds[poll_data->i].fd);
+	std::cout << "Error/hangup on fd: " << poll_data->fds[poll_data->i].fd << ". Closing." << std::endl;
 	close(poll_data->fds[poll_data->i].fd);
 	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_i - 1];
 	poll_data->fd_i--;
@@ -103,64 +115,79 @@ void Server::pollFailHandler(poll_data_t* poll_data)
 	return;
 }
 
-void Server::pollClientConnect(poll_data_t* poll_data)
+void Server::pollClientHandler(poll_data* poll_data)
 {
-	Client	new_client;
+	if (poll_data->fds[poll_data->i].fd == this->fd_server_socket)
+		{ pollClientConnect(poll_data); }
+	else
+		{ pollClientRecv(poll_data); }
+	return ;
+}
+
+void	Server::pollClientConnect(poll_data* poll_data)
+{
+	this->vector_clients.push_back(Client());
+	Client&	new_client = this->vector_clients.back();
 	
-	if (poll_data->fds[poll_data->i].fd == fd_server_socket)
+	new_client.fd_client_socket = accept(this->fd_server_socket,
+		(struct sockaddr *)&new_client.IPv4_client_sock_addr, &new_client.client_addrlen);
+	if (new_client.fd_client_socket == -1)
 	{
-		memset(&new_client.IPV4_client_socket_address, 0, sizeof(IPV4_server_socket_address));
-		new_client.client_addrlen = sizeof(new_client.IPV4_client_socket_address);
-		new_client.fd_client_socket = accept(fd_server_socket, (struct sockaddr *)&new_client.IPV4_client_socket_address, &new_client.client_addrlen);
-		fcntl(new_client.fd_client_socket, F_SETFL, O_NONBLOCK);
-		vector_clients.push_back(new_client);
-		if (poll_data->fd_i < MAX_CONNECTIONS)
-		{
-			poll_data->fds[poll_data->fd_i].fd = new_client.fd_client_socket;
-			poll_data->fds[poll_data->fd_i].events = POLLIN;
-			poll_data->fd_i++;
-			std::cout << "Client connected: " << inet_ntoa(new_client.IPV4_client_socket_address.sin_addr)
-					<< ':' << ntohs(new_client.IPV4_client_socket_address.sin_port) << std::endl;
-		}
-		else
-		{
-			std::cout << "Error: connection attempt failed." << std::endl;
-			close(new_client.fd_client_socket);
-			new_client.fd_client_socket = -1;
-		}
+		this->vector_clients.pop_back();
+		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
+			{ std::cerr << "error: Client connection failed." << std::endl; return ; }
+		else { pollDataCleanup(poll_data); throw (std::runtime_error("accept() error")); }
+	}
+	if (fcntl(new_client.fd_client_socket, F_SETFL, O_NONBLOCK) == -1)
+		{ pollDataCleanup(poll_data); throw (std::runtime_error("fcntl() error")); }
+	if (poll_data->fd_i < MAX_CONNECTIONS)
+	{
+		poll_data->fds[poll_data->fd_i].fd = new_client.fd_client_socket;
+		poll_data->fds[poll_data->fd_i].events = POLLIN;
+		poll_data->fd_i++;
+		std::cout << "Client connected: " << inet_ntoa(new_client.IPv4_client_sock_addr.sin_addr)
+				  << ':' << ntohs(new_client.IPv4_client_sock_addr.sin_port) << std::endl;
 	}
 	else
 	{
-		ssize_t	recv_read;
-	
-		memset(buffer, 0, BUFFER_SIZE);
-		recv_read = recv(poll_data->fds[poll_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
-		if (recv_read == -1)
-		{
-			;
-		}
-		else if (recv_read == 0)
-		{
-			pollClientDisconnect(poll_data);
-		}
-		else
-		{
-			if (recv_read < BUFFER_SIZE) { buffer[recv_read] = '\0'; }
-			else { buffer[BUFFER_SIZE - 1] = '\0'; }
-			printf("Received from fd %d: %s", poll_data->fds[poll_data->i].fd, buffer);
-		}
+		std::cout << "Error: MAX_CONNECTIONS (" << MAX_CONNECTIONS << ") reached." << std::endl;
+		close(new_client.fd_client_socket);
+		new_client.fd_client_socket = -1;
 	}
 	return ;
 }
 
-void Server::pollClientDisconnect(poll_data_t* poll_data)
+void	Server::pollClientRecv(poll_data* poll_data)
 {
-	printf("Client on fd %d disconnected.\n", poll_data->fds[poll_data->i].fd);
-	for (size_t i = 0; i < vector_clients.size(); i++)
+	ssize_t	recv_read;
+
+	memset(buffer, 0, BUFFER_SIZE);
+	recv_read = recv(poll_data->fds[poll_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
+	if (recv_read == -1)
 	{
-		if (vector_clients[i].fd_client_socket == poll_data->fds[poll_data->i].fd)
+		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
+			{ std::cerr << "error: Client read failed." << std::endl; return ; }
+		else { pollClientDisconnect(poll_data); pollDataCleanup(poll_data); throw (std::runtime_error("recv() error")); }
+	}
+	else if (recv_read == 0)
+		{ pollClientDisconnect(poll_data); }
+	else
+	{
+		if (recv_read < BUFFER_SIZE) { buffer[recv_read] = '\0'; }
+		else { buffer[BUFFER_SIZE - 1] = '\0'; }
+		std::cout << "Received from fd " << poll_data->fds[poll_data->i].fd << ": " << buffer << std::flush;
+	}
+	return ;
+}
+
+void	Server::pollClientDisconnect(poll_data* poll_data)
+{
+	std::cout << "Client on fd " << poll_data->fds[poll_data->i].fd << " disconnected." << std::endl;
+	for (size_t i = 0; i < this->vector_clients.size(); i++)
+	{
+		if (this->vector_clients[i].fd_client_socket == poll_data->fds[poll_data->i].fd)
 		{
-			vector_clients.erase(vector_clients.begin() + i);
+			this->vector_clients.erase(this->vector_clients.begin() + i);
 			break ;
 		}
 	}
@@ -173,7 +200,16 @@ void Server::pollClientDisconnect(poll_data_t* poll_data)
 
 void				Server::serverCleanup(void)
 {
-	close(fd_server_socket);
+	for (size_t i = 0; i < this->vector_clients.size(); i++)
+		{ this->vector_clients[i].clientCleanup(); }
+	this->vector_clients.empty();
+	if (this->fd_server_socket != -1)
+	{
+		close(this->fd_server_socket);
+		this->fd_server_socket = -1;
+	}
+	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
+	memset(this->buffer, 0, BUFFER_SIZE);
 	return ;
 }
 

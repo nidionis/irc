@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:48:10 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 18:25:49 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:06:44 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
-# define FAIL -1
+//# define FAIL -1
+
+struct poll_data
+{
+	struct pollfd		fds[MAX_CONNECTIONS];
+	int					fd_i;
+	int					i;
+	int					err_check;
+};
+
+void	pollDataCleanup(poll_data* poll_data);
 
 #endif // MAIN_HPP

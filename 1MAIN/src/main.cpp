@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:57:59 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 14:39:21 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:43:06 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,42 @@ int main(int argc, char **argv)
 
 	Server	server;
 
-	server.serverSetup();
-	server.pollLoop();
+	try
+	{
+		server.serverSetup();
+	}
+	catch (const std::exception& err)
+	{
+		std::cout << err.what() << std::endl;
+	}
+	try
+	{
+		server.pollLoop();
+	}
+	catch (const std::exception& err)
+	{
+		std::cout << err.what() << std::endl;
+	}
 	server.serverCleanup();
-
-	/*server.initSocket();
-	server.listenUp(0);
-	server.pollRun();*/
-	return 0;
+	return (0);
 }
+
+void	pollDataCleanup(poll_data* poll_data)
+{
+	for (int i = 0; i < poll_data->fd_i; ++i)
+	{
+	if (poll_data->fds[i].fd >= 0)
+	{
+			close(poll_data->fds[i].fd);
+			poll_data->fds[i].fd = -1;
+		}
+	}
+	poll_data->fd_i = 0;
+	poll_data->i = 0;
+	poll_data->err_check = 0;
+	return ;
+}
+
+/*server.initSocket();
+server.listenUp(0);
+server.pollRun();*/

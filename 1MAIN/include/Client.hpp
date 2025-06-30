@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 18:37:09 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:56:00 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,18 @@
 
 class Client
 {
+private:
+
 public:
 
-	struct sockaddr_in	IPV4_client_socket_address;
+	struct sockaddr_in	IPv4_client_sock_addr;
 	int					fd_client_socket;
 	socklen_t			client_addrlen;
 
-	Client();
-	~Client();
+	Client(void);
+	~Client(void);
+
+	void				clientCleanup(void);
 };
 
 /*	std::string _nickname;
@@ -41,7 +45,7 @@ public:
 	void	setFd(int fd);
 	int printing_loop();
 	
-	struct sockaddr_in	IPV4_client_socket_address;
+	struct sockaddr_in	IPv4_client_sock_addr;
 	int					fd_client_socket;
 	socklen_t			client_addrlen;*/
 

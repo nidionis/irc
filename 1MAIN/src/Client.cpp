@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 14:35:32 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:20:15 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,26 @@ _hostname("default_hostname"), _fd(UNDEFINED_FD) {
 
 Client::Client(void)
 {
+	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
+	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
+	this->fd_client_socket = -1;
 	return ;
 }
 
 Client::~Client(void)
 {
+	return ;
+}
+
+void				Client::clientCleanup(void)
+{
+	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
+	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
+	if (this->fd_client_socket != -1)
+	{
+		close(this->fd_client_socket);
+		this->fd_client_socket = -1;
+	}
 	return ;
 }
 
@@ -44,7 +59,7 @@ void Client::setFd(int fd) {
 int Client::printing_loop() {
 	unsigned char buffer[BUFF_SIZE];
 	int bytes_read;
-	while (1) {
+	while (true) {
 		bytes_read = read(_fd, buffer, BUFF_SIZE - 1);
 		if (bytes_read <= 0) {
 			if (bytes_read < 0) {

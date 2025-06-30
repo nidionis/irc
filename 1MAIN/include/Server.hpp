@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:39 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/27 18:35:12 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:36:26 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,12 @@
 
 class	Client;
 
-struct poll_data_t
-{
-	struct pollfd		fds[MAX_CONNECTIONS];
-	int					fd_i;
-	int					i;
-	int					err_check;
-};
-
 class	Server
 {
 private:
-	struct sockaddr_in	IPV4_server_socket_address;
+	struct sockaddr_in	IPv4_serv_sock_addr;
 	int					fd_server_socket;
 	char				buffer[BUFFER_SIZE];
-
 	std::vector<Client>	vector_clients;
 
 	void				initServerSocket(void);
@@ -37,9 +28,11 @@ private:
 	void				bindServerSocket(void);
 	void				listenServerSocket(void);
 
-	void				pollFailHandler(poll_data_t* poll_data);
-	void				pollClientConnect(poll_data_t* poll_data);
-	void				pollClientDisconnect(poll_data_t* poll_data);
+	void				pollFailHandler(poll_data* poll_data);
+	void				pollClientHandler(poll_data* poll_data);
+	void				pollClientConnect(poll_data* poll_data);
+	void				pollClientRecv(poll_data* poll_data);
+	void				pollClientDisconnect(poll_data* poll_data);
 
 public:
 	Server(void);
