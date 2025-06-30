@@ -41,7 +41,7 @@
 struct poll_data
 {
 	struct pollfd		fds[MAX_CONNECTIONS];
-	int					fd_i;
+	int					fd_nb;
 	int					i;
 	int					err_check;
 };

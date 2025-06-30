@@ -103,7 +103,7 @@ int	main(void)
 	socklen_t			client_addrlen;
 	ssize_t				recv_read;
 	struct pollfd		poll_fds[MAX_CONNECTIONS];
-	int					poll_fd_i = 1;
+	int					poll_fd_nb = 1;
 	int					poll_err_check;
 	
 	memset(&IPV4_server_socket_address, 0, sizeof(IPV4_server_socket_address));
@@ -122,16 +122,16 @@ int	main(void)
 	poll_fds[0].events = POLLIN;
 	while (1)
 	{
-		poll_err_check = poll(poll_fds, poll_fd_i, -1);
+		poll_err_check = poll(poll_fds, poll_fd_nb, -1);
 		if (poll_err_check == -1 && errno == EINTR) { continue ; }
-		for (int i = 0; i < poll_fd_i; i++)
+		for (int i = 0; i < poll_fd_nb; i++)
 		{
 			if (poll_fds[i].revents & (POLLERR | POLLHUP | POLLNVAL))
 			{
 				printf("Error/hangup on fd %d: Closing.\n", poll_fds[i].fd);
 				close(poll_fds[i].fd);
-				poll_fds[i] = poll_fds[poll_fd_i - 1];
-				poll_fd_i--;
+				poll_fds[i] = poll_fds[poll_fd_nb - 1];
+				poll_fd_nb--;
 				i--;
 				continue ;
 			}
@@ -142,11 +142,11 @@ int	main(void)
 					client_addrlen = sizeof(IPV4_client_socket_address);
 					fd_client_socket = accept(fd_server_socket, (struct sockaddr *)&IPV4_client_socket_address, &client_addrlen);
 					fcntl(fd_client_socket, F_SETFL, O_NONBLOCK);
-					if (poll_fd_i < MAX_CONNECTIONS)
+					if (poll_fd_nb < MAX_CONNECTIONS)
 					{
-						poll_fds[poll_fd_i].fd = fd_client_socket;
-						poll_fds[poll_fd_i].events = POLLIN;
-						poll_fd_i++;
+						poll_fds[poll_fd_nb].fd = fd_client_socket;
+						poll_fds[poll_fd_nb].events = POLLIN;
+						poll_fd_nb++;
 						printf("Client connected: %s:%d\n", inet_ntoa(IPV4_client_socket_address.sin_addr),
 							ntohs(IPV4_client_socket_address.sin_port));
 					}
@@ -160,8 +160,8 @@ int	main(void)
 					{
 						printf("Client on fd %d disconnected.\n", poll_fds[i].fd);
 						close(poll_fds[i].fd);
-						poll_fds[i] = poll_fds[poll_fd_i - 1];
-						poll_fd_i--;
+						poll_fds[i] = poll_fds[poll_fd_nb - 1];
+						poll_fd_nb--;
 						i--;
 					}
 					else

@@ -80,19 +80,19 @@ void Server::pollLoop(void)
 {
 	poll_data poll_data;
 	
-	poll_data.fd_i = 1;
+	poll_data.fd_nb = 1;
 	poll_data.err_check = 0;
 	poll_data.fds[0].fd = this->fd_server_socket;
 	poll_data.fds[0].events = POLLIN;
 	while (true)
 	{
-		poll_data.err_check = poll(poll_data.fds, poll_data.fd_i, -1);
+		poll_data.err_check = poll(poll_data.fds, poll_data.fd_nb, -1);
 		if (poll_data.err_check == -1)
 		{
 			if (errno == EINTR) { continue; }
 			else { pollDataCleanup(&poll_data); throw (std::runtime_error("poll() error")); }
 		}
-		for (poll_data.i = 0; poll_data.i < poll_data.fd_i; poll_data.i++)
+		for (poll_data.i = 0; poll_data.i < poll_data.fd_nb; poll_data.i++)
 		{
 			if (poll_data.fds[poll_data.i].revents & (POLLERR | POLLHUP | POLLNVAL))
 				{ pollFailHandler(&poll_data); }
@@ -107,8 +107,8 @@ void Server::pollFailHandler(poll_data* poll_data)
 {
 	std::cout << "Error/hangup on fd: " << poll_data->fds[poll_data->i].fd << ". Closing." << std::endl;
 	close(poll_data->fds[poll_data->i].fd);
-	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_i - 1];
-	poll_data->fd_i--;
+	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_nb - 1];
+	poll_data->fd_nb--;
 	poll_data->i--;
 	return;
 }
@@ -118,7 +118,10 @@ void Server::pollClientHandler(poll_data* poll_data)
 	if (poll_data->fds[poll_data->i].fd == this->fd_server_socket)
 		{ pollClientConnect(poll_data); }
 	else
-		{ pollClientRecv(poll_data); }
+	{
+		pollClientRecv(poll_data);
+        answerRecv()
+	}
 	return ;
 }
 
@@ -138,11 +141,11 @@ void	Server::pollClientConnect(poll_data* poll_data)
 	}
 	if (fcntl(new_client.fd_client_socket, F_SETFL, O_NONBLOCK) == -1)
 		{ pollDataCleanup(poll_data); throw (std::runtime_error("fcntl() error")); }
-	if (poll_data->fd_i < MAX_CONNECTIONS)
+	if (poll_data->fd_nb < MAX_CONNECTIONS)
 	{
-		poll_data->fds[poll_data->fd_i].fd = new_client.fd_client_socket;
-		poll_data->fds[poll_data->fd_i].events = POLLIN;
-		poll_data->fd_i++;
+		poll_data->fds[poll_data->fd_nb].fd = new_client.fd_client_socket;
+		poll_data->fds[poll_data->fd_nb].events = POLLIN;
+		poll_data->fd_nb++;
 		std::cout << "Client connected: " << inet_ntoa(new_client.IPv4_client_sock_addr.sin_addr)
 				  << ':' << ntohs(new_client.IPv4_client_sock_addr.sin_port) << std::endl;
 	}
@@ -190,8 +193,8 @@ void	Server::pollClientDisconnect(poll_data* poll_data)
 		}
 	}
 	close(poll_data->fds[poll_data->i].fd);
-	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_i - 1];
-	poll_data->fd_i--;
+	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_nb - 1];
+	poll_data->fd_nb--;
 	poll_data->i--;
 	return;
 }
@@ -209,4 +212,11 @@ void				Server::serverCleanup(void)
 	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
 	memset(this->buffer, 0, BUFFER_SIZE);
 	return ;
+}
+
+ssize_t 		sendClient(Client &cli, std::string &msg) {
+    int send_write;
+    int flags = MSG_DONTWAIT; // | MSG_NOSIGNAL;
+    send_write = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
+    return send_write;
 }

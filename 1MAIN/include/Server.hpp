@@ -40,6 +40,7 @@ public:
 
 	void				serverSetup(void);
 	void				pollLoop(void);
+	ssize_t				sendClient(Client &cli, std::string &msg);
 	void				serverCleanup(void);
 };
 

@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 
 void	pollDataCleanup(poll_data* poll_data)
 {
-	for (int i = 0; i < poll_data->fd_i; ++i)
+	for (int i = 0; i < poll_data->fd_nb; ++i)
 	{
 		if (poll_data->fds[i].fd >= 0)
 		{
@@ -41,7 +41,7 @@ void	pollDataCleanup(poll_data* poll_data)
 			poll_data->fds[i].fd = -1;
 		}
 	}
-	poll_data->fd_i = 0;
+	poll_data->fd_nb = 0;
 	poll_data->i = 0;
 	poll_data->err_check = 0;
 	return ;
