@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:57:59 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 12:43:06 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:14:20 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,18 @@
 
 int main(int argc, char **argv)
 {
+	Server	server;
+	
 	if (argc != 3)
 	{
 		std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
 		return (1);
 	}
 	std::cout << "Starting IRC server..." << std::endl;
-
-	Server	server;
-
-	try
-	{
-		server.serverSetup();
-	}
-	catch (const std::exception& err)
-	{
-		std::cout << err.what() << std::endl;
-	}
-	try
-	{
-		server.pollLoop();
-	}
-	catch (const std::exception& err)
-	{
-		std::cout << err.what() << std::endl;
-	}
+	try { server.serverSetup(); }
+	catch (const std::exception& err) { std::cout << err.what() << std::endl; }
+	try { server.pollLoop(); }
+	catch (const std::exception& err) { std::cout << err.what() << std::endl; }
 	server.serverCleanup();
 	return (0);
 }
@@ -48,8 +35,8 @@ void	pollDataCleanup(poll_data* poll_data)
 {
 	for (int i = 0; i < poll_data->fd_i; ++i)
 	{
-	if (poll_data->fds[i].fd >= 0)
-	{
+		if (poll_data->fds[i].fd >= 0)
+		{
 			close(poll_data->fds[i].fd);
 			poll_data->fds[i].fd = -1;
 		}
@@ -59,7 +46,3 @@ void	pollDataCleanup(poll_data* poll_data)
 	poll_data->err_check = 0;
 	return ;
 }
-
-/*server.initSocket();
-server.listenUp(0);
-server.pollRun();*/

@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:39 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 12:36:26 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:39:49 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,5 @@ public:
 	void				pollLoop(void);
 	void				serverCleanup(void);
 };
-
-	//int					_nb_socket;
-	//int					_port;
-	//struct pollfd			_sockets[MAX_SOCKET];
-	//struct sockaddr_in	_addresses[MAX_SOCKET];
-	//std::string			_passwd;
-
-	//std::vector<Client>	list_clients;
-
-	/*int				getFd(int i_socket);
-	struct pollfd&		getPfd(int i_socket);
-	struct pollfd		initSocket() throw(std::runtime_error);
-	struct sockaddr_in&	getSockAddr(int i_socket);
-	bool				listenUp(int i_socket);
-	Client*				connection(int i_socket);
-	void				pollRun();
-	int					receivingSocket();*/
 
 #endif //SERVER_HPP

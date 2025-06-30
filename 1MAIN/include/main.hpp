@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:48:10 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 12:06:44 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:39:57 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <cerrno>
 # include <csignal>
 # include <exception>
-//# include <netinet/in.h>
-//# include <netdb.h>
 #include <vector>
 
 # include <stdio.h>
@@ -35,14 +33,10 @@
 # include <fcntl.h>
 
 # define BUFFER_SIZE 1024
-//# define ERROR -1
-//# define OK 0
 # define PORT 6667
-//# define MAX_SOCKET 3
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
-//# define FAIL -1
 
 struct poll_data
 {

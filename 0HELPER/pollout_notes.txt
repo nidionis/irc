@@ -1,0 +1,19 @@
+Why?
+
+    POLLOUT is mainly useful when:
+
+        You want to write to a socket without blocking, but the socket’s send buffer is full.
+
+        You implement output buffering: when a send() call only writes part of your data, you buffer the remainder and wait for POLLOUT to tell you when to try sending again.
+
+    If your current server never calls send() or writes synchronously, or only sends small amounts of data that always succeed immediately, POLLOUT isn’t needed yet.
+
+When should you add POLLOUT?
+
+    You start sending data to clients.
+
+    Sometimes a send() call returns EAGAIN or EWOULDBLOCK (socket not ready to send).
+
+    You want to avoid blocking by waiting on poll() for POLLOUT.
+
+    You implement per-client output buffers that keep unsent data until it can be sent.
