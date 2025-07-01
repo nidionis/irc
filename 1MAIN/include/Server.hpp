@@ -42,6 +42,7 @@ public:
 	void				pollLoop(void);
 	ssize_t				sendClient(Client &cli, std::string &msg);
     Client              &getClient(int i);
+    void                answerClient(poll_data *p_data);
     //void				sendClient(Client &cli, std::string &msg);
 	void				serverCleanup(void);
 };

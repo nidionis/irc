@@ -78,67 +78,72 @@ void				Server::listenServerSocket(void)
 
 void Server::pollLoop(void)
 {
-	poll_data poll_data;
+	poll_data p_data;
 	
-	poll_data.fd_nb = 1;
-	poll_data.err_check = 0;
-	poll_data.fds[0].fd = this->fd_server_socket;
-	poll_data.fds[0].events = POLLIN;
+	p_data.fd_nb = 1;
+	p_data.err_check = 0;
+	p_data.fds[0].fd = this->fd_server_socket;
+	p_data.fds[0].events = POLLIN;
 	while (true)
 	{
-		poll_data.err_check = poll(poll_data.fds, poll_data.fd_nb, -1);
-		if (poll_data.err_check == -1)
+		p_data.err_check = poll(p_data.fds, p_data.fd_nb, -1);
+		if (p_data.err_check == -1)
 		{
 			if (errno == EINTR) { continue; }
-			else { pollDataCleanup(&poll_data); throw (std::runtime_error("poll() error")); }
+			else { pollDataCleanup(&p_data); throw (std::runtime_error("poll() error")); }
 		}
-		for (poll_data.i = 0; poll_data.i < poll_data.fd_nb; poll_data.i++)
+		for (p_data.i = 0; p_data.i < p_data.fd_nb; p_data.i++)
 		{
-			if (poll_data.fds[poll_data.i].revents & (POLLERR | POLLHUP | POLLNVAL))
-				{ pollFailHandler(&poll_data); }
-			else if (poll_data.fds[poll_data.i].revents & POLLIN)
-				{ pollClientHandler(&poll_data); }
+			if (p_data.fds[p_data.i].revents & (POLLERR | POLLHUP | POLLNVAL))
+				{ pollFailHandler(&p_data); }
+			else if (p_data.fds[p_data.i].revents & POLLIN)
+				{ pollClientHandler(&p_data); }
 		}
 	}
 	return;
 }
 
-void Server::pollFailHandler(poll_data* poll_data)
+void Server::pollFailHandler(poll_data* p_data)
 {
-	std::cout << "Error/hangup on fd: " << poll_data->fds[poll_data->i].fd << ". Closing." << std::endl;
-	close(poll_data->fds[poll_data->i].fd);
-	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_nb - 1];
-	poll_data->fd_nb--;
-	poll_data->i--;
+	std::cout << "Error/hangup on fd: " << p_data->fds[p_data->i].fd << ". Closing." << std::endl;
+	close(p_data->fds[p_data->i].fd);
+	p_data->fds[p_data->i] = p_data->fds[p_data->fd_nb - 1];
+	p_data->fd_nb--;
+	p_data->i--;
 	return;
 }
 
-void Server::pollClientHandler(poll_data* poll_data)
-{
-	if (poll_data->fds[poll_data->i].fd == this->fd_server_socket)
-		{ pollClientConnect(poll_data); }
-	else
-	{
-		pollClientRecv(poll_data);
-        //std::cout << "poll_data->i: " << poll_data->i << std::endl;
+void Server::answerClient(poll_data *p_data) { //, Request &request) {
+    try {
+        Client &client = this->getClient(p_data->i);
+        std::string msg = "A msg from server\n";
+        //std::string msg = request.answer();
         try {
-            Client &client = this->getClient(poll_data->i);
-            std::string msg = "A msg from server\n";
-            try {
-                sendClient(client, msg);
-            } catch (const std::exception err) {
-                std::cout << err.what() << std::endl;
-                return ;
-            }
+            sendClient(client, msg);
         } catch (const std::exception err) {
             std::cout << err.what() << std::endl;
             return ;
         }
+    } catch (const std::exception err) {
+        std::cout << err.what() << std::endl;
+        return ;
+    }
+}
+
+void Server::pollClientHandler(poll_data* p_data)
+{
+	if (p_data->fds[p_data->i].fd == this->fd_server_socket)
+		{ pollClientConnect(p_data); }
+	else
+	{
+		pollClientRecv(p_data);
+        std::string request = "/helloWorld";
+        answerClient(p_data);//, request);
 	}
 	return ;
 }
 
-void	Server::pollClientConnect(poll_data* poll_data)
+void	Server::pollClientConnect(poll_data* p_data)
 {
 	this->vector_clients.push_back(Client());
 	Client&	new_client = this->vector_clients.back();
@@ -150,15 +155,15 @@ void	Server::pollClientConnect(poll_data* poll_data)
 		this->vector_clients.pop_back();
 		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
 			{ std::cerr << "error: Client connection failed." << std::endl; return ; }
-		else { pollDataCleanup(poll_data); throw (std::runtime_error("accept() error")); }
+		else { pollDataCleanup(p_data); throw (std::runtime_error("accept() error")); }
 	}
 	if (fcntl(new_client.fd_client_socket, F_SETFL, O_NONBLOCK) == -1)
-		{ pollDataCleanup(poll_data); throw (std::runtime_error("fcntl() error")); }
-	if (poll_data->fd_nb < MAX_CONNECTIONS)
+		{ pollDataCleanup(p_data); throw (std::runtime_error("fcntl() error")); }
+	if (p_data->fd_nb < MAX_CONNECTIONS)
 	{
-		poll_data->fds[poll_data->fd_nb].fd = new_client.fd_client_socket;
-		poll_data->fds[poll_data->fd_nb].events = POLLIN;
-		poll_data->fd_nb++;
+		p_data->fds[p_data->fd_nb].fd = new_client.fd_client_socket;
+		p_data->fds[p_data->fd_nb].events = POLLIN;
+		p_data->fd_nb++;
 		std::cout << "Client connected: " << inet_ntoa(new_client.IPv4_client_sock_addr.sin_addr)
 				  << ':' << ntohs(new_client.IPv4_client_sock_addr.sin_port) << std::endl;
 	}
@@ -171,44 +176,44 @@ void	Server::pollClientConnect(poll_data* poll_data)
 	return ;
 }
 
-void	Server::pollClientRecv(poll_data* poll_data)
+void	Server::pollClientRecv(poll_data* p_data)
 {
 	ssize_t	recv_read;
 
 	memset(buffer, 0, BUFFER_SIZE);
-	recv_read = recv(poll_data->fds[poll_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
+	recv_read = recv(p_data->fds[p_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
 	if (recv_read == -1)
 	{
 		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
 			{ std::cerr << "error: Client read failed." << std::endl; return ; }
-		else { pollClientDisconnect(poll_data); pollDataCleanup(poll_data); throw (std::runtime_error("recv() error")); }
+		else { pollClientDisconnect(p_data); pollDataCleanup(p_data); throw (std::runtime_error("recv() error")); }
 	}
 	else if (recv_read == 0)
-		{ pollClientDisconnect(poll_data); }
+		{ pollClientDisconnect(p_data); }
 	else
 	{
 		if (recv_read < BUFFER_SIZE) { buffer[recv_read] = '\0'; }
 		else { buffer[BUFFER_SIZE - 1] = '\0'; }
-		std::cout << "Received from fd " << poll_data->fds[poll_data->i].fd << ": " << buffer << std::flush;
+		std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << std::flush;
 	}
 	return ;
 }
 
-void	Server::pollClientDisconnect(poll_data* poll_data)
+void	Server::pollClientDisconnect(poll_data* p_data)
 {
-	std::cout << "Client on fd " << poll_data->fds[poll_data->i].fd << " disconnected." << std::endl;
+	std::cout << "Client on fd " << p_data->fds[p_data->i].fd << " disconnected." << std::endl;
 	for (size_t i = 0; i < this->vector_clients.size(); i++)
 	{
-		if (this->vector_clients[i].fd_client_socket == poll_data->fds[poll_data->i].fd)
+		if (this->vector_clients[i].fd_client_socket == p_data->fds[p_data->i].fd)
 		{
 			this->vector_clients.erase(this->vector_clients.begin() + i);
 			break ;
 		}
 	}
-	close(poll_data->fds[poll_data->i].fd);
-	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_nb - 1];
-	poll_data->fd_nb--;
-	poll_data->i--;
+	close(p_data->fds[p_data->i].fd);
+	p_data->fds[p_data->i] = p_data->fds[p_data->fd_nb - 1];
+	p_data->fd_nb--;
+	p_data->i--;
 	return;
 }
 
@@ -239,7 +244,7 @@ ssize_t 		Server::sendClient(Client &cli, std::string &msg) {
 
 Client&	Server::getClient(int i) {
     for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
-        if (!--i) { //i comes from poll_data->i, which start at 1 (and i'ts dangerous)
+        if (!--i) { //i comes from p_data->i, which start at 1 (and i'ts dangerous)
             return *it;
         }
     }
