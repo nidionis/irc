@@ -25,7 +25,7 @@ INCLUDE_DIR = include
 # Source files (update these as you add more source files)
 SRCS = main.cpp \
        Server.cpp \
-       Client.cpp \
+       Client.cpp
 
 # Object files
 OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)

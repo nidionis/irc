@@ -39,12 +39,14 @@ public:
 	~Server(void);
 
 	void				serverSetup(void);
+    void				serverCleanup(void);
 	void				pollLoop(void);
-	ssize_t				sendClient(Client &cli, std::string &msg);
+
+	ssize_t				sendClient(Client &cli, std::string msg);
     Client              &getClient(int i);
-    void                answerClient(poll_data *p_data);
     //void				sendClient(Client &cli, std::string &msg);
-	void				serverCleanup(void);
+    void	            handle(char *buffer, Client &client);
+    void	            applyRequest(char *buffer, Client &client);
 };
 
 #endif //SERVER_HPP

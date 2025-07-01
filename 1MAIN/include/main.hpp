@@ -15,6 +15,8 @@
 
 # include <iostream>
 # include <string>
+# include <sstream>
+# include <algorithm>
 # include <cstring>
 # include <cstdlib>
 # include <cerrno>
@@ -32,7 +34,7 @@
 # include <errno.h>
 # include <fcntl.h>
 
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 8
 # define PORT 6667
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3
@@ -47,5 +49,9 @@ struct poll_data
 };
 
 void	pollDataCleanup(poll_data* poll_data);
+bool	cmpHead(const std::string str1, const std::string str2);
+
+# include <Server.hpp>
+# include <Client.hpp>
 
 #endif // MAIN_HPP

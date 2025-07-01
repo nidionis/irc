@@ -113,22 +113,22 @@ void Server::pollFailHandler(poll_data* p_data)
 	return;
 }
 
-void Server::answerClient(poll_data *p_data) { //, Request &request) {
-    try {
-        Client &client = this->getClient(p_data->i);
-        std::string msg = "A msg from server\n";
-        //std::string msg = request.answer();
-        try {
-            sendClient(client, msg);
-        } catch (const std::exception err) {
-            std::cout << err.what() << std::endl;
-            return ;
-        }
-    } catch (const std::exception err) {
-        std::cout << err.what() << std::endl;
-        return ;
-    }
-}
+//void Server::answerClient(poll_data *p_data) { //, Request &request) {
+//    try {
+//        Client &client = this->getClient(p_data->i);
+//        std::string msg = "A msg from server\n";
+//        //std::string msg = request.answer();
+//        try {
+//            sendClient(client, msg);
+//        } catch (const std::exception err) {
+//            std::cout << err.what() << std::endl;
+//            return ;
+//        }
+//    } catch (const std::exception err) {
+//        std::cout << err.what() << std::endl;
+//        return ;
+//    }
+//}
 
 void Server::pollClientHandler(poll_data* p_data)
 {
@@ -136,9 +136,12 @@ void Server::pollClientHandler(poll_data* p_data)
 		{ pollClientConnect(p_data); }
 	else
 	{
-		pollClientRecv(p_data);
-        std::string request = "/helloWorld";
-        answerClient(p_data);//, request);
+        try {
+            pollClientRecv(p_data);
+        } catch (const std::exception err) {
+           err.what();
+        }
+        //answerClient(p_data);//, request);
 	}
 	return ;
 }
@@ -184,17 +187,25 @@ void	Server::pollClientRecv(poll_data* p_data)
 	recv_read = recv(p_data->fds[p_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
 	if (recv_read == -1)
 	{
-		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
-			{ std::cerr << "error: Client read failed." << std::endl; return ; }
-		else { pollClientDisconnect(p_data); pollDataCleanup(p_data); throw (std::runtime_error("recv() error")); }
-	}
-	else if (recv_read == 0)
-		{ pollClientDisconnect(p_data); }
-	else
-	{
-		if (recv_read < BUFFER_SIZE) { buffer[recv_read] = '\0'; }
-		else { buffer[BUFFER_SIZE - 1] = '\0'; }
-		std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << std::flush;
+		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
+            //throw (std::runtime_error("recv failed"));
+            std::cerr << "error: Client read failed." << std::endl;
+            return ;
+        } else {
+            pollClientDisconnect(p_data);
+            pollDataCleanup(p_data);
+            throw (std::runtime_error("recv() error"));
+        }
+	} else if (recv_read == 0) {
+        pollClientDisconnect(p_data);
+    } else {
+		//if (recv_read < BUFFER_SIZE) { -> n'entre jamais dans cette condition
+            buffer[recv_read] = '\0';
+            handle(buffer, getClient(p_data->i));
+        //std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << std::flush;
+        //} else {
+        //    throw (std::runtime_error("recv() buffer overflow"));
+        //}
 	}
 	return ;
 }
@@ -232,7 +243,7 @@ void				Server::serverCleanup(void)
 	return ;
 }
 
-ssize_t 		Server::sendClient(Client &cli, std::string &msg) {
+ssize_t 		Server::sendClient(Client &cli, std::string msg) {
     int byte_sent;
     int flags = MSG_DONTWAIT; // | MSG_NOSIGNAL;
     byte_sent = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
@@ -249,4 +260,25 @@ Client&	Server::getClient(int i) {
         }
     }
     throw (std::runtime_error("client not found"));
+}
+
+void	Server::applyRequest(char *buffer, Client &client) {
+    if (cmpHead(buffer, "debug")) {
+        sendClient(client, "[echo debug]\n");
+    } else {
+        throw (std::runtime_error("just /debug for now\n"));
+        //throw (std::runtime_error("no such a command"));
+    }
+}
+
+void	Server::handle(char *buffer, Client &client) {
+    if (buffer[0] == '/') {
+        try {
+            applyRequest(buffer + 1, client);
+        } catch (const std::runtime_error err) {
+            sendClient(client, err.what());
+        }
+    } else {
+        sendClient(client, "isn't a cmd\n");
+    }
 }

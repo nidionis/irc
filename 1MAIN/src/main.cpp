@@ -46,3 +46,16 @@ void	pollDataCleanup(poll_data* poll_data)
 	poll_data->err_check = 0;
 	return ;
 }
+
+bool cmpHead(const std::string str1, const std::string str2) {
+    std::string wd1 = str1;
+    std::string wd2 = str2;
+
+    std::transform(wd1.begin(), wd1.end(), wd1.begin(), ::tolower);
+    std::transform(wd2.begin(), wd2.end(), wd2.begin(), ::tolower);
+    std::stringstream ss1(wd1);
+    std::stringstream ss2(wd2);
+    ss1 >> wd1;
+    ss2 >> wd2;
+    return wd1 == wd2;
+}
