@@ -120,7 +120,20 @@ void Server::pollClientHandler(poll_data* poll_data)
 	else
 	{
 		pollClientRecv(poll_data);
-        answerRecv()
+        //std::cout << "poll_data->i: " << poll_data->i << std::endl;
+        try {
+            Client &client = this->getClient(poll_data->i);
+            std::string msg = "A msg from server\n";
+            try {
+                sendClient(client, msg);
+            } catch (const std::exception err) {
+                std::cout << err.what() << std::endl;
+                return ;
+            }
+        } catch (const std::exception err) {
+            std::cout << err.what() << std::endl;
+            return ;
+        }
 	}
 	return ;
 }
@@ -214,9 +227,21 @@ void				Server::serverCleanup(void)
 	return ;
 }
 
-ssize_t 		sendClient(Client &cli, std::string &msg) {
-    int send_write;
+ssize_t 		Server::sendClient(Client &cli, std::string &msg) {
+    int byte_sent;
     int flags = MSG_DONTWAIT; // | MSG_NOSIGNAL;
-    send_write = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
-    return send_write;
+    byte_sent = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
+    if (byte_sent < 0) {
+        throw (std::runtime_error("sending client error"));
+    }
+    return byte_sent;
+}
+
+Client&	Server::getClient(int i) {
+    for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
+        if (!--i) { //i comes from poll_data->i, which start at 1 (and i'ts dangerous)
+            return *it;
+        }
+    }
+    throw (std::runtime_error("client not found"));
 }
