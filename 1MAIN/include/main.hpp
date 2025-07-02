@@ -40,6 +40,11 @@
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
 
+//struct s_cmd {
+//    std::string header;
+//    void        (*f)(std::string input);
+//} t_cmd;
+
 struct poll_data
 {
 	struct pollfd		fds[MAX_CONNECTIONS];

@@ -38,10 +38,11 @@ void				Client::clientCleanup(void)
 	return ;
 }
 
-std::string &Client::getNickname(void) {
-    return this->_nickname;
-}
-
-void				Client::setNickname(char *buffer) {
-    this->_nickname = buffer;
-}
+std::string	&Client::getNickname(void) { return this->_nickname; }
+void    	Client::setNickname(char *buffer) { this->_nickname = buffer; }
+std::string &Client::getUsername(void) { return this->_username; }
+void    	Client::setUsername(char *buffer) { this->_username = buffer; }
+std::string &Client::getRealname(void) { return this->_realname; }
+void    	Client::setRealname(char *buffer) { this->_realname = buffer; }
+std::string &Client::getHostname(void) { return this->_hostname; }
+void    	Client::setHostname(char *buffer) { this->_hostname = buffer; }

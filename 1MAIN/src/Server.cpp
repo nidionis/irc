@@ -13,6 +13,9 @@
 #include "main.hpp"
 #include "Server.hpp"
 #include "Client.hpp"
+#include "Handle.hpp"
+
+void processCommand(Server &server, Client &client, std::string input);
 
 Server::Server(void)
 {
@@ -44,10 +47,11 @@ void	Server::serverSetup(void)
 void				Server::initServerSocket(void)
 {
 	this->fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (this->fd_server_socket == -1)
-		{ throw (std::runtime_error("socket() error")); }
-	if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1)
-		{ throw (std::runtime_error("fcntl() error")); }
+	if (this->fd_server_socket == -1) {
+        throw (std::runtime_error("socket() error"));
+    } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
+        throw (std::runtime_error("fcntl() error"));
+    }
 	return ;
 }
 
@@ -55,17 +59,19 @@ void				Server::setServerSockopt(void)
 {
 	int	opt_toggle = 1;
 	
-	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle)) == -1)
-		{ throw (std::runtime_error("setsockopt() SO_REUSEADDR error")); }
-	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle)) == -1)
-		{ throw (std::runtime_error("setsockopt() SO_KEEPALIVE error")); }
+	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle)) == -1) {
+        throw (std::runtime_error("setsockopt() SO_REUSEADDR error"));
+    } if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle)) == -1) {
+        throw (std::runtime_error("setsockopt() SO_KEEPALIVE error"));
+    }
 	return ;
 }
 
 void				Server::bindServerSocket(void)
 {
-	if (bind(this->fd_server_socket, (struct sockaddr *)&this->IPv4_serv_sock_addr, sizeof(this->IPv4_serv_sock_addr)) == -1)
-		{ throw (std::runtime_error("bind() error")); }
+	if (bind(this->fd_server_socket, (struct sockaddr *)&this->IPv4_serv_sock_addr, sizeof(this->IPv4_serv_sock_addr)) == -1) {
+        throw (std::runtime_error("bind() error"));
+    }
 	return ;
 }
 
@@ -115,11 +121,14 @@ void	Server::sendCmds(Client &client) {
 }
 
 void	Server::handle(char *buffer, Client &client) {
-    if (!strncmp(buffer, "CAP LS ", 7)) {
-        sendCmds(client);
-    } else if (!strncmp(buffer, "NICK ", 5)) {
-        client.setNickname(buffer);
-    } else {
-        sendClient(client, "isn't a cmd\n");
-    }
+    (void)client;
+    (void)buffer;
+    processCommand(*this, client, buffer);
+    //if (!strncmp(buffer, "CAP LS ", 7)) {
+    //    sendCmds(client);
+    //} else if (!strncmp(buffer, "NICK ", 5)) {
+    //    client.setNickname(buffer);
+    //} else {
+    //    sendClient(client, "isn't a cmd\n");
+    //}
 }

@@ -115,8 +115,8 @@ void	Server::pollClientRecv(poll_data* p_data)
         //if (recv_read < BUFFER_SIZE) { -> n'entre jamais dans cette condition
         buffer[recv_read] = '\0';
         handle(buffer, getClient(p_data->i));
-        sleep(1);
-        std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << std::endl << std::flush;
+        usleep(200);
+        std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << "$" << std::endl << std::flush;
         //} else {
         //    throw (std::runtime_error("recv() buffer overflow"));
         //}

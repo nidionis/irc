@@ -74,6 +74,10 @@ class Client
 {
 private:
     std::string _nickname;
+    std::string _username;
+    std::string _realname;
+    std::string _hostname;
+    //std::vector<Channels>	channels;
 
 public:
 
@@ -84,9 +88,15 @@ public:
 	Client(void);
 	~Client(void);
 
-	void				clientCleanup(void);
     void				setNickname(char *buffer);
     std::string         &getNickname(void);
+    void            	setUsername(char *buffer);
+    std::string         &getUsername(void);
+    void                setRealname(char *buffer);
+    std::string         &getRealname(void);
+    void                setHostname(char *buffer);
+    std::string         &getHostname(void);
+    void				clientCleanup(void);
 };
 
 #endif //CLIENT_HPP
