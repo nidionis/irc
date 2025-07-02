@@ -25,6 +25,7 @@ INCLUDE_DIR = include
 # Source files (update these as you add more source files)
 SRCS = main.cpp \
        Server.cpp \
+       Poll.cpp \
        Client.cpp
 
 # Object files

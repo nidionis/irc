@@ -37,3 +37,11 @@ void				Client::clientCleanup(void)
 	}
 	return ;
 }
+
+std::string &Client::getNickname(void) {
+    return this->_nickname;
+}
+
+void				Client::setNickname(char *buffer) {
+    this->_nickname = buffer;
+}

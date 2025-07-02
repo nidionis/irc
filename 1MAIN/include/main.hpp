@@ -34,7 +34,7 @@
 # include <errno.h>
 # include <fcntl.h>
 
-# define BUFFER_SIZE 8
+# define BUFFER_SIZE 1024
 # define PORT 6667
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3

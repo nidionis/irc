@@ -55,6 +55,7 @@ bool cmpHead(const std::string str1, const std::string str2) {
     std::transform(wd2.begin(), wd2.end(), wd2.begin(), ::tolower);
     std::stringstream ss1(wd1);
     std::stringstream ss2(wd2);
+    // get first word
     ss1 >> wd1;
     ss2 >> wd2;
     return wd1 == wd2;

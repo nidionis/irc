@@ -47,6 +47,7 @@ public:
     //void				sendClient(Client &cli, std::string &msg);
     void	            handle(char *buffer, Client &client);
     void	            applyRequest(char *buffer, Client &client);
+    void	            sendCmds(Client &client);
 };
 
 #endif //SERVER_HPP
