@@ -31,18 +31,19 @@ std::string getNextWds(const std::string& str) {
 
 void cmdCap(Server &server, Client &client, std::string args) {
     (void) server;
-    (void) client;
-    std::cout << "cmdCap: $" << args << "$\n";
+    //should wait NICK an USER
     if (getHead(args) == "LS") {
-        server.sendClient(client, "CAP * LS :\r\n");
+        server.sendClient(client, "CAP * LS :");
+        server.sendClient(client, "une liste de commandes implementees");
+        server.sendClient(client, "\n");;
     }
 }
 
 void cmdNick(Server &server, Client &client, std::string input) {
     (void) server;
+    client.setNickname(input);
     server.sendClient(client, "NICK :You are now known as " + client.getNickname() + "\r\n");
     server.sendClient(client, "input: " + input + "\r\n");
-    // Handle NICK command
 }
 
 void cmdUser(Server &server, Client &client, std::string input) {

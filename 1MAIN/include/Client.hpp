@@ -88,13 +88,13 @@ public:
 	Client(void);
 	~Client(void);
 
-    void				setNickname(char *buffer);
+    void				setNickname(std::string buffer);
     std::string         &getNickname(void);
-    void            	setUsername(char *buffer);
+    void            	setUsername(std::string buffer);
     std::string         &getUsername(void);
-    void                setRealname(char *buffer);
+    void                setRealname(std::string buffer);
     std::string         &getRealname(void);
-    void                setHostname(char *buffer);
+    void                setHostname(std::string buffer);
     std::string         &getHostname(void);
     void				clientCleanup(void);
 };
