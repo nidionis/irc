@@ -4,12 +4,21 @@
 
 #include <Handle.hpp>
 
-std::string getHead(const std::string& str) {
-    size_t pos = str.find(' ');
-    return (pos != std::string::npos) ? str.substr(0, pos) : str;
+std::string trim(const std::string& str) {
+    size_t first = str.find_first_not_of(" \t\n\r");
+    size_t last = str.find_last_not_of(" \t\n\r");
+    if (first == std::string::npos || last == std::string::npos) {
+        return "";
+    }
+    return str.substr(first, last - first + 1);
 }
 
-std::string getNextWd(const std::string& str) {
+std::string getHead(const std::string& str) {
+    size_t pos = str.find(' ');
+    return (pos != std::string::npos) ? str.substr(0, pos) : trim(str);
+}
+
+std::string getNextWds(const std::string& str) {
     size_t pos = str.find(' ');
     if (pos == std::string::npos) {
         return "";
@@ -20,10 +29,13 @@ std::string getNextWd(const std::string& str) {
     return str.substr(pos);
 }
 
-void cmdCap(Server &server, Client &client, std::string input) {
+void cmdCap(Server &server, Client &client, std::string args) {
     (void) server;
     (void) client;
-    (void) input;
+    std::cout << "cmdCap: $" << args << "$\n";
+    if (getHead(args) == "LS") {
+        server.sendClient(client, "CAP * LS :\r\n");
+    }
 }
 
 void cmdNick(Server &server, Client &client, std::string input) {
@@ -73,10 +85,10 @@ static const struct s_cmd commands[] = {
 
 void processCommand(Server &server, Client &client, std::string input) {
     std::string cmd_flg = getHead(input);
-    std::string cmd_arg = getNextWd(input);
+    std::string cmd_arg = getNextWds(input);
     for (int i = 0; commands[i].f != NULL; i++) {
         if ((cmd_flg == commands[i].header)) {
-            commands[i].f(server, client, input);
+            commands[i].f(server, client, cmd_arg);
             return;
         }
     }
