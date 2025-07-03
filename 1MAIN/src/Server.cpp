@@ -19,6 +19,7 @@ void processCommand(Server &server, Client &client, std::string input);
 
 Server::Server(void)
 {
+    this->_name = SERV_NAME;
 	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
 	this->IPv4_serv_sock_addr.sin_family = AF_INET;
 	this->IPv4_serv_sock_addr.sin_port = htons(PORT);

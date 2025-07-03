@@ -12,12 +12,14 @@
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
+# define SERV_NAME "ircSchoolProject"
 
 class	Client;
 
 class	Server
 {
 private:
+    std::string _name;
 	struct sockaddr_in	IPv4_serv_sock_addr;
 	int					fd_server_socket;
 	char				buffer[BUFFER_SIZE];
