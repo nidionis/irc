@@ -13,8 +13,13 @@
 #include "main.hpp"
 #include "Client.hpp"
 
-Client::Client(void)
+Client::Client(void) {
+    throw (std::runtime_error("client must be set with a server"));
+}
+
+Client::Client(Server *server)
 {
+    this->server = server;
 	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
 	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
 	this->fd_client_socket = -1;
@@ -54,3 +59,14 @@ std::string &Client::getRealname(void) { return this->_realname; }
 void    	Client::setRealname(std::string buffer) { this->_realname = buffer; }
 std::string &Client::getHostname(void) { return this->_hostname; }
 void    	Client::setHostname(std::string buffer) { this->_hostname = buffer; }
+
+Channel*	Client::newChannel(std::string &name) {
+    Channel *channel = new Channel(*this, name);
+    this->server->pushChannel(*channel);
+    this->channels.push_back(*channel);
+    return channel;
+}
+
+ssize_t Client::send(std::string msg) {
+    return (this->server->sendClient(*this, msg));
+}

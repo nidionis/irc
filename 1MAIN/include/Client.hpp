@@ -17,11 +17,12 @@
 class Client
 {
 private:
+    Server      *server;
     std::string _nickname;
     std::string _username;
     std::string _realname;
     std::string _hostname;
-    //std::vector<Channels>	channels;
+    std::vector<Channel>    channels;
 
 public:
 
@@ -30,6 +31,7 @@ public:
 	socklen_t			client_addrlen;
 
 	Client(void);
+    Client(Server *server);
 	~Client(void);
     bool operator==(const Client &other) const;
 
@@ -42,6 +44,9 @@ public:
     void                setHostname(std::string buffer);
     std::string         &getHostname(void);
     void				clientCleanup(void);
+
+    Channel             *newChannel(std::string &name);
+    ssize_t             send(std::string msg);
 };
 
 #endif //CLIENT_HPP

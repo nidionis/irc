@@ -11,8 +11,9 @@ private:
     std::vector<Client> clients;
     std::vector<Client> admins;
 public:
+    std::string name;
     Channel();
-    Channel(Client &client);
+    Channel(Client &client, std::string &name);
     ~Channel();
 
     bool    isAdmin(Client &client);
@@ -20,6 +21,5 @@ public:
     void    setAdmin(Client &client);
     void    setClient(Client &client);
 };
-
 
 #endif //IRC_CHANNEL_H

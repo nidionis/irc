@@ -122,14 +122,9 @@ void	Server::sendCmds(Client &client) {
 }
 
 void	Server::handle(char *buffer, Client &client) {
-    (void)client;
-    (void)buffer;
     processCommand(*this, client, buffer);
-    //if (!strncmp(buffer, "CAP LS ", 7)) {
-    //    sendCmds(client);
-    //} else if (!strncmp(buffer, "NICK ", 5)) {
-    //    client.setNickname(buffer);
-    //} else {
-    //    sendClient(client, "isn't a cmd\n");
-    //}
+}
+
+void Server::pushChannel(Channel &channel) {
+    this->channels.push_back(channel);
 }

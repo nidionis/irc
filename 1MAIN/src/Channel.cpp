@@ -11,7 +11,8 @@ Channel::~Channel() {
     this->admins.clear();
 }
 
-Channel::Channel(Client &client) {
+Channel::Channel(Client &client, std::string &name) {
+    this->name = name;
     this->clients.push_back(client);
     this->admins.push_back(client);
 }

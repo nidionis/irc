@@ -28,4 +28,7 @@ void cmdJoin(Server &server, Client &client, std::string input);
 void cmdPart(Server &server, Client &client, std::string input);
 void cmdPrivmsg(Server &server, Client &client, std::string input);
 
+// /!\ must be vreated using createChannel only -> use malloc by server and added by client
+void createChannel(Server &server, Client &client, std::string channel_str);
+
 #endif // HANDLE_HPP

@@ -54,7 +54,7 @@ public:
     void	            applyRequest(char *buffer, Client &client);
     void	            sendCmds(Client &client);
 
-    Channel             &newChannel(Client &client);
+    void                pushChannel(Channel &channel);
 };
 
 #endif //SERVER_HPP

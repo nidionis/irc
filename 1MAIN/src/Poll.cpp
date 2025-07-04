@@ -61,7 +61,7 @@ void Server::pollClientHandler(poll_data* p_data)
 
 void	Server::pollClientConnect(poll_data* p_data)
 {
-    this->vector_clients.push_back(Client());
+    this->vector_clients.push_back(Client(this));
     Client&	new_client = this->vector_clients.back();
 
     new_client.fd_client_socket = accept(this->fd_server_socket,
