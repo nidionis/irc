@@ -27,6 +27,7 @@ SRCS = main.cpp \
        Server.cpp \
        Poll.cpp \
        Handle.cpp \
+       Channel.cpp \
        Client.cpp
 
 # Object files

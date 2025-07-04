@@ -40,10 +40,9 @@
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
 
-//struct s_cmd {
-//    std::string header;
-//    void        (*f)(std::string input);
-//} t_cmd;
+class Server;
+class Client;
+class Channel;
 
 struct poll_data
 {
@@ -56,6 +55,8 @@ struct poll_data
 void	pollDataCleanup(poll_data* poll_data);
 bool	cmpHead(const std::string str1, const std::string str2);
 
+# include <Handle.hpp>
+# include <Channel.hpp>
 # include <Server.hpp>
 # include <Client.hpp>
 

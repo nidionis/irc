@@ -13,8 +13,11 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 # define SERV_NAME "ircSchoolProject"
+# include <Client.hpp>
+# include <Channel.hpp>
 
-class	Client;
+//class	Channel;
+//class	Client;
 
 class	Server
 {
@@ -24,6 +27,7 @@ private:
 	int					fd_server_socket;
 	char				buffer[BUFFER_SIZE];
 	std::vector<Client>	vector_clients;
+    std::vector<Channel> channels;
 
 	void				initServerSocket(void);
 	void				setServerSockopt(void);
@@ -46,10 +50,11 @@ public:
 
 	ssize_t				sendClient(Client &cli, std::string msg);
     Client              &getClient(int i);
-    //void				sendClient(Client &cli, std::string &msg);
     void	            handle(char *buffer, Client &client);
     void	            applyRequest(char *buffer, Client &client);
     void	            sendCmds(Client &client);
+
+    Channel             &newChannel(Client &client);
 };
 
 #endif //SERVER_HPP

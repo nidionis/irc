@@ -18,12 +18,20 @@ Client::Client(void)
 	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
 	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
 	this->fd_client_socket = -1;
+    this->_nickname = "";
+    this->_username = "";
+    this->_realname = "";
+    this->_hostname = "";
 	return ;
 }
 
 Client::~Client(void)
 {
 	return ;
+}
+
+bool Client::operator==(const Client &other) const {
+    return this->fd_client_socket == other.fd_client_socket;
 }
 
 void				Client::clientCleanup(void)

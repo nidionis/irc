@@ -1,3 +1,6 @@
+/rawlog <filename>
+
+
 << CAP LS
 << NICK nidionis
 << USER nidionis nidionis irc.libera.chat :Nicolas Dionis

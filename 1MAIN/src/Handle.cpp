@@ -3,6 +3,7 @@
 //
 
 #include <Handle.hpp>
+#include <Channel.hpp>
 
 std::string trim(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\n\r");
@@ -30,46 +31,50 @@ std::string getNextWds(const std::string& str) {
 }
 
 void cmdCap(Server &server, Client &client, std::string args) {
-    (void) server;
     //should wait NICK an USER
     if (getHead(args) == "LS") {
         server.sendClient(client, "CAP * LS :");
         server.sendClient(client, "une liste de commandes implementees");
         server.sendClient(client, "\n");;
     }
+    // should wait a cap end
 }
 
 void cmdNick(Server &server, Client &client, std::string input) {
-    (void) server;
-    client.setNickname(input);
+    if (input != "") {
+        std::string nick = getHead(input);
+        client.setNickname(nick);
+    }
     server.sendClient(client, "NICK :You are now known as " + client.getNickname() + "\r\n");
     server.sendClient(client, "input: " + input + "\r\n");
 }
 
 void cmdUser(Server &server, Client &client, std::string input) {
-    (void) server;
-    server.sendClient(client, "USER :You are now known as " + client.getNickname() + "\r\n");
+    if (input != "") {
+        std::string user = getHead(input);
+        client.setUsername(user);
+    }
+    server.sendClient(client, "USER :You are now known as " + client.getUsername() + "\r\n");
     server.sendClient(client, "input: " + input + "\r\n");
-    // Handle USER command
 }
 
 void cmdJoin(Server &server, Client &client, std::string input) {
     (void) server;
-    server.sendClient(client, "JOIN :You are now known as " + client.getNickname() + "\r\n");
+    std::string channel = getHead(input);
+    if (channel != "") {
+        return ;
+    }
     server.sendClient(client, "input: " + input + "\r\n");
-    // Handle JOIN command
 }
 
 void cmdPart(Server &server, Client &client, std::string input) {
     (void) server;
-    server.sendClient(client, "PART :You are now known as " + client.getNickname() + "\r\n");
     server.sendClient(client, "input: " + input + "\r\n");
     // Handle PART command
 }
 
 void cmdPrivmsg(Server &server, Client &client, std::string input) {
     (void) server;
-    server.sendClient(client, "PRIVMSG :You are now known as " + client.getNickname() + "\r\n");
     server.sendClient(client, "input: " + input + "\r\n");
     // Handle PRIVMSG command
 }
