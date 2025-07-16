@@ -51,7 +51,7 @@ void Server::pollClientHandler(poll_data* p_data)
     } else {
         try {
             pollClientRecv(p_data);
-        } catch (const std::exception err) {
+        } catch (const std::exception &err) {
             err.what();
         }
         //answerClient(p_data);//, request);

@@ -4,6 +4,7 @@
 
 #include <Handle.hpp>
 #include <Channel.hpp>
+#include <iostream>
 
 std::string trim(const std::string& str) {
     size_t first = str.find_first_not_of(" \t\n\r");
@@ -16,7 +17,8 @@ std::string trim(const std::string& str) {
 
 std::string getHead(const std::string& str) {
     size_t pos = str.find(' ');
-    return (pos != std::string::npos) ? str.substr(0, pos) : trim(str);
+    std::string head = (pos != std::string::npos) ? str.substr(0, pos) : str;
+    return trim(head);
 }
 
 std::string getNextWds(const std::string& str) {
@@ -33,9 +35,12 @@ std::string getNextWds(const std::string& str) {
 void cmdCap(Server &server, Client &client, std::string args) {
     (void) server;
     //should wait NICK an USER
+    std::cout << "[cmdCap] args: " << args << "\n";
+        std::cout << "[cmdCap] getHead: " << getHead(args) << "\n";
     if (getHead(args) == "LS") {
         client.send("CAP * LS :");
         client.send("une liste de commandes implementees");
+        client.send("CAP END");
         client.send("\n");;
     }
     // should wait a cap end
