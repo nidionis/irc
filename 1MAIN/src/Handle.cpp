@@ -32,6 +32,13 @@ std::string getNextWds(const std::string& str) {
     return str.substr(pos);
 }
 
+std::string isValidName(const std::string& str) {
+    if (str.length() > 0 && str.length() < LEN_MAX_NAME) {
+        return str;
+    }
+    throw (std::runtime_error("Invalid name"));
+}
+
 void cmdCap(Server &server, Client &client, std::string args) {
     (void) server;
     //should wait NICK an USER
@@ -39,7 +46,7 @@ void cmdCap(Server &server, Client &client, std::string args) {
         std::cout << "[cmdCap] getHead: " << getHead(args) << "\n";
     if (getHead(args) == "LS") {
         client.send("CAP * LS :");
-        client.send("une liste de commandes implementees");
+        client.send(" CAP * LS : https://ircv3.net/specs/extensions/capability-negotiation");
         client.send("CAP END");
         client.send("\n");;
     }
@@ -48,9 +55,12 @@ void cmdCap(Server &server, Client &client, std::string args) {
 
 void cmdNick(Server &server, Client &client, std::string input) {
     (void) server;
+    std::string nick = getHead(input);
     if (input != "") {
-        std::string nick = getHead(input);
-        client.setNickname(nick);
+        if (client.getNickname() == "")
+            client.setNickname(nick);
+        else
+            client.send("NICK :Nickname already in use\r\n");
     }
     client.send("NICK :You are now known as " + client.getNickname() + "\r\n");
     client.send("input: " + input + "\r\n");
