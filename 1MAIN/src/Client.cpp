@@ -53,21 +53,6 @@ void Client::clientCleanup(void)
     return;
 }
 
-std::string& Client::getNickname(void) { return this->_nickname; }
-
-void Client::setNickname(std::string buffer)
-{
-    this->_nickname = buffer;
-}
-
-std::string& Client::getUsername(void) { return this->_username; }
-void Client::setUsername(std::string buffer) { this->_username = buffer; }
-
-std::string& Client::getRealname(void) { return this->_realname; }
-void Client::setRealname(std::string buffer) { this->_realname = buffer; }
-std::string& Client::getHostname(void) { return this->_hostname; }
-void Client::setHostname(std::string buffer) { this->_hostname = buffer; }
-
 Channel* Client::newChannel(std::string& name)
 {
     Channel* channel = new Channel(*this, name);

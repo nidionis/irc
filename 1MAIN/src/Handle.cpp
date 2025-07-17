@@ -64,7 +64,7 @@ void cmdNick(Server &server, Client &client, std::string input) {
         else
             client.setNickname(nick);
     } else
-    client.send("NICK :You are now known as " + client.getNickname() + "\r\n");
+        client.send("NICK :You are now known as " + client.getNickname() + "\r\n");
 }
 
 void cmdUser(Server &server, Client &client, std::string input) {

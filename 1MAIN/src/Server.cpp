@@ -132,11 +132,35 @@ void	Server::handle(char *buffer, Client &client) {
 
 bool	Server::hasNick(std::string const &nick)
 {
-	std::string	client_name;
+	std::string	name;
 	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
 	{
-		client_name = this->vector_clients[i].getNickname();
-		if (client_name == nick)
+		name = this->vector_clients[i].getNickname();
+		if (name == nick)
+			return (true);
+	}
+	return (false);
+}
+
+bool	Server::hasUser(std::string const &nick)
+{
+	std::string	name;
+	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
+	{
+		name = this->vector_clients[i].getUsername();
+		if (name == nick)
+			return (true);
+	}
+	return (false);
+}
+
+bool	Server::hasChannel(std::string const &nick)
+{
+	std::string	name;
+	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
+	{
+		name = this->vector_clients[i].getUsername();
+		if (name == nick)
 			return (true);
 	}
 	return (false);
