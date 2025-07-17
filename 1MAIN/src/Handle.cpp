@@ -56,24 +56,28 @@ void cmdCap(Server &server, Client &client, std::string args) {
 void cmdNick(Server &server, Client &client, std::string input) {
     (void) server;
     std::string nick = getHead(input);
-    if (input != "") {
-        if (client.getNickname() == "")
-            client.setNickname(nick);
+    if (nick != "") {
+        if (client.getNickname() != "") {
+            client.send("NICK :Nickname already set\r\n"); return; }
+        if (server.hasNick(nick))
+            client.send("NICK :Nickname already attributed\r\n");
         else
-            client.send("NICK :Nickname already in use\r\n");
-    }
+            client.setNickname(nick);
+    } else
     client.send("NICK :You are now known as " + client.getNickname() + "\r\n");
-    client.send("input: " + input + "\r\n");
 }
 
 void cmdUser(Server &server, Client &client, std::string input) {
     (void) server;
-    if (input != "") {
-        std::string user = getHead(input);
-        client.setUsername(user);
+    std::string user = getHead(input);
+    if (input != "")
+    {
+        if (client.getUsername() == "")
+            client.setUsername(user);
+        else
+            client.send("USER :Username already in use\r\n");
     }
     client.send("USER :You are now known as " + client.getUsername() + "\r\n");
-    client.send("input: " + input + "\r\n");
 }
 
 void cmdJoin(Server &server, Client &client, std::string input) {

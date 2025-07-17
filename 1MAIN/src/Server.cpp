@@ -12,8 +12,13 @@
 
 #include "main.hpp"
 #include "Server.hpp"
+
+#include <string>
+#include <vector>
+
 #include "Client.hpp"
 #include "Handle.hpp"
+#include "../include/Client.hpp"
 
 void processCommand(Server &server, Client &client, std::string input);
 
@@ -123,6 +128,18 @@ void	Server::sendCmds(Client &client) {
 
 void	Server::handle(char *buffer, Client &client) {
     processCommand(*this, client, buffer);
+}
+
+bool	Server::hasNick(std::string const &nick)
+{
+	std::string	client_name;
+	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
+	{
+		client_name = this->vector_clients[i].getNickname();
+		if (client_name == nick)
+			return (true);
+	}
+	return (false);
 }
 
 void Server::pushChannel(Channel &channel) {

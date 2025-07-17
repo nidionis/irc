@@ -54,6 +54,8 @@ public:
     void	            applyRequest(char *buffer, Client &client);
     void	            sendCmds(Client &client);
 
+	bool				hasNick(std::string const &nick);
+
     void                pushChannel(Channel &channel);
 };
 
