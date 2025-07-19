@@ -15,25 +15,53 @@
 
 Client::Client(void)
 {
-	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
-	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
-	this->fd_client_socket = -1;
-	return ;
+    throw (std::runtime_error("client must be set with a server"));
+}
+
+Client::Client(Server* server)
+{
+    this->server = server;
+    memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
+    this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
+    this->fd_client_socket = -1;
+    this->_nickname = "";
+    this->_username = "";
+    this->_realname = "";
+    this->_hostname = "";
+    return;
 }
 
 Client::~Client(void)
 {
-	return ;
+    return;
 }
 
-void				Client::clientCleanup(void)
+bool Client::operator==(const Client& other) const
 {
-	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
-	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
-	if (this->fd_client_socket != -1)
-	{
-		close(this->fd_client_socket);
-		this->fd_client_socket = -1;
-	}
-	return ;
+    return this->fd_client_socket == other.fd_client_socket;
+}
+
+void Client::clientCleanup(void)
+{
+    memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
+    this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
+    if (this->fd_client_socket != -1)
+    {
+        close(this->fd_client_socket);
+        this->fd_client_socket = -1;
+    }
+    return;
+}
+
+Channel* Client::newChannel(std::string& name)
+{
+    Channel* channel = new Channel(*this, name);
+    this->server->pushChannel(*channel);
+    this->channels.push_back(*channel);
+    return channel;
+}
+
+ssize_t Client::send(std::string msg)
+{
+    return (this->server->sendClient(*this, msg));
 }

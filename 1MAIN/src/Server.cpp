@@ -12,10 +12,19 @@
 
 #include "main.hpp"
 #include "Server.hpp"
+
+#include <string>
+#include <vector>
+
 #include "Client.hpp"
+#include "Handle.hpp"
+#include "../include/Client.hpp"
+
+void processCommand(Server &server, Client &client, std::string input);
 
 Server::Server(void)
 {
+    this->_name = SERV_NAME;
 	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
 	this->IPv4_serv_sock_addr.sin_family = AF_INET;
 	this->IPv4_serv_sock_addr.sin_port = htons(PORT);
@@ -44,10 +53,11 @@ void	Server::serverSetup(void)
 void				Server::initServerSocket(void)
 {
 	this->fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (this->fd_server_socket == -1)
-		{ throw (std::runtime_error("socket() error")); }
-	if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1)
-		{ throw (std::runtime_error("fcntl() error")); }
+	if (this->fd_server_socket == -1) {
+        throw (std::runtime_error("socket() error"));
+    } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
+        throw (std::runtime_error("fcntl() error"));
+    }
 	return ;
 }
 
@@ -55,17 +65,19 @@ void				Server::setServerSockopt(void)
 {
 	int	opt_toggle = 1;
 	
-	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle)) == -1)
-		{ throw (std::runtime_error("setsockopt() SO_REUSEADDR error")); }
-	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle)) == -1)
-		{ throw (std::runtime_error("setsockopt() SO_KEEPALIVE error")); }
+	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle)) == -1) {
+        throw (std::runtime_error("setsockopt() SO_REUSEADDR error"));
+    } if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle)) == -1) {
+        throw (std::runtime_error("setsockopt() SO_KEEPALIVE error"));
+    }
 	return ;
 }
 
 void				Server::bindServerSocket(void)
 {
-	if (bind(this->fd_server_socket, (struct sockaddr *)&this->IPv4_serv_sock_addr, sizeof(this->IPv4_serv_sock_addr)) == -1)
-		{ throw (std::runtime_error("bind() error")); }
+	if (bind(this->fd_server_socket, (struct sockaddr *)&this->IPv4_serv_sock_addr, sizeof(this->IPv4_serv_sock_addr)) == -1) {
+        throw (std::runtime_error("bind() error"));
+    }
 	return ;
 }
 
@@ -74,126 +86,6 @@ void				Server::listenServerSocket(void)
 	if (listen(this->fd_server_socket, QUEUE_SIZE) == -1)
 		{ throw (std::runtime_error("listen() error")); }
 	return ;
-}
-
-void Server::pollLoop(void)
-{
-	poll_data poll_data;
-	
-	poll_data.fd_i = 1;
-	poll_data.err_check = 0;
-	poll_data.fds[0].fd = this->fd_server_socket;
-	poll_data.fds[0].events = POLLIN;
-	while (true)
-	{
-		poll_data.err_check = poll(poll_data.fds, poll_data.fd_i, -1);
-		if (poll_data.err_check == -1)
-		{
-			if (errno == EINTR) { continue; }
-			else { pollDataCleanup(&poll_data); throw (std::runtime_error("poll() error")); }
-		}
-		for (poll_data.i = 0; poll_data.i < poll_data.fd_i; poll_data.i++)
-		{
-			if (poll_data.fds[poll_data.i].revents & (POLLERR | POLLHUP | POLLNVAL))
-				{ pollFailHandler(&poll_data); }
-			else if (poll_data.fds[poll_data.i].revents & POLLIN)
-				{ pollClientHandler(&poll_data); }
-		}
-	}
-	return;
-}
-
-void Server::pollFailHandler(poll_data* poll_data)
-{
-	std::cout << "Error/hangup on fd: " << poll_data->fds[poll_data->i].fd << ". Closing." << std::endl;
-	close(poll_data->fds[poll_data->i].fd);
-	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_i - 1];
-	poll_data->fd_i--;
-	poll_data->i--;
-	return;
-}
-
-void Server::pollClientHandler(poll_data* poll_data)
-{
-	if (poll_data->fds[poll_data->i].fd == this->fd_server_socket)
-		{ pollClientConnect(poll_data); }
-	else
-		{ pollClientRecv(poll_data); }
-	return ;
-}
-
-void	Server::pollClientConnect(poll_data* poll_data)
-{
-	this->vector_clients.push_back(Client());
-	Client&	new_client = this->vector_clients.back();
-	
-	new_client.fd_client_socket = accept(this->fd_server_socket,
-		(struct sockaddr *)&new_client.IPv4_client_sock_addr, &new_client.client_addrlen);
-	if (new_client.fd_client_socket == -1)
-	{
-		this->vector_clients.pop_back();
-		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
-			{ std::cerr << "error: Client connection failed." << std::endl; return ; }
-		else { pollDataCleanup(poll_data); throw (std::runtime_error("accept() error")); }
-	}
-	if (fcntl(new_client.fd_client_socket, F_SETFL, O_NONBLOCK) == -1)
-		{ pollDataCleanup(poll_data); throw (std::runtime_error("fcntl() error")); }
-	if (poll_data->fd_i < MAX_CONNECTIONS)
-	{
-		poll_data->fds[poll_data->fd_i].fd = new_client.fd_client_socket;
-		poll_data->fds[poll_data->fd_i].events = POLLIN;
-		poll_data->fd_i++;
-		std::cout << "Client connected: " << inet_ntoa(new_client.IPv4_client_sock_addr.sin_addr)
-				  << ':' << ntohs(new_client.IPv4_client_sock_addr.sin_port) << std::endl;
-	}
-	else
-	{
-		std::cout << "Error: MAX_CONNECTIONS (" << MAX_CONNECTIONS << ") reached." << std::endl;
-		close(new_client.fd_client_socket);
-		new_client.fd_client_socket = -1;
-	}
-	return ;
-}
-
-void	Server::pollClientRecv(poll_data* poll_data)
-{
-	ssize_t	recv_read;
-
-	memset(buffer, 0, BUFFER_SIZE);
-	recv_read = recv(poll_data->fds[poll_data->i].fd, buffer, (BUFFER_SIZE - 1), 0);
-	if (recv_read == -1)
-	{
-		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
-			{ std::cerr << "error: Client read failed." << std::endl; return ; }
-		else { pollClientDisconnect(poll_data); pollDataCleanup(poll_data); throw (std::runtime_error("recv() error")); }
-	}
-	else if (recv_read == 0)
-		{ pollClientDisconnect(poll_data); }
-	else
-	{
-		if (recv_read < BUFFER_SIZE) { buffer[recv_read] = '\0'; }
-		else { buffer[BUFFER_SIZE - 1] = '\0'; }
-		std::cout << "Received from fd " << poll_data->fds[poll_data->i].fd << ": " << buffer << std::flush;
-	}
-	return ;
-}
-
-void	Server::pollClientDisconnect(poll_data* poll_data)
-{
-	std::cout << "Client on fd " << poll_data->fds[poll_data->i].fd << " disconnected." << std::endl;
-	for (size_t i = 0; i < this->vector_clients.size(); i++)
-	{
-		if (this->vector_clients[i].fd_client_socket == poll_data->fds[poll_data->i].fd)
-		{
-			this->vector_clients.erase(this->vector_clients.begin() + i);
-			break ;
-		}
-	}
-	close(poll_data->fds[poll_data->i].fd);
-	poll_data->fds[poll_data->i] = poll_data->fds[poll_data->fd_i - 1];
-	poll_data->fd_i--;
-	poll_data->i--;
-	return;
 }
 
 void				Server::serverCleanup(void)
@@ -209,4 +101,71 @@ void				Server::serverCleanup(void)
 	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
 	memset(this->buffer, 0, BUFFER_SIZE);
 	return ;
+}
+
+ssize_t 		Server::sendClient(Client &cli, std::string msg) {
+    int byte_sent;
+    int flags = MSG_DONTWAIT; // | MSG_NOSIGNAL;
+    byte_sent = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
+    if (byte_sent < 0) {
+        throw (std::runtime_error("sending client error"));
+    }
+    return byte_sent;
+}
+
+Client&	Server::getClient(int i) {
+    for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
+        if (!--i) { //i comes from p_data->i, which start at 1 (and i'ts dangerous)
+            return *it;
+        }
+    }
+    throw (std::runtime_error("client not found"));
+}
+
+void	Server::sendCmds(Client &client) {
+    sendClient(client, "CAP LS :multi-prefix\n");
+}
+
+void	Server::handle(char *buffer, Client &client) {
+    processCommand(*this, client, buffer);
+}
+
+bool	Server::hasNick(std::string const &nick)
+{
+	std::string	name;
+	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
+	{
+		name = this->vector_clients[i].getNickname();
+		if (name == nick)
+			return (true);
+	}
+	return (false);
+}
+
+bool	Server::hasUser(std::string const &nick)
+{
+	std::string	name;
+	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
+	{
+		name = this->vector_clients[i].getUsername();
+		if (name == nick)
+			return (true);
+	}
+	return (false);
+}
+
+bool	Server::hasChannel(std::string const &nick)
+{
+	std::string	name;
+	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
+	{
+		name = this->vector_clients[i].getUsername();
+		if (name == nick)
+			return (true);
+	}
+	return (false);
+}
+
+void Server::pushChannel(Channel &channel) {
+    this->channels.push_back(channel);
 }

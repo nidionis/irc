@@ -15,6 +15,8 @@
 
 # include <iostream>
 # include <string>
+# include <sstream>
+# include <algorithm>
 # include <cstring>
 # include <cstdlib>
 # include <cerrno>
@@ -37,15 +39,26 @@
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
+# define LEN_MAX_NAME 16
+
+class Server;
+class Client;
+class Channel;
 
 struct poll_data
 {
 	struct pollfd		fds[MAX_CONNECTIONS];
-	int					fd_i;
+	int					fd_nb;
 	int					i;
 	int					err_check;
 };
 
 void	pollDataCleanup(poll_data* poll_data);
+bool	cmpHead(const std::string str1, const std::string str2);
+
+# include <Handle.hpp>
+# include <Channel.hpp>
+# include <Server.hpp>
+# include <Client.hpp>
 
 #endif // MAIN_HPP
