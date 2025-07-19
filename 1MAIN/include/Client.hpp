@@ -17,11 +17,11 @@
 class Client
 {
 private:
-    Server      *server;
-    std::string _nickname;
-    std::string _username;
-    std::string _realname;
-    std::string _hostname;
+    Server              	*server;
+    std::string         	_nickname;
+    std::string         	_username;
+    std::string         	_realname;
+    std::string         	_hostname;
     std::vector<Channel>    channels;
 
 public:
@@ -46,6 +46,7 @@ public:
     void				clientCleanup(void);
 
     Channel             *newChannel(std::string &name);
+    void                *delChannel(Channel &channel);
     ssize_t             send(std::string msg);
 };
 

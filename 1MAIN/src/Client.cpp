@@ -67,6 +67,13 @@ Channel*	Client::newChannel(std::string &name) {
     return channel;
 }
 
+void *Client::delChannel(Channel &channel) {
+    if (::find(this->channels.begin(), this->channels.end(), channel) != this->channels.end()) {
+        this->channels.erase(::find(this->channels.begin(), this->channels.end(), channel));
+        this->server->delChannel(channel);
+    }
+}
+
 ssize_t Client::send(std::string msg) {
     return (this->server->sendClient(*this, msg));
 }
