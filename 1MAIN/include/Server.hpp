@@ -15,6 +15,7 @@
 # define SERV_NAME "ircSchoolProject"
 # include <Client.hpp>
 # include <Channel.hpp>
+#include <string>
 
 //class	Channel;
 //class	Client;
@@ -53,6 +54,10 @@ public:
     void	            handle(char *buffer, Client &client);
     void	            applyRequest(char *buffer, Client &client);
     void	            sendCmds(Client &client);
+
+	bool				hasNick(std::string const &nick);
+	bool				hasUser(std::string const &user);
+	bool				hasChannel(std::string const &channel);
 
     void                pushChannel(Channel &channel);
 };

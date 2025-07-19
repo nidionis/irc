@@ -14,6 +14,10 @@
 # define CLIENT_HPP
 # include <main.hpp>
 
+#define GETTER_SETTER(type, name, f_name) \
+	type get##f_name() { return name; } \
+	void set##f_name(type value) { name = value; }
+
 class Client
 {
 private:
@@ -25,6 +29,10 @@ private:
     std::vector<Channel>    channels;
 
 public:
+	GETTER_SETTER(std::string, _nickname, Nickname)
+	GETTER_SETTER(std::string, _username, Username)
+	GETTER_SETTER(std::string, _realname, Realname)
+	GETTER_SETTER(std::string, _hostname, Hostname)
 
 	struct sockaddr_in	IPv4_client_sock_addr;
 	int					fd_client_socket;
@@ -34,16 +42,7 @@ public:
     Client(Server *server);
 	~Client(void);
     bool operator==(const Client &other) const;
-
-    void				setNickname(std::string buffer);
-    std::string         &getNickname(void);
-    void            	setUsername(std::string buffer);
-    std::string         &getUsername(void);
-    void                setRealname(std::string buffer);
-    std::string         &getRealname(void);
-    void                setHostname(std::string buffer);
-    std::string         &getHostname(void);
-    void				clientCleanup(void);
+	void clientCleanup(void);
 
     Channel             *newChannel(std::string &name);
     void                *delChannel(Channel &channel);

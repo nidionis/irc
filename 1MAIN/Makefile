@@ -12,7 +12,7 @@
 
 # Compiler settings
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -pedantic -g3 -fsanitize=leak,address,undefined,integer,null,float-divide-by-zero
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -pedantic -g3 -fsanitize=leak,address,undefined,null,float-divide-by-zero
 DEBUG_FLAGS = -g3 -O0 -DDEBUG
 
 # Project settings
