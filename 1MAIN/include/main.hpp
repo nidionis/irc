@@ -14,7 +14,6 @@
 # define MAIN_HPP
 
 # include <iostream>
-# include <string>
 # include <sstream>
 # include <algorithm>
 # include <cstring>
@@ -33,13 +32,13 @@
 # include <poll.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <utils_strings.hpp>
 
 # define BUFFER_SIZE 1024
 # define PORT 6667
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
-# define LEN_MAX_NAME 16
 
 class Server;
 class Client;
