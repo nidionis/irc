@@ -1,0 +1,5 @@
+<< CAP LS 302%0A
+>> CAP * LS : CAP * LS : https://ircv3.net/specs/extensions/capability-negotiationCAP END%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> USER :You are now known as TestIdent%0A

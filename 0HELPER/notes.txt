@@ -1,0 +1,19 @@
+/connect [servername]
+/join [channelname]
+/part [channelname]
+/raw open
+/disconnect
+
+IP LOCAL LAN : ip -4 addr show | grep inet
+
+address = "irc.dal.net";       chatnet = "DALnet";     port = "6667";
+address = "irc.efnet.org";     chatnet = "EFNet";      port = "6667";
+address = "irc.esper.net";     chatnet = "EsperNet";   port = "6667";
+address = "irc.libera.chat";   chatnet = "liberachat"; port = "6667";
+address = "irc.gamesurge.net"; chatnet = "GameSurge";  port = "6667";
+address = "open.ircnet.net";   chatnet = "IRCnet";     port = "6667";
+address = "irc.ircsource.net"; chatnet = "IRCSource";  port = "6667";
+address = "irc.oftc.net";      chatnet = "OFTC";       port = "6667";
+address = "irc.quakenet.org";  chatnet = "QuakeNet";   port = "6667";
+address = "irc.rizon.net";     chatnet = "Rizon";      port = "6667";
+address = "irc.undernet.org";  chatnet = "Undernet";   port = "6667";
