@@ -17,6 +17,10 @@ Channel::Channel(Client &client, std::string &name) {
     this->admins.push_back(client);
 }
 
+bool Channel::operator==(const Channel &other) const {
+    return this->name == other.name;
+}
+
 bool Channel::isAdmin(Client &client) {
     if (std::find(this->admins.begin(), this->admins.end(), client) != this->admins.end()) {
         return true;

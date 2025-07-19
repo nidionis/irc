@@ -45,7 +45,7 @@ public:
 	void clientCleanup(void);
 
     Channel             *newChannel(std::string &name);
-    void                *delChannel(Channel &channel);
+    void                delChannel(Channel &channel);
     ssize_t             send(std::string msg);
 };
 

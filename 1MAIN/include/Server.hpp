@@ -60,6 +60,7 @@ public:
 	bool				hasChannel(std::string const &channel);
 
     void                pushChannel(Channel &channel);
+    void                delChannel(Channel &channel);
 };
 
 #endif //SERVER_HPP

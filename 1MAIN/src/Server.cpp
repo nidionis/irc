@@ -169,3 +169,11 @@ bool	Server::hasChannel(std::string const &nick)
 void Server::pushChannel(Channel &channel) {
     this->channels.push_back(channel);
 }
+
+void Server::delChannel(Channel &channel) {
+    std::vector<Channel>::iterator it = std::find(channels.begin(), channels.end(), channel);
+    if (it != channels.end()) {
+        delete &(*it);
+        channels.erase(it);
+    }
+}

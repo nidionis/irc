@@ -14,6 +14,7 @@ public:
     std::string name;
     Channel();
     Channel(Client &client, std::string &name);
+    bool operator==(const Channel &other) const;
     ~Channel();
 
     bool    isAdmin(Client &client);
