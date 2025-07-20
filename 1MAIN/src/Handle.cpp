@@ -8,14 +8,11 @@
 
 void cmdCap(Server &server, Client &client, std::string args) {
     (void) server;
-    //should wait NICK an USER
-    std::cout << "[cmdCap] args: " << args << "\n";
-        std::cout << "[cmdCap] getHead: " << getHead(args) << "\n";
+    std::cout << "[cmdCap] args:" << args << std::endl;
     if (getHead(args) == "LS") {
-        client.send("CAP * LS :");
-        client.send(" CAP * LS : https://ircv3.net/specs/extensions/capability-negotiation");
-        client.send("CAP END");
-        client.send("\n");;
+        capLS(server, client, getNextWds(args));
+    } else if (getHead(args) == "REQ") {
+        capREQ(server, client, getNextWds(args));
     }
     // should wait a cap end
 }
@@ -24,10 +21,8 @@ void cmdNick(Server &server, Client &client, std::string input) {
     (void) server;
     std::string nick = getHead(input);
     if (nick != "") {
-        if (client.getNickname() != "") {
-            client.send("NICK :Nickname already set\r\n"); return; }
         if (server.hasNick(nick))
-            client.send("NICK :Nickname already attributed\r\n");
+            client.send("NICK :NickName already in use\r\n");
         else
             client.setNickname(nick);
     } else
@@ -39,10 +34,10 @@ void cmdUser(Server &server, Client &client, std::string input) {
     std::string user = getHead(input);
     if (input != "")
     {
-        if (client.getUsername() == "")
-            client.setUsername(user);
-        else
+        if (server.hasUser(user))
             client.send("USER :Username already in use\r\n");
+        else
+            client.setUsername(user);
     }
     client.send("USER :You are now known as " + client.getUsername() + "\r\n");
 }
@@ -66,7 +61,7 @@ void cmdPrivmsg(Server &server, Client &client, std::string input) {
     // Handle PRIVMSG command
 }
 
-static const struct s_cmd commands[] = {
+static const struct s_cmd commands [] = {
         {"CAP",     &cmdCap },
         {"NICK",    &cmdNick},
         {"USER",    &cmdUser},
@@ -85,4 +80,5 @@ void processCommand(Server &server, Client &client, std::string input) {
             return;
         }
     }
+    client.send("[processCommand]: Invalid command\n");
 }
