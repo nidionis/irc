@@ -10,9 +10,9 @@ void cmdCap(Server &server, Client &client, std::string args) {
     (void) server;
     std::cout << "[cmdCap] args:" << args << std::endl;
     if (getHead(args) == "LS") {
-        capLS(server, client, getNextWds(args));
+        capLs(server, client, getNextWds(args));
     } else if (getHead(args) == "REQ") {
-        capREQ(server, client, getNextWds(args));
+        capReq(server, client, getNextWds(args));
     }
     // should wait a cap end
 }
@@ -60,16 +60,6 @@ void cmdPrivmsg(Server &server, Client &client, std::string input) {
     client.send("input: " + input + "\r\n");
     // Handle PRIVMSG command
 }
-
-static const struct s_cmd commands [] = {
-        {"CAP",     &cmdCap },
-        {"NICK",    &cmdNick},
-        {"USER",    &cmdUser},
-        {"JOIN",    &cmdJoin},
-        {"PART",    &cmdPart},
-        {"PRIVMSG", &cmdPrivmsg},
-        {"",        NULL} // Terminator
-};
 
 void processCommand(Server &server, Client &client, std::string input) {
     std::string cmd_flg = getHead(input);

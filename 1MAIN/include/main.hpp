@@ -33,6 +33,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <utils_strings.hpp>
+# include <capabilities.hpp>
 
 # define BUFFER_SIZE 1024
 # define PORT 6667

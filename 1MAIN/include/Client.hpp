@@ -19,6 +19,7 @@
 # define CHANNEL    2 // This prefix is used for channel operators, who have the ability to kick users, change modes, and manage the channel.
 # define ADMIN      3 // This prefix is given by servers or services and denotes that the user is a service, typically the highest ranking membership type in the channel.
 # define FOUNDER    4 // This prefix is used for founders, who have a rank higher than a normal operator
+//exemple of use: USER_PREFIXES[ADMIN]
 
 // # define CHANNEL_PREFIXES "#&!+.~"
 // # define WIDE_CHAN      0 //: This is the standard prefix for network-wide channels, which are known to all servers connected to the network.
