@@ -38,6 +38,7 @@ void capLs(Server& server, Client& client, std::string args)
     client.send("\n");
 }
 
+// as processCmd
 //apply function in req[] if asked by client by CAP REQ request
 // note : called by cmdCap
 void capReq(Server& server, Client& client, std::string caps)
@@ -49,8 +50,6 @@ void capReq(Server& server, Client& client, std::string caps)
     {
         for (int i = 0; req[i].f; i++)
         {
-            std::cout << "req[i].header: " << req[i].header << std::endl;
-            std::cout << "cap: " << cap << std::endl;
             if (cap == req[i].header) {
                 req[i].f(server, client, "");
             } else {

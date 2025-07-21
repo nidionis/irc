@@ -5,6 +5,7 @@
 #ifndef IRC_CHANNEL_H
 #define IRC_CHANNEL_H
 #include <Client.hpp>
+# define MAX_CHANNELS 2
 
 class Channel {
 private:
@@ -15,6 +16,7 @@ public:
     Channel();
     Channel(Client &client, std::string &name);
     bool operator==(const Channel &other) const;
+    Channel &operator=(const Channel &other);
     ~Channel();
 
     bool    isAdmin(Client &client);

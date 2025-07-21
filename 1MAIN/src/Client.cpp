@@ -13,6 +13,8 @@
 #include "main.hpp"
 #include "Client.hpp"
 
+#include <stdexcept>
+
 Client::Client(void)
 {
     throw (std::runtime_error("client must be set with a server"));
@@ -55,9 +57,14 @@ void Client::clientCleanup(void)
 
 Channel* Client::newChannel(std::string& name)
 {
+    if (this->channels.size() >= MAX_CHANNELS)
+    {
+        throw (std::runtime_error("too many channels"));
+    }
     Channel* channel = new Channel(*this, name);
     this->server->pushChannel(*channel);
     this->channels.push_back(*channel);
+    this->send("JOIN : Succefully created\r\n");
     return channel;
 }
 

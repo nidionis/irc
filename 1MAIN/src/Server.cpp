@@ -13,11 +13,15 @@
 #include "main.hpp"
 #include "Server.hpp"
 
+#include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
+#include <bits/ostream.tcc>
 
 #include "Client.hpp"
 #include "Handle.hpp"
+#include "../include/Channel.hpp"
 #include "../include/Client.hpp"
 
 void processCommand(Server &server, Client &client, std::string input);
@@ -110,6 +114,7 @@ ssize_t 		Server::sendClient(Client &cli, std::string msg) {
     if (byte_sent < 0) {
         throw (std::runtime_error("sending client error"));
     }
+	std::cout << "to " << cli.getNickname() << ": " << msg << std::endl;
     return byte_sent;
 }
 
@@ -122,9 +127,9 @@ Client&	Server::getClient(int i) {
     throw (std::runtime_error("client not found"));
 }
 
-void	Server::sendCmds(Client &client) {
-    sendClient(client, "CAP LS :multi-prefix\n");
-}
+//void	Server::sendCmds(Client &client) {
+//    sendClient(client, "CAP LS :multi-prefix\n");
+//}
 
 void	Server::handle(char *buffer, Client &client) {
     processCommand(*this, client, buffer);
@@ -176,4 +181,16 @@ void Server::delChannel(Channel &channel) {
         delete &(*it);
         channels.erase(it);
     }
+}
+
+Channel	&Server::getChannel(std::string const &channel_str)
+{
+	for (size_t i = 0; i < this->channels.size(); i++)
+	{
+		if (this->channels[i].name == channel_str)
+		{
+			return this->channels[i];
+		}
+	}
+	throw (std::runtime_error("channel not found"));
 }

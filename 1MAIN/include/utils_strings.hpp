@@ -11,6 +11,8 @@
 std::string trim(const std::string& str);
 std::string getHead(const std::string& str);
 std::string getNextWds(const std::string& str);
-std::string isValidName(const std::string& str);
+std::string lowerCase(const std::string& str);
+std::string upperCase(const std::string& str);
+bool isValidName(const std::string& str);
 
 #endif //UTILS_STRINGS_H

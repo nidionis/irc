@@ -6,6 +6,8 @@
 #include <Channel.hpp>
 #include <iostream>
 
+#include "../include/utils_strings.hpp"
+
 void cmdCap(Server &server, Client &client, std::string args) {
     (void) server;
     std::cout << "[cmdCap] args:" << args << std::endl;
@@ -46,7 +48,27 @@ void cmdJoin(Server &server, Client &client, std::string input) {
     (void) server;
     (void) client;
     std::string channel_str = getHead(input);
-    client.newChannel(channel_str);
+    Channel channel;
+    if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
+    {
+        try {
+            channel = server.getChannel(channel_str);
+            try {
+                channel.setClient(client);
+            } catch (std::runtime_error &err) {
+                client.send("JOIN :You are already in the channel\r\n");
+            }
+        } catch (const std::runtime_error &err) {
+            client.send("JOIN :Channel does not exist\r\n");
+            try {
+                client.newChannel(channel_str);
+            } catch (std::runtime_error &err) {
+                client.send("JOIN : failed :Too many channels\r\n");
+            }
+        }
+    } else {
+        client.send("JOIN :Invalid channel name\r\n");
+    }
 }
 
 void cmdPart(Server &server, Client &client, std::string input) {
@@ -62,10 +84,10 @@ void cmdPrivmsg(Server &server, Client &client, std::string input) {
 }
 
 void processCommand(Server &server, Client &client, std::string input) {
-    std::string cmd_flg = getHead(input);
+    std::string cmd_flg = upperCase(getHead(input));
     std::string cmd_arg = getNextWds(input);
     for (int i = 0; commands[i].f != NULL; i++) {
-        if ((cmd_flg == commands[i].header)) {
+        if (cmd_flg == commands[i].header) {
             commands[i].f(server, client, cmd_arg);
             return;
         }

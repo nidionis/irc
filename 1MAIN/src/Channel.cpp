@@ -4,6 +4,8 @@
 
 #include "../include/Channel.hpp"
 
+#include <stdexcept>
+
 Channel::Channel() {}
 
 Channel::~Channel() {
@@ -19,6 +21,14 @@ Channel::Channel(Client &client, std::string &name) {
 
 bool Channel::operator==(const Channel &other) const {
     return this->name == other.name;
+}
+Channel& Channel::operator=(const Channel& other) {
+    if (this != &other) {
+        name = other.name;
+        clients = other.clients;
+        admins = other.admins;
+    }
+    return *this;
 }
 
 bool Channel::isAdmin(Client &client) {
@@ -38,9 +48,21 @@ bool Channel::isClient(Client &client) {
 }
 
 void Channel::setAdmin(Client &client) {
+    if (this->isAdmin(client))
+    {
+        throw std::runtime_error("Client is already an admin");
+        return;
+    }
     this->admins.push_back(client);
+    client.send("you admin the channel\r\n");
 }
 
 void Channel::setClient(Client &client) {
+    if (this->isClient(client))
+    {
+        throw std::runtime_error("Client is already in the channel");
+        return;
+    }
     this->clients.push_back(client);
+    client.send("you joined the channel\r\n");
 }

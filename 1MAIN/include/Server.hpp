@@ -53,7 +53,7 @@ public:
     Client              &getClient(int i);
     void	            handle(char *buffer, Client &client);
     void	            applyRequest(char *buffer, Client &client);
-    void	            sendCmds(Client &client);
+    //void	            sendCmds(Client &client);
 
 	bool				hasNick(std::string const &nick);
 	bool				hasUser(std::string const &user);
@@ -61,6 +61,7 @@ public:
 
     void                pushChannel(Channel &channel);
     void                delChannel(Channel &channel);
+	Channel             &getChannel(std::string const &channel);
 };
 
 #endif //SERVER_HPP
