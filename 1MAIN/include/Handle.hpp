@@ -35,8 +35,6 @@ static const struct s_cmd commands [] = {
     {"NICK",    &cmdNick},
     {"USER",    &cmdUser},
     {"JOIN",    &cmdJoin},
-    {"PART",    &cmdPart},
-    {"PRIVMSG", &cmdPrivmsg},
     {"",        NULL} // Terminator
 };
 

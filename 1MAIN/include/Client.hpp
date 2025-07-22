@@ -13,6 +13,7 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 # include <main.hpp>
+#include <algorithm>
 # define USER_PREFIXES "+%@!."
 # define VOICED     0 // This prefix indicates a voiced user, who can speak while the channel is being moderated.
 # define HALF       1 // This prefix denotes a half-operator, who has limited privileges compared to a full operator.
@@ -35,12 +36,13 @@
 class Client
 {
 private:
-    Server              	*server;
-    std::string         	_nickname;
-    std::string         	_username;
-    std::string         	_realname;
-    std::string         	_hostname;
-    std::vector<Channel>    channels;
+    Server              		*server;
+    std::string         		_nickname;
+    std::string         		_username;
+    std::string         		_realname;
+    std::string         		_hostname;
+    std::vector<Channel>    	channels;
+	std::vector<std::string>    capabilities;
 
 public:
 	GETTER_SETTER(std::string, _nickname, Nickname)
@@ -61,6 +63,9 @@ public:
     Channel             *newChannel(std::string &name);
     void                delChannel(Channel &channel);
     ssize_t             send(std::string msg);
+	void				setCap(const std::string &cap);
+	void				resetCap(const std::string &cap);
+	bool				hasCap(const std::string &cap);
 };
 
 #endif //CLIENT_HPP

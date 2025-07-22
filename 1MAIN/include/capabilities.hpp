@@ -15,7 +15,8 @@ class Client;
 void multiPrefix(Server &server, Client &client, std::string input);
 void capLs(Server &server, Client &client, std::string args);
 void capReq(Server &server, Client &client, std::string caps);
+bool isCap(const std::string& cap);
 
-extern const struct s_cmd req[];
+extern const struct s_cmd cap_tab[];
 
 #endif //CAPABILITIES_H

@@ -71,18 +71,6 @@ void cmdJoin(Server &server, Client &client, std::string input) {
     }
 }
 
-void cmdPart(Server &server, Client &client, std::string input) {
-    (void) server;
-    client.send("input: " + input + "\r\n");
-    // Handle PART command
-}
-
-void cmdPrivmsg(Server &server, Client &client, std::string input) {
-    (void) server;
-    client.send("input: " + input + "\r\n");
-    // Handle PRIVMSG command
-}
-
 void processCommand(Server &server, Client &client, std::string input) {
     std::string cmd_flg = upperCase(getHead(input));
     std::string cmd_arg = getNextWds(input);

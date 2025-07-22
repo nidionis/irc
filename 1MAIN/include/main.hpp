@@ -21,7 +21,6 @@
 # include <cerrno>
 # include <csignal>
 # include <exception>
-#include <vector>
 
 # include <stdio.h>
 # include <string.h>
@@ -34,6 +33,7 @@
 # include <fcntl.h>
 # include <utils_strings.hpp>
 # include <capabilities.hpp>
+# include <vector_utils.hpp>
 
 # define BUFFER_SIZE 1024
 # define PORT 6667

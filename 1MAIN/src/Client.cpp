@@ -15,6 +15,9 @@
 
 #include <stdexcept>
 
+#include "capabilities.hpp"
+#include "../include/capabilities.hpp"
+
 Client::Client(void)
 {
     throw (std::runtime_error("client must be set with a server"));
@@ -77,4 +80,34 @@ void Client::delChannel(Channel& channel) {
 ssize_t Client::send(std::string msg)
 {
     return (this->server->sendClient(*this, msg));
+}
+
+void	Client::setCap(const std::string &cap)
+{
+    if (isCap(cap))
+    {
+        if (!is_in(this->capabilities, cap))
+        {
+            this->capabilities.push_back(cap);
+            this->send("CAP REQ : " + cap + " set\r\n");
+        }
+    }
+}
+
+void Client::resetCap(const std::string &cap)
+{
+    if (isCap(cap))
+    {
+        if (is_in(this->capabilities, cap))
+        {
+            std::vector<std::string>::iterator it = std::find(this->capabilities.begin(), this->capabilities.end(), cap);
+            this->capabilities.erase(it);
+            this->send("CAP REQ : " + cap + " reset\r\n");
+        }
+    }
+}
+
+bool    Client::hasCap(const std::string &cap)
+{
+    return is_in(this->capabilities, cap);
 }

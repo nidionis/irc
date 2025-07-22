@@ -26,6 +26,7 @@ INCLUDE_DIR = include
 SRCS = main.cpp \
        utils_strings.cpp \
        capabilities.cpp \
+       vector_utils.cpp \
        Server.cpp \
        Poll.cpp \
        Handle.cpp \
