@@ -75,6 +75,13 @@ void cmdJoin(Server &server, Client &client, std::string input) {
     }
 }
 
+void cmdMode(Server &server, Client &client, std::string input) {
+    (void) server;
+    (void) client;
+    (void) input;
+
+}
+
 void processCommand(Server &server, Client &client, std::string input) {
     std::string cmd_flg = upperCase(getHead(input));
     std::string cmd_arg = getNextWds(input);

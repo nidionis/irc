@@ -15,27 +15,17 @@ const struct s_cmd cap_tab[] = {
 
 bool isCap(const std::string& cap)
 {
-    size_t i = 0;
-    while (cap_tab[i].header)
-    {
-        if (cap == cap_tab[i].header)
+    if (cap.empty()) {
+        return false;
+    }
+
+    for (size_t i = 0; cap_tab[i].header[0] != '\0'; ++i) {
+        if (cap == cap_tab[i].header) {
             return true;
-        i++;
+        }
     }
     return false;
 }
-
-//void (*getCap(const std::string& cap))(Server&, Client&, std::string)
-//{
-//    size_t i = 0;
-//    while (cap_tab[i].header)
-//    {
-//        if (cap == cap_tab[i].header)
-//            return cap_tab[i].f;
-//        i++;
-//    }
-//    return NULL;
-//}
 
 void multiPrefix(Server& server, Client& client, std::string input)
 {
@@ -62,9 +52,6 @@ void capLs(Server& server, Client& client, std::string args)
     client.setFlag(LOG_IN);
 }
 
-// as processCmd
-//apply function in cap_tab[] if asked by client by CAP REQ request
-// note : called by cmdCap
 void capReq(Server& server, Client& client, std::string caps)
 {
     (void)server;
