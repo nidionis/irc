@@ -45,6 +45,7 @@ public:
 	Server(void);
 	~Server(void);
 
+    std::string         &getName();
 	void				serverSetup(void);
     void				serverCleanup(void);
 	void				pollLoop(void);

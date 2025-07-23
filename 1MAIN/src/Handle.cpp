@@ -79,6 +79,7 @@ void cmdMode(Server &server, Client &client, std::string input) {
     (void) server;
     (void) client;
     (void) input;
+    std::string item = getHead(input);
     if (client.hasFlag(LOGGED) == false) {
         throw (std::runtime_error("Client not logged in"));
     }

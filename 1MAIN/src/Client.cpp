@@ -89,7 +89,11 @@ void	Client::setCap(const std::string &cap)
         if (!is_in(this->capabilities, cap))
         {
             this->capabilities.push_back(cap);
-            this->send("CAP REQ : " + cap + " set\r\n");
+            this->send(this->server->getName());
+            this->send(" ");
+            this->send(this->getNickname());
+            this->send(" ACK : ");
+            this->send(cap + "\r\n");
         }
     }
 }
