@@ -5,6 +5,7 @@
 #include "../include/Channel.hpp"
 
 #include <stdexcept>
+#include <vector>
 
 Channel::Channel() {}
 
@@ -65,4 +66,14 @@ void Channel::setClient(Client &client) {
     }
     this->clients.push_back(client);
     client.send("you joined the channel\r\n");
+}
+
+void Channel::delClient(Client &client) {
+    if (!this->isClient(client))
+    {
+        throw std::runtime_error("Client is not in the channel");
+        return;
+    }
+    std::vector<Client>::iterator it = std::find(this->clients.begin(), this->clients.end(), client);
+    this->clients.erase(it);
 }

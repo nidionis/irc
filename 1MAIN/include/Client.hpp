@@ -68,4 +68,6 @@ public:
 	bool				hasCap(const std::string &cap);
 };
 
+//std::ostream& operator<<(std::ostream& os, const Client& client);
+
 #endif //CLIENT_HPP

@@ -127,9 +127,15 @@ Client&	Server::getClient(int i) {
     throw (std::runtime_error("client not found"));
 }
 
-//void	Server::sendCmds(Client &client) {
-//    sendClient(client, "CAP LS :multi-prefix\n");
-//}
+Client &Server::getClient(const std::string &nick)
+{
+	for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
+		if (it->getNickname() == nick) {
+			return *it;
+		}
+	}
+	throw (std::runtime_error("client not found"));
+}
 
 void	Server::handle(char *buffer, Client &client) {
     processCommand(*this, client, buffer);

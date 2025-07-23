@@ -17,6 +17,8 @@
 # include <Channel.hpp>
 #include <string>
 
+#include "Client.hpp"
+
 //class	Channel;
 //class	Client;
 
@@ -51,6 +53,7 @@ public:
 
 	ssize_t				sendClient(Client &cli, std::string msg);
     Client              &getClient(int i);
+    Client              &getClient(const std::string &nick);
     void	            handle(char *buffer, Client &client);
     void	            applyRequest(char *buffer, Client &client);
     //void	            sendCmds(Client &client);

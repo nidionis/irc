@@ -6,6 +6,7 @@
 #include <Channel.hpp>
 #include <iostream>
 
+#include "../include/Server.hpp"
 #include "../include/utils_strings.hpp"
 
 void cmdCap(Server &server, Client &client, std::string args) {
@@ -68,6 +69,33 @@ void cmdJoin(Server &server, Client &client, std::string input) {
         }
     } else {
         client.send("JOIN :Invalid channel name\r\n");
+    }
+}
+
+void cmdKick(Server &server, Client &client, std::string input) {
+    (void) server;
+    (void) client;
+    std::string channel_str = getHead(input);
+    input = getNextWds(input);
+    Client &kicked = server.getClient(getHead(input));
+    std::string reason = getNextWds(input);
+    if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
+    {
+        try {
+            Channel &channel = server.getChannel(channel_str);
+            if (channel.isAdmin(client)) {
+                try {
+                    channel.delClient(client);
+                } catch (std::runtime_error &err) {
+                    client.send("JOIN : Nick");
+                    client.send(kicked.getNickname());
+                    client.send("not in the channel\r\n");
+                }
+            } else
+                client.send("JOIN :You are not an admin of the channel\r\n");
+        } catch (const std::runtime_error &err) {
+            client.send("JOIN :Channel does not exist\r\n");
+        }
     }
 }
 

@@ -5,6 +5,8 @@
 #ifndef IRC_CHANNEL_H
 #define IRC_CHANNEL_H
 #include <Client.hpp>
+
+#include "Client.hpp"
 # define MAX_CHANNELS 2
 
 class Channel {
@@ -23,6 +25,7 @@ public:
     bool    isClient(Client &client);
     void    setAdmin(Client &client);
     void    setClient(Client &client);
+    void    delClient(Client &client);
 };
 
 #endif //IRC_CHANNEL_H

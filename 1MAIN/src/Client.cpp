@@ -111,3 +111,9 @@ bool    Client::hasCap(const std::string &cap)
 {
     return is_in(this->capabilities, cap);
 }
+
+//std::ostream& operator<<(std::ostream& os, const Client& client)
+//{
+//    os << client.getNickname();
+//    return os;
+//}
