@@ -17,7 +17,6 @@ void cmdCap(Server &server, Client &client, std::string args);
 void cmdNick(Server &server, Client &client, std::string input);
 void cmdUser(Server &server, Client &client, std::string input);
 void cmdJoin(Server &server, Client &client, std::string input);
-void cmdPart(Server &server, Client &client, std::string input);
 void cmdPrivmsg(Server &server, Client &client, std::string input);
 
 // /!\ must be vreated using createChannel only -> use malloc by server and added by client

@@ -127,10 +127,6 @@ Client&	Server::getClient(int i) {
     throw (std::runtime_error("client not found"));
 }
 
-//void	Server::sendCmds(Client &client) {
-//    sendClient(client, "CAP LS :multi-prefix\n");
-//}
-
 void	Server::handle(char *buffer, Client &client) {
     processCommand(*this, client, buffer);
 }

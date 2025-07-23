@@ -24,4 +24,26 @@ bool is_in(std::vector<T> &v, const T x)
     return false;
 }
 
+template <typename T>
+void set(std::vector<T> &v, const T x) {
+    v.push_back(x);
+}
+
+template <typename T>
+void del(std::vector<T> &v, const T x) {
+    typename std::vector<T>::itetator it = std::find(v.begin(), v.end, x);
+    v.erase(it);
+}
+
+template <typename T>
+bool has(std::vector<T> v, T x) {
+    typename std::vector<T>::iterator it;
+    for (it = v.begin(); it != v.end(); ++it)
+    {
+        if (*it == x)
+            return true;
+    }
+    return false;
+}
+
 #endif //VECTOR_UTILS_H

@@ -48,6 +48,9 @@ void cmdUser(Server &server, Client &client, std::string input) {
 void cmdJoin(Server &server, Client &client, std::string input) {
     (void) server;
     (void) client;
+    if (client.hasFlag(LOGGED) == false) {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string channel_str = getHead(input);
     Channel channel;
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
@@ -77,7 +80,12 @@ void processCommand(Server &server, Client &client, std::string input) {
     std::string cmd_arg = getNextWds(input);
     for (int i = 0; commands[i].f != NULL; i++) {
         if (cmd_flg == commands[i].header) {
-            commands[i].f(server, client, cmd_arg);
+            try {
+                commands[i].f(server, client, cmd_arg);
+            } catch (std::runtime_error &err) {
+                client.send(err.what());
+                client.send("\n");
+            }
             return;
         }
     }
