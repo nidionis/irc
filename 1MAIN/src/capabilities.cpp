@@ -82,4 +82,10 @@ void capEnd(Server &server, Client &client, std::string caps) {
         client.resetFlag(LOG_IN);
         client.setFlag(LOGGED);
     }
+    client.send(":ircSchoolProject 001 TestUser :Welcome to the ircSchoolProject TestUser\n");
+    client.send(":ircSchoolProject 002 TestUser :Your host is ircSchoolProject[10.13.2.7/6667], running version 0.1\n");
+    client.send(":ircSchoolProject 003 TestUser :This server was created Wed Jul 2025 at 12:00:00 EST\n");
+    client.send(":ircSchoolProject 004 TestUser ircSchoolProject oiwszcrkfydnxbauglZCD biklmnopstveIrS bkloveI\n");
+    client.send(":ircSchoolProject 005 TestUser SAFELIST ELIST=U CASEMAPPING=rfc1459 CHARSET=ascii NICKLEN=9 CHANNELLEN=50 TOPICLEN=160 ETRACE CPRIVMSG CNOTICE DEAF=D MONITOR=120 :are supported by this server\n");
+    client.send(":ircSchoolProject 005 TestUser FNC ACCEPT=20 MAP TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:10,NOTICE:10,ACCEPT:,MONITOR: :are supported by this server\n");
 }
