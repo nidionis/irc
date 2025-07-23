@@ -85,6 +85,36 @@ void cmdMode(Server &server, Client &client, std::string input) {
     }
 }
 
+void    cmdPing(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    std::string token = getHead(input);
+    client.send(":ircSchoolProject PONG :");
+    client.send(input);
+    client.send("\r\n");
+}
+
+void cmdWho(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    std::string arg = getHead(input);
+    if (arg == client.getNickname())
+    {
+        client.send(":ircSchoolProject 352 TestUser * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
+        client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
+    }
+}
+
+void cmdUserHost(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    std::string arg = getHead(input);
+    if (arg == client.getNickname())
+    {
+        client.send(":ircSchoolProject 302 TestUser TestUser=@host.example.com+\n");
+    }
+}
+
 void processCommand(Server &server, Client &client, std::string input) {
     std::string cmd_flg = upperCase(getHead(input));
     std::string cmd_arg = getNextWds(input);
