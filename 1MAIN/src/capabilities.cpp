@@ -50,6 +50,7 @@ void capLs(Server& server, Client& client, std::string args)
         client.send(cap_tab[i].header);
     }
     client.setFlag(LOG_IN);
+    client.send("\n");
 }
 
 void capReq(Server& server, Client& client, std::string caps)
