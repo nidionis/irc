@@ -5,7 +5,6 @@
 #include "../include/Channel.hpp"
 
 #include <stdexcept>
-#include <vector>
 
 Channel::Channel() {}
 
@@ -77,3 +76,16 @@ void Channel::delClient(Client &client) {
     std::vector<Client>::iterator it = std::find(this->clients.begin(), this->clients.end(), client);
     this->clients.erase(it);
 }
+
+bool    Channel::hasOp(std::string op) {
+    return is_in(this->op, op);
+}
+
+void    Channel::setOp(std::string op) {
+    set(this->op, op);
+}
+
+void    Channel::delOp(std::string op) {
+    del(this->op, op);
+}
+

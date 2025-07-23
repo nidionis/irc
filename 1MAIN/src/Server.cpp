@@ -44,6 +44,10 @@ Server::~Server(void)
 	return ;
 }
 
+std::string &Server::getName(void) {
+    return this->_name;
+}
+
 void	Server::serverSetup(void)
 {
 	initServerSocket();

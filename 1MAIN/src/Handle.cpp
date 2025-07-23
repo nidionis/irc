@@ -6,7 +6,6 @@
 #include <Channel.hpp>
 #include <iostream>
 
-#include "../include/Server.hpp"
 #include "../include/utils_strings.hpp"
 
 void cmdCap(Server &server, Client &client, std::string args) {
@@ -16,6 +15,8 @@ void cmdCap(Server &server, Client &client, std::string args) {
         capLs(server, client, getNextWds(args));
     } else if (getHead(args) == "REQ") {
         capReq(server, client, getNextWds(args));
+    } else if (getHead(args) == "END") {
+        capEnd(server, client, getNextWds(args));
     }
     // should wait a cap end
 }
@@ -72,6 +73,34 @@ void cmdJoin(Server &server, Client &client, std::string input) {
     }
 }
 
+void cmdMode(Server &server, Client &client, std::string input) {
+    (void) server;
+    (void) client;
+    (void) input;
+    std::string item = getHead(input);
+    std::string mode_char = getNextWds(input);
+    if (client.hasFlag(LOGGED) == false) {
+        throw (std::runtime_error("Client not logged in"));
+    }
+    if (item[0] == '#') { //item is channel
+        Channel channel = server.getChannel(item);
+        if (channel.isAdmin(client)) {
+            try {
+                channel.setOp(mode_char);
+                client.send("[debug] implemented so badly\r\n");
+            } catch (std::runtime_error &err) {
+                client.send("MODE :");
+                client.send(err.what());
+                client.send("\r\n");
+            }
+        }
+    } else {
+        if (server.hasUser(item)) {
+            client.send("[debug] do something with user here\r\n");
+        }
+    }
+}
+
 void cmdKick(Server &server, Client &client, std::string input) {
     (void) server;
     (void) client;
@@ -104,7 +133,12 @@ void processCommand(Server &server, Client &client, std::string input) {
     std::string cmd_arg = getNextWds(input);
     for (int i = 0; commands[i].f != NULL; i++) {
         if (cmd_flg == commands[i].header) {
-            commands[i].f(server, client, cmd_arg);
+            try {
+                commands[i].f(server, client, cmd_arg);
+            } catch (std::runtime_error &err) {
+                client.send(err.what());
+                client.send("\n");
+            }
             return;
         }
     }
