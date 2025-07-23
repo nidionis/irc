@@ -1,0 +1,32 @@
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** Looking up your hostname...%0A
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** Checking Ident%0A
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** Found your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** No Ident response%0A
+>> :nibiru.ix.eu.dal.net 001 TestNickName :Welcome to the DALnet IRC Network TestNickName!~TestIdent@45.148.156.203%0A
+>> :nibiru.ix.eu.dal.net 002 TestNickName :Your host is nibiru.ix.eu.dal.net, running version bahamut-2.2.4%0A
+>> :nibiru.ix.eu.dal.net 003 TestNickName :This server was created Sun Nov 3 2024 at 02:05:33 AM CET%0A
+>> :nibiru.ix.eu.dal.net 004 TestNickName nibiru.ix.eu.dal.net bahamut-2.2.4 aAbcCdefFghHiIjkKmnoOPrRsSwxXy AbceiIjklLmMnoOpPrRsStv beIjklov%0A
+>> :nibiru.ix.eu.dal.net 005 TestNickName NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=30 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6 CHANTYPES=# CHANLIMIT=#:30 PREFIX=(ohv)@%+ STATUSMSG=@%+ :are available on this server%0A
+>> :nibiru.ix.eu.dal.net 005 TestNickName CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: :are available on this server%0A
+>> :nibiru.ix.eu.dal.net 251 TestNickName :There are 76 users and 6777 invisible on 38 servers%0A
+>> :nibiru.ix.eu.dal.net 252 TestNickName 82 :IRC Operators online%0A
+>> :nibiru.ix.eu.dal.net 254 TestNickName 3403 :channels formed%0A
+>> :nibiru.ix.eu.dal.net 255 TestNickName :I have 128 clients and 1 servers%0A
+>> :nibiru.ix.eu.dal.net 265 TestNickName :Current local users: 128 Max: 317%0A
+>> :nibiru.ix.eu.dal.net 266 TestNickName :Current global users: 6853 Max: 7636%0A
+>> :nibiru.ix.eu.dal.net NOTICE TestNickName :*** Notice -- motd was last changed at 27/6/2024 16:15%0A
+>> :nibiru.ix.eu.dal.net NOTICE TestNickName :*** Notice -- Please read the motd if you haven't read it%0A
+>> :nibiru.ix.eu.dal.net 375 TestNickName :- nibiru.ix.eu.dal.net Message of the Day - %0A
+>> :nibiru.ix.eu.dal.net 372 TestNickName :- Usage is governed by the DALnet AUP at <http://www.dal.net/aup/>%0A
+>> :nibiru.ix.eu.dal.net 376 TestNickName :End of /MOTD command.%0A
+>> :TestNickName MODE TestNickName :+iwH%0A
+<< PING LAG133617%0A
+>> :nibiru.ix.eu.dal.net PONG nibiru.ix.eu.dal.net :LAG133617%0A
+<< WHO TestNickName%0A
+>> :nibiru.ix.eu.dal.net 352 TestNickName * ~TestIdent add1-19b1-8468-5c4d-8ed.148.45.ip nibiru.ix.eu.dal.net TestNickName H :0 TestRealName%0A
+>> :nibiru.ix.eu.dal.net 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :nibiru.ix.eu.dal.net 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203%0A

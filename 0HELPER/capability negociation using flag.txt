@@ -1,0 +1,17 @@
+
+if client sends CAP LS 302, enter "capability negociation" mode
+
+while in this mode :
+if NICK is received, print nothing
+if USER is received, print nothing
+if both NICK and USER has been set, print CAP * LS :multi-prefix
+if CAP REQ is received, verify that NICK and USER has been set
+	if true, print CAP [userNick] ACK :multi-prefix
+	else : handle error, quit "capability negociation" mode
+if CAP END is received, quit "capability negociation" mode
+
+after quitting "capability negociation" mode, print 001, 002, 003, 004, 005 messages
+	and continue normally
+
+if never entered "capability negociation" mode in the first place,
+	ignore all the above, print 001, 002, 003, 004, 005 messages, and continue normally

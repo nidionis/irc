@@ -1,0 +1,413 @@
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** Looking up your hostname...%0A
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** Checking Ident%0A
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** Found your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :nibiru.ix.eu.dal.net NOTICE AUTH :*** No Ident response%0A
+>> :nibiru.ix.eu.dal.net 001 TestNickName :Welcome to the DALnet IRC Network TestNickName!~TestIdent@45.148.156.203%0A
+>> :nibiru.ix.eu.dal.net 002 TestNickName :Your host is nibiru.ix.eu.dal.net, running version bahamut-2.2.4%0A
+>> :nibiru.ix.eu.dal.net 003 TestNickName :This server was created Sun Nov 3 2024 at 02:05:33 AM CET%0A
+>> :nibiru.ix.eu.dal.net 004 TestNickName nibiru.ix.eu.dal.net bahamut-2.2.4 aAbcCdefFghHiIjkKmnoOPrRsSwxXy AbceiIjklLmMnoOpPrRsStv beIjklov%0A
+>> :nibiru.ix.eu.dal.net 005 TestNickName NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=30 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6 CHANTYPES=# CHANLIMIT=#:30 PREFIX=(ohv)@%+ STATUSMSG=@%+ :are available on this server%0A
+>> :nibiru.ix.eu.dal.net 005 TestNickName CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: :are available on this server%0A
+>> :nibiru.ix.eu.dal.net 251 TestNickName :There are 76 users and 6777 invisible on 38 servers%0A
+>> :nibiru.ix.eu.dal.net 252 TestNickName 82 :IRC Operators online%0A
+>> :nibiru.ix.eu.dal.net 254 TestNickName 3403 :channels formed%0A
+>> :nibiru.ix.eu.dal.net 255 TestNickName :I have 128 clients and 1 servers%0A
+>> :nibiru.ix.eu.dal.net 265 TestNickName :Current local users: 128 Max: 317%0A
+>> :nibiru.ix.eu.dal.net 266 TestNickName :Current global users: 6853 Max: 7636%0A
+>> :nibiru.ix.eu.dal.net NOTICE TestNickName :*** Notice -- motd was last changed at 27/6/2024 16:15%0A
+>> :nibiru.ix.eu.dal.net NOTICE TestNickName :*** Notice -- Please read the motd if you haven't read it%0A
+>> :nibiru.ix.eu.dal.net 375 TestNickName :- nibiru.ix.eu.dal.net Message of the Day - %0A
+>> :nibiru.ix.eu.dal.net 372 TestNickName :- Usage is governed by the DALnet AUP at <http://www.dal.net/aup/>%0A
+>> :nibiru.ix.eu.dal.net 376 TestNickName :End of /MOTD command.%0A
+>> :TestNickName MODE TestNickName :+iwH%0A
+<< PING LAG133617%0A
+>> :nibiru.ix.eu.dal.net PONG nibiru.ix.eu.dal.net :LAG133617%0A
+<< WHO TestNickName%0A
+>> :nibiru.ix.eu.dal.net 352 TestNickName * ~TestIdent add1-19b1-8468-5c4d-8ed.148.45.ip nibiru.ix.eu.dal.net TestNickName H :0 TestRealName%0A
+>> :nibiru.ix.eu.dal.net 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :nibiru.ix.eu.dal.net 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203%0A
+
+
+>> NOTICE AUTH :*** Processing connection to irc.mzima.net%0A
+>> NOTICE AUTH :*** Looking up your hostname...%0A
+>> NOTICE AUTH :*** Checking Ident%0A
+>> NOTICE AUTH :*** Couldn't look up your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> NOTICE AUTH :*** No Ident response%0A
+>> :irc.mzima.net CAP * LS :multi-prefix%0A
+>> PING :0D62848C%0A
+<< CAP REQ :multi-prefix%0A
+>> :irc.mzima.net CAP TestNickN ACK :multi-prefix %0A
+<< PONG :0D62848C%0A
+<< CAP END%0A
+>> :irc.mzima.net 001 TestNickN :Welcome to the EFNet Internet Relay Chat Network TestNickN%0A
+>> :irc.mzima.net 002 TestNickN :Your host is irc.mzima.net[198.47.99.99/6667], running version ircd-ratbox-3.0.10%0A
+>> :irc.mzima.net 003 TestNickN :This server was created Tue Feb 25 2025 at 16:19:53 EST%0A
+>> :irc.mzima.net 004 TestNickN irc.mzima.net ircd-ratbox-3.0.10 oiwszcrkfydnxbauglZCD biklmnopstveIrS bkloveI%0A
+>> :irc.mzima.net 005 TestNickN CHANTYPES=&# EXCEPTS INVEX CHANMODES=eIb,k,l,imnpstS CHANLIMIT=&#:60 PREFIX=(ov)@+ MAXLIST=beI:100 MODES=4 NETWORK=EFNet KNOCK STATUSMSG=@+ CALLERID=g :are supported by this server%0A
+>> :irc.mzima.net 005 TestNickN SAFELIST ELIST=U CASEMAPPING=rfc1459 CHARSET=ascii NICKLEN=9 CHANNELLEN=50 TOPICLEN=160 ETRACE CPRIVMSG CNOTICE DEAF=D MONITOR=120 :are supported by this server%0A
+>> :irc.mzima.net 005 TestNickN FNC ACCEPT=20 MAP TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:10,NOTICE:10,ACCEPT:,MONITOR: :are supported by this server%0A
+>> :irc.mzima.net 251 TestNickN :There are 3599 users and 5596 invisible on 19 servers%0A
+>> :irc.mzima.net 252 TestNickN 77 :IRC Operators online%0A
+>> :irc.mzima.net 253 TestNickN 2 :unknown connection(s)%0A
+>> :irc.mzima.net 254 TestNickN 6075 :channels formed%0A
+>> :irc.mzima.net 255 TestNickN :I have 559 clients and 1 servers%0A
+>> :irc.mzima.net 265 TestNickN 559 1050 :Current local users 559, max 1050%0A
+>> :irc.mzima.net 266 TestNickN 9195 10148 :Current global users 9195, max 10148%0A
+>> :irc.mzima.net 250 TestNickN :Highest connection count: 1051 (1050 clients) (36193 connections received)%0A
+>> :irc.mzima.net 375 TestNickN :- irc.mzima.net Message of the Day - %0A
+>> :irc.mzima.net 372 TestNickN :- [... Message of the day ...]
+>> :irc.mzima.net 376 TestNickN :End of /MOTD command.%0A
+>> :MZdrone!raphidae@mz.dronemon PRIVMSG TestNickN :%01VERSION%01%0A
+<< PING LAG134810%0A
+>> :irc.mzima.net PONG irc.mzima.net :LAG134810%0A
+<< NOTICE MZdrone :%01VERSION Konversation 1.8.21123 Copyright 2002-2020 by the Konversation team%01%0A
+<< WHO TestNickN%0A
+>> :irc.mzima.net 352 TestNickN * ~TestIdent 45.148.156.203 irc.mzima.net TestNickN H :0 TestRealName%0A
+>> :irc.mzima.net 315 TestNickN TestNickN :End of /WHO list.%0A
+<< USERHOST TestNickN%0A
+>> :irc.mzima.net 302 TestNickN :TestNickN=+~TestIdent@45.148.156.203 %0A
+
+
+<< CAP LS 302%0A
+>> :anarchy.esper.net NOTICE * :*** Looking up your hostname...%0A
+>> :anarchy.esper.net NOTICE * :*** Checking Ident%0A
+>> :anarchy.esper.net NOTICE * :*** Couldn't look up your hostname%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :anarchy.esper.net NOTICE * :*** No Ident response%0A
+>> :anarchy.esper.net CAP * LS :account-notify away-notify cap-notify chghost extended-join multi-prefix sasl tls userhost-in-names%0A
+>> PING :66694916%0A
+<< CAP REQ :account-notify away-notify cap-notify chghost extended-join multi-prefix userhost-in-names%0A
+>> :anarchy.esper.net CAP TestNickName ACK :account-notify away-notify cap-notify chghost extended-join multi-prefix userhost-in-names%0A
+<< PONG :66694916%0A
+<< CAP END%0A
+>> :anarchy.esper.net 001 TestNickName :Welcome to the EsperNet Internet Relay Chat Network TestNickName%0A
+>> :anarchy.esper.net 002 TestNickName :Your host is anarchy.esper.net[51.255.119.242/6667], running version charybdis-3.5.3%0A
+>> :anarchy.esper.net 003 TestNickName :This server was created Fri Apr 25 2025 at 20:52:19 UTC%0A
+>> :anarchy.esper.net 004 TestNickName anarchy.esper.net charybdis-3.5.3 DQRSZagiloswz CFILPQTbcefgijklmnopqrstvz bkloveqjfI%0A
+>> :anarchy.esper.net 005 TestNickName KNOCK ETRACE MONITOR=100 WHOX FNC CPRIVMSG CNOTICE SAFELIST ELIST=CTU CHANTYPES=# EXCEPTS INVEX :are supported by this server%0A
+>> :anarchy.esper.net 005 TestNickName CHANMODES=eIbq,k,flj,CFLPQTcgimnprstz CHANLIMIT=#:50 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=EsperNet STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 NICKLEN=24 MAXNICKLEN=30 CHANNELLEN=50 :are supported by this server%0A
+>> :anarchy.esper.net 005 TestNickName TOPICLEN=390 DEAF=D TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,acjorsxz CLIENTVER=3.0 :are supported by this server%0A
+>> :anarchy.esper.net 251 TestNickName :There are 5 users and 1487 invisible on 6 servers%0A
+>> :anarchy.esper.net 252 TestNickName 7 :IRC Operators online%0A
+>> :anarchy.esper.net 254 TestNickName 1817 :channels formed%0A
+>> :anarchy.esper.net 255 TestNickName :I have 519 clients and 1 servers%0A
+>> :anarchy.esper.net 265 TestNickName 519 650 :Current local users 519, max 650%0A
+>> :anarchy.esper.net 266 TestNickName 1492 1573 :Current global users 1492, max 1573%0A
+>> :anarchy.esper.net 250 TestNickName :Highest connection count: 651 (650 clients) (18943 connections received)%0A
+>> :anarchy.esper.net 375 TestNickName :- anarchy.esper.net Message of the Day - %0A
+>> :anarchy.esper.net 372 TestNickName :- [... Message of the day ...]
+>> :anarchy.esper.net 376 TestNickName :End of /MOTD command.%0A
+>> :TestNickName MODE TestNickName :+i%0A
+<< PING LAG135116%0A
+>> :anarchy.esper.net PONG anarchy.esper.net :LAG135116%0A
+<< WHO TestNickName%0A
+>> :anarchy.esper.net 352 TestNickName * ~TestIdent 45.148.156.203 anarchy.esper.net TestNickName H :0 TestRealName%0A
+>> :anarchy.esper.net 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :anarchy.esper.net 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203 %0A
+
+
+>> :copper.libera.chat NOTICE * :*** Checking Ident%0A
+>> :copper.libera.chat NOTICE * :*** Looking up your hostname...%0A
+>> :copper.libera.chat NOTICE * :*** Couldn't look up your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :copper.libera.chat NOTICE * :*** No Ident response%0A
+>> :copper.libera.chat CAP * LS :account-notify away-notify chghost extended-join multi-prefix sasl=ECDSA-NIST256P-CHALLENGE,EXTERNAL,PLAIN,SCRAM-SHA-512 tls account-tag cap-notify echo-message server-time solanum.chat/identify-msg solanum.chat/oper solanum.chat/realhost%0A
+<< CAP REQ :account-notify away-notify chghost extended-join multi-prefix cap-notify server-time%0A
+>> :copper.libera.chat CAP TestNickName ACK :account-notify away-notify chghost extended-join multi-prefix cap-notify server-time%0A
+<< CAP END%0A
+>> @time=2025-07-19T11:52:17.837Z :copper.libera.chat 001 TestNickName :Welcome to the Libera.Chat Internet Relay Chat Network TestNickName%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 002 TestNickName :Your host is copper.libera.chat[130.185.232.126/6667], running version solanum-1.0-dev%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 003 TestNickName :This server was created Sat Jul 19 2025 at 06:50:54 UTC%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 004 TestNickName copper.libera.chat solanum-1.0-dev DGIMQRSZaghilopsuwz CFILMPQRSTbcefgijklmnopqrstuvz bkloveqjfI%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 005 TestNickName ACCOUNTEXTBAN=a ETRACE FNC WHOX KNOCK CALLERID=g MONITOR=100 SAFELIST ELIST=CMNTU CHANTYPES=# EXCEPTS INVEX :are supported by this server%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 005 TestNickName CHANMODES=eIbq,k,flj,CFLMPQRSTcgimnprstuz CHANLIMIT=#:250 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=Libera.Chat STATUSMSG=@+ CASEMAPPING=rfc1459 NICKLEN=16 MAXNICKLEN=16 CHANNELLEN=50 TOPICLEN=390 :are supported by this server%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 005 TestNickName DEAF=D TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,agjrxz :are supported by this server%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 251 TestNickName :There are 57 users and 30321 invisible on 28 servers%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 252 TestNickName 42 :IRC Operators online%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 253 TestNickName 107 :unknown connection(s)%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 254 TestNickName 22689 :channels formed%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 255 TestNickName :I have 288 clients and 1 servers%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 265 TestNickName 288 289 :Current local users 288, max 289%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 266 TestNickName 30378 30409 :Current global users 30378, max 30409%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 250 TestNickName :Highest connection count: 290 (289 clients) (1806 connections received)%0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 375 TestNickName :- copper.libera.chat Message of the Day - %0A
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 372 TestNickName :- [... Message of the day ...]
+>> @time=2025-07-19T11:52:17.838Z :copper.libera.chat 376 TestNickName :End of /MOTD command.%0A
+>> @time=2025-07-19T11:52:17.838Z :TestNickName MODE TestNickName :+iw%0A
+<< PING LAG135218%0A
+<< WHO TestNickName%0A
+<< USERHOST TestNickName%0A
+>> @time=2025-07-19T11:52:23.825Z :copper.libera.chat PONG copper.libera.chat :LAG135218%0A
+>> @time=2025-07-19T11:52:23.826Z :copper.libera.chat 352 TestNickName * ~TestIdent 45.148.156.203 copper.libera.chat TestNickName H :0 TestRealName%0A
+>> @time=2025-07-19T11:52:23.826Z :copper.libera.chat 315 TestNickName TestNickName :End of /WHO list.%0A
+>> @time=2025-07-19T11:52:23.826Z :copper.libera.chat 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203 %0A
+
+
+>> NOTICE AUTH :*** Looking up your hostname%0A
+>> NOTICE AUTH :*** Checking Ident%0A
+>> NOTICE AUTH :*** Couldn't look up your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+>> PING :1120047810%0A
+<< USER TestIdent 8 * :TestRealName%0A
+<< PONG :1120047810%0A
+>> NOTICE AUTH :*** No ident response%0A
+>> :NuclearFallout.WA.US.GameSurge.net 001 TestNickName :Welcome to the GameSurge IRC Network via NuclearFallout.net, TestNickName%0A
+>> :NuclearFallout.WA.US.GameSurge.net 002 TestNickName :Your host is NuclearFallout.WA.US.GameSurge.net, running version u2.10.12.18(gs2)%0A
+>> :NuclearFallout.WA.US.GameSurge.net 003 TestNickName :This server was created Sat 08 Feb UTC at 2020 05:48:18 PM%0A
+>> :NuclearFallout.WA.US.GameSurge.net 004 TestNickName NuclearFallout.WA.US.GameSurge.net u2.10.12.18(gs2) diOoswkgxnI biklmnopstvrDdRcCz bklov%0A
+>> :NuclearFallout.WA.US.GameSurge.net 005 TestNickName WHOX WALLCHOPS WALLVOICES USERIP CPRIVMSG CNOTICE SILENCE=25 MODES=6 MAXCHANNELS=75 MAXBANS=100 NICKLEN=30 :are supported by this server%0A
+>> :NuclearFallout.WA.US.GameSurge.net 005 TestNickName MAXNICKLEN=30 TOPICLEN=300 AWAYLEN=200 KICKLEN=300 CHANNELLEN=200 MAXCHANNELLEN=200 CHANTYPES=#& PREFIX=(ov)@+ STATUSMSG=@+ CHANMODES=b,k,l,imnpstrDdRcC CASEMAPPING=rfc1459 NETWORK=GameSurge :are supported by this server%0A
+>> :NuclearFallout.WA.US.GameSurge.net 251 TestNickName :There are 11 users and 2361 invisible on 11 servers%0A
+>> :NuclearFallout.WA.US.GameSurge.net 252 TestNickName 25 :operator(s) online%0A
+>> :NuclearFallout.WA.US.GameSurge.net 253 TestNickName 1 :unknown connection(s)%0A
+>> :NuclearFallout.WA.US.GameSurge.net 254 TestNickName 1581 :channels formed%0A
+>> :NuclearFallout.WA.US.GameSurge.net 255 TestNickName :I have 1 clients and 1 servers%0A
+>> :NuclearFallout.WA.US.GameSurge.net NOTICE TestNickName :Highest connection count: 2 (1 clients)%0A
+>> :NuclearFallout.WA.US.GameSurge.net 422 TestNickName :MOTD File is missing%0A
+>> :NuclearFallout.WA.US.GameSurge.net NOTICE TestNickName :on 1 ca 2(10) ft 10(10) tr%0A
+>> :TestNickName!~TestIdent@45.148.156.203 MODE TestNickName :+iw%0A
+>> :Global!Global@Services.GameSurge.net NOTICE TestNickName : [... Message of the day ...]
+>> :NuclearFallout.WA.US.GameSurge.net 396 TestNickName ~TestIdent@6d427e17.bdb0e6af.e62f0035.IP4 :is now your hidden host%0A
+>> :TestNickName!~TestIdent@6d427e17.bdb0e6af.e62f0035.IP4 MODE TestNickName :+x%0A
+<< PING LAG133603%0A
+>> :NuclearFallout.WA.US.GameSurge.net PONG NuclearFallout.WA.US.GameSurge.net :LAG133603%0A
+<< WHO TestNickName%0A
+>> :NuclearFallout.WA.US.GameSurge.net 352 TestNickName * ~TestIdent 6d427e17.bdb0e6af.e62f0035.IP4 *.GameSurge.net TestNickName Hx :0 TestRealName%0A
+>> :NuclearFallout.WA.US.GameSurge.net 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :NuclearFallout.WA.US.GameSurge.net 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203%0A
+
+
+>> :tngnet.ircnet.io 020 * :Please wait while we process your connection.%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :tngnet.ircnet.io 001 TestNickName :Welcome to the Internet Relay Network TestNickName!~TestIdent@45.148.156.203%0A
+>> :tngnet.ircnet.io 002 TestNickName :Your host is tngnet.ircnet.io, running version 2.11.2p3+0PNv1.06%0A
+>> :tngnet.ircnet.io 003 TestNickName :This server was created Sun Apr 16 2023 at 19:34:05 CEST%0A
+>> :tngnet.ircnet.io 004 TestNickName tngnet.ircnet.io 2.11.2p3+0PNv1.06 aoOirw abeiIklmnoOpqrRstv%0A
+>> :tngnet.ircnet.io 005 TestNickName RFC2812 PREFIX=(ov)@+ CHANTYPES=#&!+ MODES=3 CHANLIMIT=#&!+:42 NICKLEN=15 TOPICLEN=255 KICKLEN=255 MAXLIST=beIR:64 CHANNELLEN=50 IDCHAN=!:5 CHANMODES=beIR,k,l,imnpstaqrzZ :are supported by this server%0A
+>> :tngnet.ircnet.io 005 TestNickName PENALTY FNC EXCEPTS=e INVEX=I CASEMAPPING=ascii NETWORK=IRCnet :are supported by this server%0A
+>> :tngnet.ircnet.io 042 TestNickName 0PNDAENP4 :your unique ID%0A
+>> :tngnet.ircnet.io 251 TestNickName :There are 18692 users and 1 services on 30 servers%0A
+>> :tngnet.ircnet.io 252 TestNickName 71 :operators online%0A
+>> :tngnet.ircnet.io 254 TestNickName 9793 :channels formed%0A
+>> :tngnet.ircnet.io 255 TestNickName :I have 582 users, 0 services and 1 servers%0A
+>> :tngnet.ircnet.io 265 TestNickName 582 830 :Current local users 582, max 830%0A
+>> :tngnet.ircnet.io 266 TestNickName 18692 21274 :Current global users 18692, max 21274%0A
+>> :tngnet.ircnet.io 375 TestNickName :- tngnet.ircnet.io Message of the Day - %0A
+>> :tngnet.ircnet.io 372 TestNickName : [... Message of the day ...]
+>> :tngnet.ircnet.io 376 TestNickName :End of MOTD command.%0A
+>> :TestNickName MODE TestNickName :+i%0A
+<< PING LAG134033%0A
+>> :tngnet.ircnet.io PONG tngnet.ircnet.io :LAG134033%0A
+<< WHO TestNickName%0A
+>> :tngnet.ircnet.io 352 TestNickName * ~TestIdent 45.148.156.203 tngnet.ircnet.io TestNickName H :0 0PND TestRealName%0A
+>> :tngnet.ircnet.io 315 TestNickName TestNickName :End of WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :tngnet.ircnet.io 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203%0A
+
+
+>> NOTICE AUTH :*** Processing connection to irc.0fucks.com%0A
+>> NOTICE AUTH :*** Looking up your hostname...%0A
+>> NOTICE AUTH :*** Checking Ident%0A
+>> NOTICE AUTH :*** Couldn't look up your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickN%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> NOTICE AUTH :*** No Ident response%0A
+>> :irc.0fucks.com CAP * LS :multi-prefix%0A
+<< CAP REQ :multi-prefix%0A
+>> :irc.0fucks.com CAP TestNickN ACK :multi-prefix %0A
+<< CAP END%0A
+>> :irc.0fucks.com 001 TestNickN :Welcome to the IRCSource Internet Relay Chat Network TestNickN%0A
+>> :irc.0fucks.com 002 TestNickN :Your host is irc.0fucks.com[irc.0fucks.com/6667], running version ircd-ratbox-3.0.10%0A
+>> :irc.0fucks.com 003 TestNickN :This server was created Wed Jul 24 2024 at 20:59:52 UTC%0A
+>> :irc.0fucks.com 004 TestNickN irc.0fucks.com ircd-ratbox-3.0.10 oiwszcrkfydnxbauglZCD biklmnopstveIrS bkloveI%0A
+>> :irc.0fucks.com 005 TestNickN CHANTYPES=&# EXCEPTS INVEX CHANMODES=eIb,k,l,imnpstS CHANLIMIT=&#:25 PREFIX=(ov)@+ MAXLIST=beI:100 MODES=4 NETWORK=IRCSource KNOCK STATUSMSG=@+ CALLERID=g :are supported by this server%0A
+>> :irc.0fucks.com 005 TestNickN SAFELIST ELIST=U CASEMAPPING=rfc1459 CHARSET=ascii NICKLEN=9 CHANNELLEN=50 TOPICLEN=160 ETRACE CPRIVMSG CNOTICE DEAF=D MONITOR=60 :are supported by this server%0A
+>> :irc.0fucks.com 005 TestNickN FNC ACCEPT=20 MAP TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: :are supported by this server%0A
+>> :irc.0fucks.com 251 TestNickN :There are 31 users and 83 invisible on 22 servers%0A
+>> :irc.0fucks.com 252 TestNickN 48 :IRC Operators online%0A
+>> :irc.0fucks.com 254 TestNickN 131 :channels formed%0A
+>> :irc.0fucks.com 255 TestNickN :I have 7 clients and 1 servers%0A
+>> :irc.0fucks.com 265 TestNickN 7 25 :Current local users 7, max 25%0A
+>> :irc.0fucks.com 266 TestNickN 114 222 :Current global users 114, max 222%0A
+>> :irc.0fucks.com 250 TestNickN :Highest connection count: 26 (25 clients) (896 connections received)%0A
+>> :irc.0fucks.com 375 TestNickN :- irc.0fucks.com Message of the Day - %0A
+>> :irc.0fucks.com 372 TestNickN :- [... Message of the day ...]
+>> :irc.0fucks.com 376 TestNickN :End of /MOTD command.%0A
+<< PING LAG133646%0A
+>> :irc.0fucks.com PONG irc.0fucks.com :LAG133646%0A
+<< WHO TestNickN%0A
+>> :irc.0fucks.com 352 TestNickN * ~TestIdent 45.148.156.203 irc.0fucks.com TestNickN H :0 TestRealName%0A
+>> :irc.0fucks.com 315 TestNickN TestNickN :End of /WHO list.%0A
+<< USERHOST TestNickN%0A
+>> :irc.0fucks.com 302 TestNickN :TestNickN=+~TestIdent@45.148.156.203 %0A
+
+
+>> :helix.oftc.net NOTICE AUTH :*** Looking up your hostname...%0A
+>> :helix.oftc.net NOTICE AUTH :*** Checking Ident%0A
+>> :helix.oftc.net NOTICE AUTH :*** Couldn't look up your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :helix.oftc.net NOTICE AUTH :*** No Ident response%0A
+>> :helix.oftc.net CAP * LS :multi-prefix%0A
+<< CAP REQ :multi-prefix%0A
+>> :helix.oftc.net CAP TestNickName ACK :multi-prefix%0A
+<< CAP END%0A
+>> :helix.oftc.net 001 TestNickName :Welcome to the OFTC Internet Relay Chat Network TestNickName%0A
+>> :helix.oftc.net 002 TestNickName :Your host is helix.oftc.net[130.239.18.116/6667], running version hybrid-7.2.2+oftc1.7.3%0A
+>> :helix.oftc.net 003 TestNickName :This server was created Nov  1 2023 at 10:10:57%0A
+>> :helix.oftc.net 004 TestNickName helix.oftc.net hybrid-7.2.2+oftc1.7.3 CDGPRSabcdfgijklnorsuwxyz bciklmnopstvzeIMRS bkloveI%0A
+>> :helix.oftc.net 005 TestNickName CALLERID CASEMAPPING=rfc1459 DEAF=D KICKLEN=160 MODES=4 NICKLEN=30 PREFIX=(ov)@+ STATUSMSG=@+ TOPICLEN=391 NETWORK=OFTC MAXLIST=beI:100 MAXTARGETS=1 CHANTYPES=# :are supported by this server%0A
+>> :helix.oftc.net 005 TestNickName CHANLIMIT=#:250 CHANNELLEN=50 CHANMODES=eIqb,k,l,cimnpstzMRS AWAYLEN=160 KNOCK ELIST=CMNTU SAFELIST EXCEPTS=e INVEX=I :are supported by this server%0A
+>> :helix.oftc.net 042 TestNickName 4G4AAB39K :your unique ID%0A
+>> :helix.oftc.net 251 TestNickName :There are 33 users and 16326 invisible on 19 servers%0A
+>> :helix.oftc.net 252 TestNickName 21 :IRC Operators online%0A
+>> :helix.oftc.net 254 TestNickName 4064 :channels formed%0A
+>> :helix.oftc.net 255 TestNickName :I have 2736 clients and 1 servers%0A
+>> :helix.oftc.net 265 TestNickName :Current local users: 2736  Max: 2855%0A
+>> :helix.oftc.net 266 TestNickName :Current global users: 16359  Max: 19573%0A
+>> :helix.oftc.net 250 TestNickName :Highest connection count: 2856 (2855 clients) (85511 connections received)%0A
+>> :helix.oftc.net 375 TestNickName :- helix.oftc.net Message of the Day - %0A
+>> :helix.oftc.net 372 TestNickName :- [... Message of the day ...]
+>> :helix.oftc.net 376 TestNickName :End of /MOTD command.%0A
+>> :TestNickName!~TestIdent@45.148.156.203 MODE TestNickName :+i%0A
+>> :CTCPServ!services@services.oftc.net PRIVMSG TestNickName :%01VERSION%01%0A
+<< PING LAG135349%0A
+>> :helix.oftc.net PONG helix.oftc.net :LAG135349%0A
+<< NOTICE CTCPServ :%01VERSION Konversation 1.8.21123 Copyright 2002-2020 by the Konversation team%01%0A
+<< WHO TestNickName%0A
+>> :helix.oftc.net 352 TestNickName * ~TestIdent 45.148.156.203 helix.oftc.net TestNickName H :0 TestRealName%0A
+>> :helix.oftc.net 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :helix.oftc.net 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203 %0A
+
+
+>> NOTICE AUTH :*** Looking up your hostname%0A
+>> NOTICE AUTH :*** Checking Ident%0A
+>> NOTICE AUTH :*** Couldn't look up your hostname%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+>> PING :3980500164%0A
+<< USER TestIdent 8 * :TestRealName%0A
+<< PONG :3980500164%0A
+>> NOTICE AUTH :*** No ident response%0A
+>> :hostsailor.ro.quakenet.org 001 TestNickName :Welcome to the QuakeNet IRC Network, TestNickName%0A
+>> :hostsailor.ro.quakenet.org 002 TestNickName :Your host is hostsailor.ro.quakenet.org, running version u2.10.12.10+snircd(1.3.4a)%0A
+>> :hostsailor.ro.quakenet.org 003 TestNickName :This server was created Wed Jul 8 2020 at 11:40:05 EDT%0A
+>> :hostsailor.ro.quakenet.org 004 TestNickName hostsailor.ro.quakenet.org u2.10.12.10+snircd(1.3.4a) dioswkgxRXInP biklmnopstvrDcCNuMT bklov%0A
+>> :hostsailor.ro.quakenet.org 005 TestNickName WHOX WALLCHOPS WALLVOICES USERIP CPRIVMSG CNOTICE SILENCE=15 MODES=6 MAXCHANNELS=40 MAXBANS=45 NICKLEN=15 :are supported by this server%0A
+>> :hostsailor.ro.quakenet.org 005 TestNickName MAXNICKLEN=15 TOPICLEN=250 AWAYLEN=160 KICKLEN=250 CHANNELLEN=200 MAXCHANNELLEN=200 CHANTYPES=#& PREFIX=(ov)@+ STATUSMSG=@+ CHANMODES=b,k,l,imnpstrDducCNMT CASEMAPPING=rfc1459 NETWORK=QuakeNet :are supported by this server%0A
+>> :hostsailor.ro.quakenet.org 251 TestNickName :There are 16 users and 5763 invisible on 21 servers%0A
+>> :hostsailor.ro.quakenet.org 252 TestNickName 43 :operator(s) online%0A
+>> :hostsailor.ro.quakenet.org 253 TestNickName 2 :unknown connection(s)%0A
+>> :hostsailor.ro.quakenet.org 254 TestNickName 6006 :channels formed%0A
+>> :hostsailor.ro.quakenet.org 255 TestNickName :I have 343 clients and 1 servers%0A
+>> :hostsailor.ro.quakenet.org NOTICE TestNickName :Highest connection count: 604 (603 clients)%0A
+>> :hostsailor.ro.quakenet.org 375 TestNickName :- hostsailor.ro.quakenet.org Message of the Day - %0A
+>> :hostsailor.ro.quakenet.org 372 TestNickName :- [... Message of the day ...]
+>> :hostsailor.ro.quakenet.org 376 TestNickName :End of /MOTD command.%0A
+>> :hostsailor.ro.quakenet.org NOTICE TestNickName :on 1 ca 2(4) ft 20(20) tr%0A
+>> :hostsailor.ro.quakenet.org 221 TestNickName +i%0A
+>> :TestNickName!~TestIdent@45.148.156.203 MODE TestNickName +i%0A
+<< PING LAG133614%0A
+>> :hostsailor.ro.quakenet.org PONG hostsailor.ro.quakenet.org :LAG133614%0A
+<< WHO TestNickName%0A
+>> :hostsailor.ro.quakenet.org 352 TestNickName * ~TestIdent 45.148.156.203 *.quakenet.org TestNickName H :0 TestRealName%0A
+>> :hostsailor.ro.quakenet.org 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :hostsailor.ro.quakenet.org 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203%0A
+
+
+>> :irc.tngnet.com NOTICE * :*** Couldn't look up your hostname (cached)%0A
+>> :irc.tngnet.com NOTICE * :*** Checking Ident%0A
+<< CAP LS 302%0A
+>> :irc.tngnet.com NOTICE * :*** No Ident response%0A
+>> :irc.tngnet.com CAP * LS :away-notify chghost invite-notify multi-prefix sasl userhost-in-names%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+<< CAP REQ :away-notify chghost multi-prefix userhost-in-names%0A
+>> :irc.tngnet.com CAP TestNickName ACK :away-notify chghost multi-prefix userhost-in-names%0A
+<< CAP END%0A
+>> PING :409970791%0A
+<< PONG :409970791%0A
+>> :irc.tngnet.com NOTICE TestNickName :*** Your host is masked (22157C06.ECBC0223.8F86705D.IP)%0A
+>> :irc.tngnet.com 001 TestNickName :Welcome to the Rizon Internet Relay Chat Network TestNickName%0A
+>> :irc.tngnet.com 002 TestNickName :Your host is irc.tngnet.com, running version plexus-4(hybrid-8.1.20)%0A
+>> :irc.tngnet.com 003 TestNickName :This server was created Mar  1 2023 at 21:22:40%0A
+>> :irc.tngnet.com 004 TestNickName irc.tngnet.com plexus-4(hybrid-8.1.20) CDGNRSUWagilopqrswxyz BCIMNORSabcehiklmnopqstvz Iabehkloqv%0A
+>> :irc.tngnet.com 005 TestNickName CALLERID CASEMAPPING=rfc1459 DEAF=D KICKLEN=180 MODES=4 PREFIX=(qaohv)~&@%+ STATUSMSG=~&@%+ EXCEPTS=e INVEX=I NICKLEN=30 NETWORK=Rizon MAXLIST=beI:250 MAXTARGETS=4 :are supported by this server%0A
+>> :irc.tngnet.com 005 TestNickName CHANTYPES=# CHANLIMIT=#:250 CHANNELLEN=50 TOPICLEN=390 CHANMODES=beI,k,l,BCMNORScimnpstz KNOCK NAMESX UHNAMES WATCH=60 ELIST=CMNTU SAFELIST AWAYLEN=180 :are supported by this server%0A
+>> :irc.tngnet.com 251 TestNickName :There are 17 users and 9391 invisible on 18 servers%0A
+>> :irc.tngnet.com 252 TestNickName 49 :IRC Operators online%0A
+>> :irc.tngnet.com 253 TestNickName 1 :unknown connection(s)%0A
+>> :irc.tngnet.com 254 TestNickName 6767 :channels formed%0A
+>> :irc.tngnet.com 255 TestNickName :I have 9408 clients and 18 servers%0A
+>> :irc.tngnet.com 265 TestNickName :Current local users: 9408  Max: 10299%0A
+>> :irc.tngnet.com 266 TestNickName :Current global users: 9408  Max: 10299%0A
+>> :irc.tngnet.com 375 TestNickName :- irc.tngnet.com Message of the Day - %0A
+>> :irc.tngnet.com 372 TestNickName :- [... Message of the day ...]A
+>> :irc.tngnet.com 376 TestNickName :End of /MOTD command.%0A
+>> :TestNickName!~TestIdent@22157C06.ECBC0223.8F86705D.IP MODE TestNickName :+ix%0A
+>> :py-ctcp!ctcp@ctcp-scanner.rizon.net PRIVMSG TestNickName :%01VERSION%01%0A
+>> :Global!service@rizon.net NOTICE TestNickName :[%02Logon News%02 - Dec 16 2013] Own a large/active channel or plan to get one going? Please read http://s.rizon.net/authline%0A
+>> :Global!service@rizon.net NOTICE TestNickName :[%02Logon News%02 - Feb 16 2022] %02First time on Rizon? Be sure to check out our wiki! https://wiki.rizon.net%02%0A
+>> :Global!service@rizon.net NOTICE TestNickName :[%02Random News%02 - Mar 20 2009] Idle on Rizon a lot? Why not play our idlerpg game, you can check it out at #RizonIRPG for more information visit the website http://idlerpg.rizon.net -Rizon Staff%0A
+<< NOTICE py-ctcp :%01VERSION Konversation 1.8.21123 Copyright 2002-2020 by the Konversation team%01%0A
+<< PING LAG135436%0A
+>> :irc.tngnet.com PONG irc.tngnet.com :LAG135436%0A
+<< WHO TestNickName%0A
+>> :irc.tngnet.com 352 TestNickName * ~TestIdent 22157C06.ECBC0223.8F86705D.IP * TestNickName H :0 TestRealName%0A
+>> :irc.tngnet.com 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :irc.tngnet.com 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203 %0A
+
+
+>> NOTICE AUTH :*** Looking up your hostname%0A
+>> NOTICE AUTH :*** Checking Ident%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+>> PING :3763531577%0A
+<< USER TestIdent 8 * :TestRealName%0A
+<< PONG :3763531577%0A
+>> NOTICE AUTH :*** No ident response%0A
+>> NOTICE AUTH :*** Couldn't look up your hostname%0A
+>> :LosAngeles.CA.US.Undernet.Org 001 TestNickName :Welcome to the UnderNet IRC Network, TestNickName%0A
+>> :LosAngeles.CA.US.Undernet.Org 002 TestNickName :Your host is LosAngeles.CA.US.Undernet.Org, running version u2.10.12.19%0A
+>> :LosAngeles.CA.US.Undernet.Org 003 TestNickName :This server was created Mon Nov 15 2021 at 08:04:09 PST%0A
+>> :LosAngeles.CA.US.Undernet.Org 004 TestNickName LosAngeles.CA.US.Undernet.Org u2.10.12.19 diOoswkgx biklmnopstvrDdRcC bklov%0A
+>> :LosAngeles.CA.US.Undernet.Org 005 TestNickName WHOX WALLCHOPS WALLVOICES USERIP CPRIVMSG CNOTICE SILENCE=25 MODES=6 MAXCHANNELS=40 MAXBANS=100 NICKLEN=12 :are supported by this server%0A
+>> :LosAngeles.CA.US.Undernet.Org 005 TestNickName MAXNICKLEN=15 TOPICLEN=160 AWAYLEN=160 KICKLEN=160 CHANNELLEN=200 MAXCHANNELLEN=200 CHANTYPES=#& PREFIX=(ov)@+ STATUSMSG=@+ CHANMODES=b,k,l,imnpstrDdRcC CASEMAPPING=rfc1459 NETWORK=UnderNet :are supported by this server%0A
+>> :LosAngeles.CA.US.Undernet.Org 251 TestNickName :There are 4189 users and 12243 invisible on 39 servers%0A
+>> :LosAngeles.CA.US.Undernet.Org 252 TestNickName 39 :operator(s) online%0A
+>> :LosAngeles.CA.US.Undernet.Org 253 TestNickName 22 :unknown connection(s)%0A
+>> :LosAngeles.CA.US.Undernet.Org 254 TestNickName 5528 :channels formed%0A
+>> :LosAngeles.CA.US.Undernet.Org 255 TestNickName :I have 1603 clients and 1 servers%0A
+>> :LosAngeles.CA.US.Undernet.Org NOTICE TestNickName :Highest connection count: 1881 (1880 clients)%0A
+>> :LosAngeles.CA.US.Undernet.Org 375 TestNickName :- LosAngeles.CA.US.Undernet.Org Message of the Day - %0A
+>> :LosAngeles.CA.US.Undernet.Org 372 TestNickName :- [... Message of the day ...]
+>> :LosAngeles.CA.US.Undernet.Org 376 TestNickName :End of /MOTD command.%0A
+>> :LosAngeles.CA.US.Undernet.Org NOTICE TestNickName :on 1 ca 2(4) ft 10(10) tr%0A
+>> :TestNickName!~TestIdent@45.148.156.203 MODE TestNickName :+i%0A
+<< PING LAG133621%0A
+>> :LosAngeles.CA.US.Undernet.Org PONG LosAngeles.CA.US.Undernet.Org :LAG133621%0A
+<< WHO TestNickName%0A
+>> :LosAngeles.CA.US.Undernet.Org 352 TestNickName * ~TestIdent 45.148.156.203 *.undernet.org TestNickName H :0 TestRealName%0A
+>> :LosAngeles.CA.US.Undernet.Org 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :LosAngeles.CA.US.Undernet.Org 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203%0A

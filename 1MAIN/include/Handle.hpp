@@ -20,6 +20,9 @@ void cmdJoin(Server &server, Client &client, std::string input);
 void cmdPrivmsg(Server &server, Client &client, std::string input);
 void cmdMode(Server &server, Client &client, std::string input);
 void cmdKick(Server &server, Client &client, std::string input);
+void cmdPing(Server &server, Client &client, std::string input);
+void cmdWho(Server &server, Client &client, std::string input);
+void cmdUserHost(Server &server, Client &client, std::string input);
 
 // /!\ must be vreated using createChannel only -> use malloc by server and added by client
 void createChannel(Server &server, Client &client, std::string channel_str);
@@ -38,6 +41,9 @@ static const struct s_cmd commands [] = {
     {"JOIN",    &cmdJoin},
     {"KICK",    &cmdKick},
     {"MODE",    &cmdMode},
+    {"PING",    &cmdPing},
+    {"WHO",     &cmdWho},
+    {"USERHOST", &cmdUserHost},
     {"",        NULL} // Terminator
 };
 
