@@ -17,10 +17,6 @@
 #define LOG_IN "log_IN"
 #define LOGGED "logged"
 
-#define GETTER_SETTER(type, name, f_name) \
-	type get##f_name() { return name; } \
-	void set##f_name(type value) { name = value; }
-
 class Client
 {
 private:

@@ -6,6 +6,8 @@
 #include <Channel.hpp>
 #include <iostream>
 
+#include "../include/Channel.hpp"
+#include "../include/Server.hpp"
 #include "../include/utils_strings.hpp"
 
 void cmdCap(Server &server, Client &client, std::string args) {
@@ -116,7 +118,7 @@ void cmdKick(Server &server, Client &client, std::string input) {
                 try {
                     channel.delClient(client);
                 } catch (std::runtime_error &err) {
-                    client.send("JOIN : Nick");
+                    client.send("JOIN : Nick ");
                     client.send(kicked.getNickname());
                     client.send("not in the channel\r\n");
                 }
@@ -128,11 +130,31 @@ void cmdKick(Server &server, Client &client, std::string input) {
     }
 }
 
+void    cmdTopic(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    std::string channel_str = getHead(input);
+    std::string topic = getNextWds(input);
+    if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
+    {
+        try {
+            Channel &channel = server.getChannel(channel_str);
+            if (channel.isAdmin(client)) {
+                channel.setTopic(topic);
+            }
+        } catch (const std::runtime_error &err) {
+            client.send("TOPIC : ");
+            client.send(err.what());
+            client.send("\r\n");
+        }
+    }
+}
+
 void    cmdPing(Server &server, Client &client, std::string input)
 {
     (void)server;
     std::string token = getHead(input);
-    client.send(":ircSchoolProject PONG :");
+    client.send(server.getName() + " PONG :");
     client.send(input);
     client.send("\r\n");
 }
@@ -156,6 +178,28 @@ void cmdUserHost(Server &server, Client &client, std::string input)
     {
         client.send(":ircSchoolProject 302 TestUser TestUser=@host.example.com+\n");
     }
+}
+
+void cmdPrivmsg(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    std::string name = getHead(input);
+    name = trim(name, OPERATOR_OP);
+    std::string msg = getNextWds(input);
+    if (name[0] == '#' && isValidName(name.substr(1)))
+    {
+        try {
+            Channel &channel = server.getChannel(name);
+            channel.spawn(client.getNickname() + " : " + msg);
+        } catch (const std::runtime_error &err) {
+            client.send(err.what());
+        }
+    } else if (server.hasUser(name)) {
+        Client  dest = server.getClient(name);
+        dest.send(client.getNickname() + " : " + msg);
+        dest.send("\r\n");
+    }
+    throw std::runtime_error("PRIVMSG : Failure");
 }
 
 void processCommand(Server &server, Client &client, std::string input) {

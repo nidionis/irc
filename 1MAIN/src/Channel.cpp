@@ -5,6 +5,7 @@
 #include "../include/Channel.hpp"
 
 #include <stdexcept>
+#include <vector>
 
 Channel::Channel() {}
 
@@ -14,17 +15,17 @@ Channel::~Channel() {
 }
 
 Channel::Channel(Client &client, std::string &name) {
-    this->name = name;
+    this->_name = name;
     this->clients.push_back(client);
     this->admins.push_back(client);
 }
 
 bool Channel::operator==(const Channel &other) const {
-    return this->name == other.name;
+    return _name == other.getName();
 }
 Channel& Channel::operator=(const Channel& other) {
     if (this != &other) {
-        name = other.name;
+        _name = other.getName();
         clients = other.clients;
         admins = other.admins;
     }
@@ -89,3 +90,10 @@ void    Channel::delOp(std::string op) {
     del(this->op, op);
 }
 
+void Channel::spawn(std::string msg)
+{
+    for (std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+    {
+        (*it).send(msg);
+    }
+}

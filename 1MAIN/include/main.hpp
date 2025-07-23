@@ -35,6 +35,10 @@
 # include <capabilities.hpp>
 # include <vector_utils.hpp>
 
+#define GETTER_SETTER(type, name, f_name) \
+type get##f_name() const { return name; } \
+void set##f_name(type value) { name = value; }
+
 # define BUFFER_SIZE 1024
 # define PORT 6667
 # define QUEUE_SIZE 16

@@ -9,6 +9,7 @@
 # define LEN_MAX_NAME 16
 
 std::string trim(const std::string& str);
+std::string trim(const std::string& str, const std::string& chars);
 std::string getHead(const std::string& str);
 std::string getNextWds(const std::string& str);
 std::string lowerCase(const std::string& str);

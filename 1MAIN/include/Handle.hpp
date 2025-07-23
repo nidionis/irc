@@ -17,6 +17,7 @@ void cmdCap(Server &server, Client &client, std::string args);
 void cmdNick(Server &server, Client &client, std::string input);
 void cmdUser(Server &server, Client &client, std::string input);
 void cmdJoin(Server &server, Client &client, std::string input);
+void cmdTopic(Server &server, Client &client, std::string input);
 void cmdPrivmsg(Server &server, Client &client, std::string input);
 void cmdMode(Server &server, Client &client, std::string input);
 void cmdKick(Server &server, Client &client, std::string input);
@@ -40,10 +41,13 @@ static const struct s_cmd commands [] = {
     {"USER",    &cmdUser},
     {"JOIN",    &cmdJoin},
     {"KICK",    &cmdKick},
+    {"TOPIC",   &cmdTopic},
     {"MODE",    &cmdMode},
     {"PING",    &cmdPing},
     {"WHO",     &cmdWho},
     {"USERHOST", &cmdUserHost},
+    {"MSG",     &cmdPrivmsg},
+    {"PRIVMSG", &cmdPrivmsg},
     {"",        NULL} // Terminator
 };
 

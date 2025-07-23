@@ -20,6 +20,17 @@ std::string trim(const std::string& str)
     return str.substr(first, last - first + 1);
 }
 
+std::string trim(const std::string& str, const std::string& chars)
+{
+    size_t first = str.find_first_not_of(chars);
+    size_t last = str.find_last_not_of(chars);
+    if (first == std::string::npos || last == std::string::npos)
+    {
+        return "";
+    }
+    return str.substr(first, last - first + 1);
+}
+
 std::string getHead(const std::string& str)
 {
     size_t pos = str.find(' ');
