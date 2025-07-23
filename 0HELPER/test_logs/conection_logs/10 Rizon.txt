@@ -1,0 +1,42 @@
+>> :irc.tngnet.com NOTICE * :*** Couldn't look up your hostname (cached)%0A
+>> :irc.tngnet.com NOTICE * :*** Checking Ident%0A
+<< CAP LS 302%0A
+>> :irc.tngnet.com NOTICE * :*** No Ident response%0A
+>> :irc.tngnet.com CAP * LS :away-notify chghost invite-notify multi-prefix sasl userhost-in-names%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+<< CAP REQ :away-notify chghost multi-prefix userhost-in-names%0A
+>> :irc.tngnet.com CAP TestNickName ACK :away-notify chghost multi-prefix userhost-in-names%0A
+<< CAP END%0A
+>> PING :409970791%0A
+<< PONG :409970791%0A
+>> :irc.tngnet.com NOTICE TestNickName :*** Your host is masked (22157C06.ECBC0223.8F86705D.IP)%0A
+>> :irc.tngnet.com 001 TestNickName :Welcome to the Rizon Internet Relay Chat Network TestNickName%0A
+>> :irc.tngnet.com 002 TestNickName :Your host is irc.tngnet.com, running version plexus-4(hybrid-8.1.20)%0A
+>> :irc.tngnet.com 003 TestNickName :This server was created Mar  1 2023 at 21:22:40%0A
+>> :irc.tngnet.com 004 TestNickName irc.tngnet.com plexus-4(hybrid-8.1.20) CDGNRSUWagilopqrswxyz BCIMNORSabcehiklmnopqstvz Iabehkloqv%0A
+>> :irc.tngnet.com 005 TestNickName CALLERID CASEMAPPING=rfc1459 DEAF=D KICKLEN=180 MODES=4 PREFIX=(qaohv)~&@%+ STATUSMSG=~&@%+ EXCEPTS=e INVEX=I NICKLEN=30 NETWORK=Rizon MAXLIST=beI:250 MAXTARGETS=4 :are supported by this server%0A
+>> :irc.tngnet.com 005 TestNickName CHANTYPES=# CHANLIMIT=#:250 CHANNELLEN=50 TOPICLEN=390 CHANMODES=beI,k,l,BCMNORScimnpstz KNOCK NAMESX UHNAMES WATCH=60 ELIST=CMNTU SAFELIST AWAYLEN=180 :are supported by this server%0A
+>> :irc.tngnet.com 251 TestNickName :There are 17 users and 9391 invisible on 18 servers%0A
+>> :irc.tngnet.com 252 TestNickName 49 :IRC Operators online%0A
+>> :irc.tngnet.com 253 TestNickName 1 :unknown connection(s)%0A
+>> :irc.tngnet.com 254 TestNickName 6767 :channels formed%0A
+>> :irc.tngnet.com 255 TestNickName :I have 9408 clients and 18 servers%0A
+>> :irc.tngnet.com 265 TestNickName :Current local users: 9408  Max: 10299%0A
+>> :irc.tngnet.com 266 TestNickName :Current global users: 9408  Max: 10299%0A
+>> :irc.tngnet.com 375 TestNickName :- irc.tngnet.com Message of the Day - %0A
+>> :irc.tngnet.com 372 TestNickName :- [... Message of the day ...]A
+>> :irc.tngnet.com 376 TestNickName :End of /MOTD command.%0A
+>> :TestNickName!~TestIdent@22157C06.ECBC0223.8F86705D.IP MODE TestNickName :+ix%0A
+>> :py-ctcp!ctcp@ctcp-scanner.rizon.net PRIVMSG TestNickName :%01VERSION%01%0A
+>> :Global!service@rizon.net NOTICE TestNickName :[%02Logon News%02 - Dec 16 2013] Own a large/active channel or plan to get one going? Please read http://s.rizon.net/authline%0A
+>> :Global!service@rizon.net NOTICE TestNickName :[%02Logon News%02 - Feb 16 2022] %02First time on Rizon? Be sure to check out our wiki! https://wiki.rizon.net%02%0A
+>> :Global!service@rizon.net NOTICE TestNickName :[%02Random News%02 - Mar 20 2009] Idle on Rizon a lot? Why not play our idlerpg game, you can check it out at #RizonIRPG for more information visit the website http://idlerpg.rizon.net -Rizon Staff%0A
+<< NOTICE py-ctcp :%01VERSION Konversation 1.8.21123 Copyright 2002-2020 by the Konversation team%01%0A
+<< PING LAG135436%0A
+>> :irc.tngnet.com PONG irc.tngnet.com :LAG135436%0A
+<< WHO TestNickName%0A
+>> :irc.tngnet.com 352 TestNickName * ~TestIdent 22157C06.ECBC0223.8F86705D.IP * TestNickName H :0 TestRealName%0A
+>> :irc.tngnet.com 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :irc.tngnet.com 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203 %0A

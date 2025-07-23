@@ -1,0 +1,28 @@
+>> :tngnet.ircnet.io 020 * :Please wait while we process your connection.%0A
+<< CAP LS 302%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :tngnet.ircnet.io 001 TestNickName :Welcome to the Internet Relay Network TestNickName!~TestIdent@45.148.156.203%0A
+>> :tngnet.ircnet.io 002 TestNickName :Your host is tngnet.ircnet.io, running version 2.11.2p3+0PNv1.06%0A
+>> :tngnet.ircnet.io 003 TestNickName :This server was created Sun Apr 16 2023 at 19:34:05 CEST%0A
+>> :tngnet.ircnet.io 004 TestNickName tngnet.ircnet.io 2.11.2p3+0PNv1.06 aoOirw abeiIklmnoOpqrRstv%0A
+>> :tngnet.ircnet.io 005 TestNickName RFC2812 PREFIX=(ov)@+ CHANTYPES=#&!+ MODES=3 CHANLIMIT=#&!+:42 NICKLEN=15 TOPICLEN=255 KICKLEN=255 MAXLIST=beIR:64 CHANNELLEN=50 IDCHAN=!:5 CHANMODES=beIR,k,l,imnpstaqrzZ :are supported by this server%0A
+>> :tngnet.ircnet.io 005 TestNickName PENALTY FNC EXCEPTS=e INVEX=I CASEMAPPING=ascii NETWORK=IRCnet :are supported by this server%0A
+>> :tngnet.ircnet.io 042 TestNickName 0PNDAENP4 :your unique ID%0A
+>> :tngnet.ircnet.io 251 TestNickName :There are 18692 users and 1 services on 30 servers%0A
+>> :tngnet.ircnet.io 252 TestNickName 71 :operators online%0A
+>> :tngnet.ircnet.io 254 TestNickName 9793 :channels formed%0A
+>> :tngnet.ircnet.io 255 TestNickName :I have 582 users, 0 services and 1 servers%0A
+>> :tngnet.ircnet.io 265 TestNickName 582 830 :Current local users 582, max 830%0A
+>> :tngnet.ircnet.io 266 TestNickName 18692 21274 :Current global users 18692, max 21274%0A
+>> :tngnet.ircnet.io 375 TestNickName :- tngnet.ircnet.io Message of the Day - %0A
+>> :tngnet.ircnet.io 372 TestNickName : [... Message of the day ...]
+>> :tngnet.ircnet.io 376 TestNickName :End of MOTD command.%0A
+>> :TestNickName MODE TestNickName :+i%0A
+<< PING LAG134033%0A
+>> :tngnet.ircnet.io PONG tngnet.ircnet.io :LAG134033%0A
+<< WHO TestNickName%0A
+>> :tngnet.ircnet.io 352 TestNickName * ~TestIdent 45.148.156.203 tngnet.ircnet.io TestNickName H :0 0PND TestRealName%0A
+>> :tngnet.ircnet.io 315 TestNickName TestNickName :End of WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :tngnet.ircnet.io 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203%0A

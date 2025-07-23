@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 13:39:46 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:47:16 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ void	Client::setCap(const std::string &cap)
         {
             this->capabilities.push_back(cap);
             this->send(this->server->getName());
-            this->send(" ");
+            this->send(" CAP ");
             this->send(this->getNickname());
             this->send(" ACK : ");
             this->send(cap + "\r\n");
-        }
+            }
     }
 }
 

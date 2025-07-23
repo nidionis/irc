@@ -42,7 +42,7 @@ void cmdUser(Server &server, Client &client, std::string input) {
         else
             client.setUsername(user);
     }
-    client.send("USER :You are now known as " + client.getUsername() + "\r\n");
+    //client.send("USER :You are now known as " + client.getUsername() + "\r\n");
 }
 
 void cmdJoin(Server &server, Client &client, std::string input) {
