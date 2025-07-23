@@ -18,7 +18,6 @@ void cmdCap(Server &server, Client &client, std::string args) {
     } else if (getHead(args) == "END") {
         capEnd(server, client, getNextWds(args));
     }
-    // should wait a cap end
 }
 
 void cmdNick(Server &server, Client &client, std::string input) {

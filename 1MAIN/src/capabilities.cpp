@@ -59,7 +59,7 @@ void capLs(Server& server, Client& client, std::string args)
         client.send(" ");
         client.send(cap_tab[i].header);
     }
-    client.setFlag("loging");
+    client.setFlag(LOG_IN);
 }
 
 // as processCmd
@@ -89,7 +89,7 @@ void capEnd(Server &server, Client &client, std::string caps) {
     (void)server;
     (void)caps;
     if (client.getUsername() != "" && client.getNickname() != "") {
-        client.resetFlag("loging");
-        client.setFlag("logged");
+        client.resetFlag(LOG_IN);
+        client.setFlag(LOGGED);
     }
 }
