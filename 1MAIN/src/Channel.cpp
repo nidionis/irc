@@ -66,3 +66,16 @@ void Channel::setClient(Client &client) {
     this->clients.push_back(client);
     client.send("you joined the channel\r\n");
 }
+
+bool    Channel::hasOp(std::string op) {
+    return is_in(this->op, op);
+}
+
+void    Channel::setOp(std::string op) {
+    set(this->op, op);
+}
+
+void    Channel::delOp(std::string op) {
+    del(this->op, op);
+}
+

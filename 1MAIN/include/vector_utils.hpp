@@ -29,10 +29,14 @@ void set(std::vector<T> &v, const T x) {
     v.push_back(x);
 }
 
+// Corrected version of the template function
 template <typename T>
-void del(std::vector<T> &v, const T x) {
-    typename std::vector<T>::itetator it = std::find(v.begin(), v.end, x);
-    v.erase(it);
+void del(std::vector<T>& v, T x) {
+    // Correct spelling of 'iterator'
+    typename std::vector<T>::iterator it = std::find(v.begin(), v.end(), x);
+    if (it != v.end()) {
+        v.erase(it);
+    }
 }
 
 template <typename T>
