@@ -79,7 +79,9 @@ void cmdMode(Server &server, Client &client, std::string input) {
     (void) server;
     (void) client;
     (void) input;
-
+    if (client.hasFlag(LOGGED) == false) {
+        throw (std::runtime_error("Client not logged in"));
+    }
 }
 
 void processCommand(Server &server, Client &client, std::string input) {
