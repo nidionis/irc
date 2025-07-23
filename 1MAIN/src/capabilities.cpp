@@ -43,6 +43,7 @@ void capLs(Server& server, Client& client, std::string args)
 {
     (void)server;
     (void)args;
+    client.send(server.getName());
     client.send("\r\nCAP * LS : ");
     for (int i = 0; cap_tab[i].f; i++)
     {
@@ -58,6 +59,7 @@ void capReq(Server& server, Client& client, std::string caps)
     (void)server;
     std::string cap = getHead(caps);
     std::cout << "[capReq] caps:" << caps << std::endl;
+    client.send(server.getName());
     while (!cap.empty())
     {
         for (int i = 0; cap_tab[i].f; i++)
