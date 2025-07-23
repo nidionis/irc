@@ -43,6 +43,7 @@ private:
     std::string         		_hostname;
     std::vector<Channel>    	channels;
 	std::vector<std::string>    capabilities;
+    std::vector<std::string>    flags;
 
 public:
 	GETTER_SETTER(std::string, _nickname, Nickname)
@@ -66,6 +67,9 @@ public:
 	void				setCap(const std::string &cap);
 	void				resetCap(const std::string &cap);
 	bool				hasCap(const std::string &cap);
+    void				setFlag(const std::string &cap);
+    void				resetFlag(const std::string &cap);
+    bool				hasFlag(const std::string &cap);
 };
 
 #endif //CLIENT_HPP

@@ -15,6 +15,8 @@ void cmdCap(Server &server, Client &client, std::string args) {
         capLs(server, client, getNextWds(args));
     } else if (getHead(args) == "REQ") {
         capReq(server, client, getNextWds(args));
+    } else if (getHead(args) == "END") {
+        capEnd(server, client, getNextWds(args));
     }
     // should wait a cap end
 }

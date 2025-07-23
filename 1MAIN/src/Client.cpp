@@ -111,3 +111,33 @@ bool    Client::hasCap(const std::string &cap)
 {
     return is_in(this->capabilities, cap);
 }
+
+void	Client::setFlag(const std::string &cap)
+{
+    if (isCap(cap))
+    {
+        if (!is_in(this->capabilities, cap))
+        {
+            this->capabilities.push_back(cap);
+            this->send("[debug] flag" + cap + " set\r\n");
+        }
+    }
+}
+
+void Client::resetFlag(const std::string &cap)
+{
+    if (isCap(cap))
+    {
+        if (is_in(this->capabilities, cap))
+        {
+            std::vector<std::string>::iterator it = std::find(this->capabilities.begin(), this->capabilities.end(), cap);
+            this->capabilities.erase(it);
+            this->send("[debug] flag" + cap + " reset\r\n");
+        }
+    }
+}
+
+bool    Client::hasFlag(const std::string &cap)
+{
+    return is_in(this->capabilities, cap);
+}
