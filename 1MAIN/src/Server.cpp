@@ -157,13 +157,13 @@ bool	Server::hasNick(std::string const &nick)
 	return (false);
 }
 
-bool	Server::hasUser(std::string const &nick)
+bool	Server::hasUser(std::string const &username)
 {
 	std::string	name;
 	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
 	{
 		name = this->vector_clients[i].getUsername();
-		if (name == nick)
+		if (name == username)
 			return (true);
 	}
 	return (false);

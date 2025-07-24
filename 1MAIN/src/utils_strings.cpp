@@ -50,14 +50,18 @@ std::string getNextWds(const std::string& str)
 
 bool isValidName(const std::string& str)
 {
-    if (str.empty() || str.length() >= LEN_MAX_NAME) {
+    if (str.empty() || str.length() >= LEN_MAX_NAME)
+    {
         return false;
     }
-    if (std::isdigit(str[0])) {
+    if (std::isdigit(str[0]))
+    {
         return false;
     }
-    for (std::string::const_iterator it = str.begin(); it != str.end(); ++it) {
-        if (!std::isalnum(*it)) {
+    for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+    {
+        if (!std::isalnum(*it))
+        {
             return false;
         }
     }
@@ -78,8 +82,26 @@ std::string upperCase(const std::string& str)
     return result;
 }
 
-std::string to_string(const ssize_t value) {
+std::string to_string(const ssize_t value)
+{
     std::ostringstream oss;
     oss << value;
     return oss.str();
+}
+
+std::string popWd(std::string& str)
+{
+    std::string wd = getHead(str);
+    str = getNextWds(str);
+    return wd;
+}
+
+std::string lastWord(std::string& str)
+{
+    std::string wd = popWd(str);
+    while (str != "")
+    {
+        wd += popWd(str);
+    }
+    return wd;
 }

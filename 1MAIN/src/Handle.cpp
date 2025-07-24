@@ -11,138 +11,191 @@
 #include "../include/Server.hpp"
 #include "../include/utils_strings.hpp"
 
-void cmdCap(Server &server, Client &client, std::string args) {
-    (void) server;
-    std::cout << "[cmdCap] args:" << args << std::endl;
-    if (getHead(args) == "LS") {
+void cmdCap(Server& server, Client& client, std::string args)
+{
+    (void)server;
+    if (getHead(args) == "LS")
+    {
         capLs(server, client, getNextWds(args));
-    } else if (getHead(args) == "REQ") {
+    }
+    else if (getHead(args) == "REQ")
+    {
         capReq(server, client, getNextWds(args));
-    } else if (getHead(args) == "END") {
+    }
+    else if (getHead(args) == "END")
+    {
         capEnd(server, client, getNextWds(args));
     }
 }
 
-void cmdNick(Server &server, Client &client, std::string input) {
-    (void) server;
+void cmdNick(Server& server, Client& client, std::string input)
+{
+    (void)server;
     std::string nick = getHead(input);
-    if (nick != "") {
+    if (nick != "")
+    {
         if (server.hasNick(nick))
             client.send("NICK :NickName already in use\r\n");
         else
             client.setNickname(nick);
-    } else
+    }
+    else
         client.send("NICK :You are now known as " + client.getNickname() + "\r\n");
 }
 
-void cmdUser(Server &server, Client &client, std::string input) {
-    (void) server;
+void cmdUser(Server& server, Client& client, std::string input)
+{
+    (void)server;
     std::string user = getHead(input);
-    if (input != "")
+    std::string realname = lastWord(input);
+    if (user != "" && realname != "")
     {
+        if (client.getUsername() != "")
+        {
+            throw std::runtime_error("USER :You are already logged in");
+        }
         if (server.hasUser(user))
             client.send("USER :Username already in use\r\n");
         else
+        {
             client.setUsername(user);
+            client.setRealname(realname);
+        }
+    } else {
+        throw std::runtime_error("USER :failed to set names");
     }
-    //client.send("USER :You are now known as " + client.getUsername() + "\r\n");
 }
 
-void cmdJoin(Server &server, Client &client, std::string input) {
-    (void) server;
-    (void) client;
+void cmdJoin(Server& server, Client& client, std::string input)
+{
+    (void)server;
+    (void)client;
     std::string channel_str = getHead(input);
     Channel channel;
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
     {
-        try {
+        try
+        {
             channel = server.getChannel(channel_str);
-            try {
+            try
+            {
                 channel.setClient(client);
-            } catch (std::runtime_error &err) {
+            }
+            catch (std::runtime_error& err)
+            {
                 client.send("JOIN :You are already in the channel\r\n");
             }
-        } catch (const std::runtime_error &err) {
+        }
+        catch (const std::runtime_error& err)
+        {
             client.send("JOIN :Channel does not exist\r\n");
-            try {
+            try
+            {
                 client.newChannel(channel_str);
-            } catch (std::runtime_error &err) {
+            }
+            catch (std::runtime_error& err)
+            {
                 client.send("JOIN : failed :Too many channels\r\n");
             }
         }
-    } else {
+    }
+    else
+    {
         client.send("JOIN :Invalid channel name\r\n");
     }
 }
 
-void cmdMode(Server &server, Client &client, std::string input) {
-    (void) server;
-    (void) client;
-    (void) input;
+void cmdMode(Server& server, Client& client, std::string input)
+{
+    (void)server;
+    (void)client;
+    (void)input;
     std::string item = getHead(input);
     std::string mode_char = getNextWds(input);
-    if (client.hasFlag(LOGGED) == false) {
+    if (client.hasFlag(LOGGED) == false)
+    {
         throw (std::runtime_error("Client not logged in"));
     }
-    if (item[0] == '#') { //item is channel
+    if (item[0] == '#')
+    {
+        //item is channel
         Channel channel = server.getChannel(item);
-        if (channel.isAdmin(client)) {
-            try {
+        if (channel.isAdmin(client))
+        {
+            try
+            {
                 channel.setOp(mode_char);
                 client.send("[debug] implemented so badly\r\n");
-            } catch (std::runtime_error &err) {
+            }
+            catch (std::runtime_error& err)
+            {
                 client.send("MODE :");
                 client.send(err.what());
                 client.send("\r\n");
             }
         }
-    } else {
-        if (server.hasUser(item)) {
+    }
+    else
+    {
+        if (server.hasUser(item))
+        {
             client.send("[debug] do something with user here\r\n");
         }
     }
 }
 
-void cmdKick(Server &server, Client &client, std::string input) {
-    (void) server;
-    (void) client;
-    std::string channel_str = getHead(input);
-    input = getNextWds(input);
-    Client &kicked = server.getClient(getHead(input));
+void cmdKick(Server& server, Client& client, std::string input)
+{
+    (void)server;
+    (void)client;
+    std::string channel_str = popWd(input);
+    Client& kicked = server.getClient(getHead(input));
     std::string reason = getNextWds(input);
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
     {
-        try {
-            Channel &channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client)) {
-                try {
+        try
+        {
+            Channel& channel = server.getChannel(channel_str);
+            if (channel.isAdmin(client))
+            {
+                try
+                {
                     channel.delClient(client);
-                } catch (std::runtime_error &err) {
+                }
+                catch (std::runtime_error& err)
+                {
                     client.send("JOIN : Nick ");
                     client.send(kicked.getNickname());
                     client.send("not in the channel\r\n");
                 }
-            } else
+            }
+            else
                 client.send("JOIN :You are not an admin of the channel\r\n");
-        } catch (const std::runtime_error &err) {
+        }
+        catch (const std::runtime_error& err)
+        {
             client.send("JOIN :Channel does not exist\r\n");
         }
     }
 }
 
-void    cmdTopic(Server &server, Client &client, std::string input)
+void cmdTopic(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string channel_str = getHead(input);
     std::string topic = getNextWds(input);
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
     {
-        try {
-            Channel &channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client)) {
+        try
+        {
+            Channel& channel = server.getChannel(channel_str);
+            if (channel.isAdmin(client))
+            {
                 channel.setTopic(topic);
             }
-        } catch (const std::runtime_error &err) {
+        }
+        catch (const std::runtime_error& err)
+        {
             client.send("TOPIC : ");
             client.send(err.what());
             client.send("\r\n");
@@ -150,7 +203,7 @@ void    cmdTopic(Server &server, Client &client, std::string input)
     }
 }
 
-void    cmdPing(Server &server, Client &client, std::string input)
+void cmdPing(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string token = getHead(input);
@@ -159,27 +212,27 @@ void    cmdPing(Server &server, Client &client, std::string input)
     client.send("\r\n");
 }
 
-void cmdWho(Server &server, Client &client, std::string input)
+void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string arg = getHead(input);
     Client client_who = server.getClient(arg);
-        client.send(server.getName());
-        client.send(" 352 ");
-        client.send(client.getNickname());
-        client.send(" * ");
-        client_who.send(client.getUsername());
-        client.send(" ");
-        client_who.send(client.getHostname());
-        client.send(" ");
-        client.send(server.getName());
-        client.send(" ");
-        client_who.send(client.getNickname());
-        // //client.send(" * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
-        // //client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
+    client.send(server.getName());
+    client.send(" 352 ");
+    client.send(client.getNickname());
+    client.send(" * ");
+    client_who.send(client.getUsername());
+    client.send(" ");
+    client_who.send(client.getHostname());
+    client.send(" ");
+    client.send(server.getName());
+    client.send(" ");
+    client_who.send(client.getNickname());
+    // //client.send(" * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
+    // //client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
 }
 
-void cmdUserHost(Server &server, Client &client, std::string input)
+void cmdUserHost(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string arg = getHead(input);
@@ -189,7 +242,7 @@ void cmdUserHost(Server &server, Client &client, std::string input)
     }
 }
 
-void cmdPrivmsg(Server &server, Client &client, std::string input)
+void cmdPrivmsg(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string name = getHead(input);
@@ -197,38 +250,52 @@ void cmdPrivmsg(Server &server, Client &client, std::string input)
     std::string msg = getNextWds(input);
     if (name[0] == '#' && isValidName(name.substr(1)))
     {
-        try {
-            Channel &channel = server.getChannel(name);
+        try
+        {
+            Channel& channel = server.getChannel(name);
             channel.spawn(client.getNickname() + " : " + msg);
-        } catch (const std::runtime_error &err) {
+        }
+        catch (const std::runtime_error& err)
+        {
             client.send(err.what());
         }
-    } else if (server.hasUser(name)) {
-        Client  dest = server.getClient(name);
+    }
+    else if (server.hasNick(name))
+    {
+        Client dest = server.getClient(name);
         dest.send(client.getNickname() + " : " + msg);
         dest.send("\r\n");
-    } else {
+    }
+    else
+    {
         throw std::runtime_error("PRIVMSG : channel or client not found");
     }
     throw std::runtime_error("PRIVMSG : Failure");
 }
 
-void processCommand(Server &server, Client &client, std::string input) {
+void processCommand(Server& server, Client& client, std::string input)
+{
     std::cout << "##############################" << std::endl;
     std::cout << "<< " << input << std::endl;
     std::string cmd_flg = upperCase(getHead(input));
     std::string cmd_arg = getNextWds(input);
-    for (int i = 0; commands[i].f != NULL; i++) {
-        if (cmd_flg == commands[i].header) {
-            try {
+    for (int i = 0; commands[i].f != NULL; i++)
+    {
+        if (cmd_flg == commands[i].header)
+        {
+            try
+            {
                 commands[i].f(server, client, cmd_arg);
-            } catch (std::runtime_error &err) {
+            }
+            catch (std::runtime_error& err)
+            {
                 client.send(err.what());
                 client.send("\n");
             }
             return;
         }
     }
-    client.send("[processCommand]: Invalid command\n");
+    client.send("[processCommand]: Invalid command");
+    client.send(input);
     std::cout << "<<<<<<<<<<<<<<<<<<" << std::endl;
 }

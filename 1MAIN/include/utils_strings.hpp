@@ -17,5 +17,7 @@ std::string lowerCase(const std::string& str);
 std::string upperCase(const std::string& str);
 bool    	isValidName(const std::string& str);
 std::string to_string(const ssize_t value);
+std::string popWd(std::string& str);
+std::string lastWord(std::string& str);
 
 #endif //UTILS_STRINGS_H
