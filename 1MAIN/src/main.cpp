@@ -14,20 +14,22 @@
 
 #include <cstdlib>
 #include <stdlib.h>
+#include <string>
 
 #include "Server.hpp"
 
 int main(int argc, char **argv)
 {
 	Server	server;
-	
+
 	if (argc != 3)
 	{
 		std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
 		return (1);
 	}
 	std::cout << "Starting IRC server..." << std::endl;
-	server.server_init(atoi(argv[1]));
+	std::string	passwd(argv[1]);
+	server.server_init(atoi(argv[1]), passwd);
 	try { server.serverSetup(); }
 	catch (const std::exception& err) { std::cout << err.what() << std::endl; }
 	try { server.pollLoop(); }

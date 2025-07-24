@@ -40,9 +40,10 @@ std::string &Server::getName(void) {
     return this->_name;
 }
 
-void Server::server_init(int port)
+void Server::server_init(int port, std::string passwd)
 {
 	this->_name = SERV_NAME;
+	this->_passwd = passwd;
 	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
 	this->IPv4_serv_sock_addr.sin_family = AF_INET;
 	this->IPv4_serv_sock_addr.sin_port = htons(port);

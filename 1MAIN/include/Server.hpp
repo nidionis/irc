@@ -26,6 +26,7 @@ class Server
 {
 private:
     std::string _name;
+    std::string _passwd;
     struct sockaddr_in IPv4_serv_sock_addr;
     int fd_server_socket;
     char buffer[BUFFER_SIZE];
@@ -47,7 +48,7 @@ public:
     Server(void);
     ~Server(void);
 
-    void server_init(int port);
+    void server_init(int port, std::string passwd);
     std::string& getName();
     void serverSetup();
     void serverCleanup(void);
