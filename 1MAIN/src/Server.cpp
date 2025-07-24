@@ -118,7 +118,7 @@ ssize_t 		Server::sendClient(Client &cli, std::string msg) {
     if (byte_sent < 0) {
         throw (std::runtime_error("sending client error"));
     }
-	std::cout << "to " << cli.getNickname() << ": " << msg << std::endl;
+	std::cout << ">> to " << cli.getNickname() << " >> : " << msg << std::endl;
     return byte_sent;
 }
 
@@ -197,7 +197,7 @@ Channel	&Server::getChannel(std::string const &channel_str)
 {
 	for (size_t i = 0; i < this->channels.size(); i++)
 	{
-		if (this->channels[i].name == channel_str)
+		if (this->channels[i].getName() == channel_str)
 		{
 			return this->channels[i];
 		}

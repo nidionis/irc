@@ -6,6 +6,7 @@
 #define UTILS_STRINGS_H
 
 # include <string>
+# include <sstream>
 # define LEN_MAX_NAME 16
 
 std::string trim(const std::string& str);
@@ -14,6 +15,7 @@ std::string getHead(const std::string& str);
 std::string getNextWds(const std::string& str);
 std::string lowerCase(const std::string& str);
 std::string upperCase(const std::string& str);
-bool isValidName(const std::string& str);
+bool    	isValidName(const std::string& str);
+std::string to_string(const ssize_t value);
 
 #endif //UTILS_STRINGS_H

@@ -1,7 +1,3 @@
-//
-// Created by n on 17/07/25.
-//
-
 #include "main.hpp"
 #include "utils_strings.hpp"
 
@@ -80,4 +76,10 @@ std::string upperCase(const std::string& str)
     std::string result = str;
     std::transform(result.begin(), result.end(), result.begin(), ::toupper);
     return result;
+}
+
+std::string to_string(const ssize_t value) {
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
 }

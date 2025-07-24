@@ -5,6 +5,7 @@
 #include <Handle.hpp>
 #include <Channel.hpp>
 #include <iostream>
+#include <vector>
 
 #include "../include/Channel.hpp"
 #include "../include/Server.hpp"
@@ -20,7 +21,6 @@ void cmdCap(Server &server, Client &client, std::string args) {
     } else if (getHead(args) == "END") {
         capEnd(server, client, getNextWds(args));
     }
-    // should wait a cap end
 }
 
 void cmdNick(Server &server, Client &client, std::string input) {
@@ -163,11 +163,20 @@ void cmdWho(Server &server, Client &client, std::string input)
 {
     (void)server;
     std::string arg = getHead(input);
-    if (arg == client.getNickname())
-    {
-        client.send(":ircSchoolProject 352 TestUser * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
-        client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
-    }
+    Client client_who = server.getClient(arg);
+        client.send(server.getName());
+        client.send(" 352 ");
+        client.send(client.getNickname());
+        client.send(" * ");
+        client_who.send(client.getUsername());
+        client.send(" ");
+        client_who.send(client.getHostname());
+        client.send(" ");
+        client.send(server.getName());
+        client.send(" ");
+        client_who.send(client.getNickname());
+        // //client.send(" * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
+        // //client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
 }
 
 void cmdUserHost(Server &server, Client &client, std::string input)
@@ -198,11 +207,15 @@ void cmdPrivmsg(Server &server, Client &client, std::string input)
         Client  dest = server.getClient(name);
         dest.send(client.getNickname() + " : " + msg);
         dest.send("\r\n");
+    } else {
+        throw std::runtime_error("PRIVMSG : channel or client not found");
     }
     throw std::runtime_error("PRIVMSG : Failure");
 }
 
 void processCommand(Server &server, Client &client, std::string input) {
+    std::cout << "##############################" << std::endl;
+    std::cout << "<< " << input << std::endl;
     std::string cmd_flg = upperCase(getHead(input));
     std::string cmd_arg = getNextWds(input);
     for (int i = 0; commands[i].f != NULL; i++) {
@@ -217,4 +230,5 @@ void processCommand(Server &server, Client &client, std::string input) {
         }
     }
     client.send("[processCommand]: Invalid command\n");
+    std::cout << "<<<<<<<<<<<<<<<<<<" << std::endl;
 }

@@ -13,9 +13,10 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 # include <main.hpp>
-#include <algorithm>
-#define LOG_IN "log_IN"
-#define LOGGED "logged"
+# include "capabilities.hpp"
+# include "utils_strings.hpp"
+# define LOG_IN "log_IN"
+# define LOGGED "logged"
 
 class Client
 {
@@ -54,6 +55,7 @@ public:
     void				setFlag(const std::string &cap);
     void				resetFlag(const std::string &cap);
     bool				hasFlag(const std::string &cap);
+	ssize_t				send_banner(std::string line);
 };
 
 //std::ostream& operator<<(std::ostream& os, const Client& client);
