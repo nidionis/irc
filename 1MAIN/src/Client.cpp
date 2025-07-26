@@ -26,8 +26,8 @@ Client::Client(Server* server)
     this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
     this->fd_client_socket = -1;
     this->_nickname = "";
-    this->_username = "UserName";
-    this->_realname = "RealName";
+    this->_username = "";
+    this->_realname = "";
     return;
 }
 
