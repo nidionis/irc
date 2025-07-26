@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "Client.hpp"
-#include "utils_strings.hpp"
 
+#include <stdexcept>
 
 Client::Client(void)
 {
@@ -153,4 +153,18 @@ void Client::resetFlag(const std::string &cap)
 bool    Client::hasFlag(const std::string &cap)
 {
     return is_in(this->capabilities, cap);
+}
+
+void    Client::setLog()
+{
+    if (this->_username != "" && this->_realname != "" && this->_nickname != "")
+    {
+        this->logged[MAX_CHANNELS] = true;
+        this->send("You are logged : \r\n");
+        this->send("username: " + this->_username + "\r\n");
+        this->send("realname: " + this->_realname + "\r\n");
+        this->send("hostname: " + this->_hostname + "\r\n");
+    } else {
+        throw (std::runtime_error("log in failed\r\n"));
+    }
 }

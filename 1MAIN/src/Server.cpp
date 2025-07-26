@@ -208,3 +208,10 @@ Channel	&Server::getChannel(std::string const &channel_str)
 	}
 	throw (std::runtime_error("channel not found"));
 }
+
+bool	Server::checkPasswd(std::string passwd)
+{
+	if (passwd == this->_passwd)
+		return (true);
+	return (false);
+}

@@ -67,6 +67,8 @@ public:
     void pushChannel(Channel& channel);
     void delChannel(Channel& channel);
     Channel& getChannel(std::string const& channel);
+
+    bool	checkPasswd(std::string passwd);
 };
 
 #endif //SERVER_HPP

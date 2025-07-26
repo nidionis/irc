@@ -44,6 +44,7 @@ void set##f_name(type value) { name = value; }
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
+# define MAX_CHANNELS 2
 
 class Server;
 class Client;

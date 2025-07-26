@@ -14,18 +14,14 @@
 void cmdCap(Server& server, Client& client, std::string args)
 {
     (void)server;
-    if (getHead(args) == "LS")
-    {
+    if (getHead(args) == "LS") {
         capLs(server, client, getNextWds(args));
-    }
-    else if (getHead(args) == "REQ")
-    {
+    } else if (getHead(args) == "REQ") {
         capReq(server, client, getNextWds(args));
-    }
-    else if (getHead(args) == "END")
-    {
+    } else if (getHead(args) == "END") {
         capEnd(server, client, getNextWds(args));
     }
+    client.setLog();
 }
 
 void cmdNick(Server& server, Client& client, std::string input)
@@ -239,6 +235,20 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     if (arg == client.getNickname())
     {
         client.send(":ircSchoolProject 302 TestUser TestUser=@host.example.com+\n");
+    }
+}
+
+void cmdPass(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    if (server.checkPasswd(input))
+    {
+        //client.setFlag(LOGGED);
+        client.setLog();
+        client.send("Succefully logged in");
+        client.send("\r\n");
+    } else {
+        throw std::runtime_error("PASS :Password incorrect\r\n");
     }
 }
 

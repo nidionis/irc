@@ -4,11 +4,7 @@
 
 #ifndef IRC_CHANNEL_H
 #define IRC_CHANNEL_H
-#include <Client.hpp>
-#include <string>
-
-#include "main.hpp"
-# define MAX_CHANNELS 2
+# include "main.hpp"
 # define CHAN_OP "itkol"
 # define INVITE_ONLY    0
 # define TOPIC_RESTRICT 1
