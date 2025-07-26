@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 13:46:50 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:55:04 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,19 @@ void	Server::serverSetup(void)
 
 void				Server::initServerSocket(void)
 {
+	// SOCK_STREAM | SOCK_NONBLOCK
 	this->fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (this->fd_server_socket == -1) {
         throw (std::runtime_error("socket() error"));
     } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
         throw (std::runtime_error("fcntl() error"));
     }
+    /*this->fd_server_socket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
+	if (this->fd_server_socket == -1) {
+        throw (std::runtime_error("socket() error"));
+    } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
+        throw (std::runtime_error("fcntl() error"));
+    }*/
 	return ;
 }
 
@@ -118,7 +125,7 @@ ssize_t 		Server::sendClient(Client &cli, std::string msg) {
     if (byte_sent < 0) {
         throw (std::runtime_error("sending client error"));
     }
-	std::cout << "to " << cli.getNickname() << ": " << msg << std::endl;
+	std::cout << ">> to " << cli.getNickname() << " >> : " << msg << std::endl;
     return byte_sent;
 }
 
@@ -157,13 +164,13 @@ bool	Server::hasNick(std::string const &nick)
 	return (false);
 }
 
-bool	Server::hasUser(std::string const &nick)
+bool	Server::hasUser(std::string const &username)
 {
 	std::string	name;
 	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
 	{
 		name = this->vector_clients[i].getUsername();
-		if (name == nick)
+		if (name == username)
 			return (true);
 	}
 	return (false);
@@ -197,7 +204,7 @@ Channel	&Server::getChannel(std::string const &channel_str)
 {
 	for (size_t i = 0; i < this->channels.size(); i++)
 	{
-		if (this->channels[i].name == channel_str)
+		if (this->channels[i].getName() == channel_str)
 		{
 			return this->channels[i];
 		}

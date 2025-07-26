@@ -6,17 +6,13 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/23 16:47:16 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:22:30 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.hpp"
 #include "Client.hpp"
+#include "utils_strings.hpp"
 
-#include <stdexcept>
-
-#include "capabilities.hpp"
-#include "../include/capabilities.hpp"
 
 Client::Client(void)
 {
@@ -29,10 +25,9 @@ Client::Client(Server* server)
     memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
     this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
     this->fd_client_socket = -1;
-    this->_nickname = "";
-    this->_username = "";
-    this->_realname = "";
-    this->_hostname = "";
+    this->_nickname = "NickName";
+    this->_username = "UserName";
+    this->_realname = "RealName";
     return;
 }
 
@@ -80,6 +75,19 @@ void Client::delChannel(Channel& channel) {
 ssize_t Client::send(std::string msg)
 {
     return (this->server->sendClient(*this, msg));
+}
+
+ssize_t Client::send_banner(std::string line)
+{
+    static size_t i = 0;
+    ssize_t byte_sent = 0;
+    byte_sent += this->send(this->server->getName());
+    byte_sent += this->send(" ");
+    byte_sent += this->send(to_string(i));
+    byte_sent += this->send(" ");
+    byte_sent += this->send(line);
+    i++;
+    return (byte_sent);
 }
 
 void	Client::setCap(const std::string &cap)

@@ -101,8 +101,8 @@ void	Server::pollClientRecv(poll_data* p_data)
     if (recv_read == -1)
     {
         if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
-            //throw (std::runtime_error("recv failed"));
-            std::cerr << "error: Client read failed." << std::endl;
+            throw (std::runtime_error("recv failed"));
+            //std::cerr << "error: Client read failed." << std::endl;
             return ;
         } else {
             pollClientDisconnect(p_data);
@@ -116,7 +116,7 @@ void	Server::pollClientRecv(poll_data* p_data)
         buffer[recv_read] = '\0';
         handle(buffer, getClient(p_data->i));
         usleep(200);
-        std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << "$" << std::endl << std::flush;
+        //std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << "$" << std::endl << std::flush;
         //} else {
         //    throw (std::runtime_error("recv() buffer overflow"));
         //}

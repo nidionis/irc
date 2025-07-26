@@ -51,7 +51,7 @@ void capLs(Server& server, Client& client, std::string args)
         client.send(" ");
     }
     client.setFlag(LOG_IN);
-    client.send("\n");
+    client.send("\r\n");
 }
 
 void capReq(Server& server, Client& client, std::string caps)
@@ -75,6 +75,22 @@ void capReq(Server& server, Client& client, std::string caps)
     }
 }
 
+static void server_banner(Client &client)
+{
+    std::string message001 = ":ircSchoolProject 001 " + client.getNickname() + " :Welcome to the ircSchoolProject " + client.getNickname() + '\n';
+    std::string message002 = ":ircSchoolProject 002 " + client.getNickname() + " :Your host is ircSchoolProject[10.13.4.10/6667], running version v1.0\n";
+    std::string message003 = ":ircSchoolProject 003 " + client.getNickname() + " :This server was created Wed Jul 2025 at 12:00:00 EST\n";
+    std::string message004 = ":ircSchoolProject 004 " + client.getNickname() + " ircSchoolProject v1.0 o itkol kl\n";
+    std::string message005 = ":ircSchoolProject 005 " + client.getNickname() + " CHANMODES=o,k,l,it :are supported by this server\n";
+    std::string messageMODE = ":" + client.getNickname() + " MODE " + client.getNickname() + " :+i\n";
+    client.send(message001);
+    client.send(message002);
+    client.send(message003);
+    client.send(message004);
+    client.send(message005);
+    client.send(messageMODE);
+}
+
 void capEnd(Server &server, Client &client, std::string caps) {
     (void)server;
     (void)caps;
@@ -82,12 +98,5 @@ void capEnd(Server &server, Client &client, std::string caps) {
         client.resetFlag(LOG_IN);
         client.setFlag(LOGGED);
     }
-    client.send(":ircSchoolProject 001 TestUser :Welcome to the ircSchoolProject TestUser\n");
-    client.send(":ircSchoolProject 002 TestUser :Your host is ircSchoolProject[10.13.2.7/6667], running version 0.1\n");
-    client.send(":ircSchoolProject 003 TestUser :This server was created Wed Jul 2025 at 12:00:00 EST\n");
-    client.send(":ircSchoolProject 004 TestUser ircSchoolProject oiwszcrkfydnxbauglZCD biklmnopstveIrS bkloveI\n");
-    client.send(":ircSchoolProject 005 TestUser SAFELIST ELIST=U CASEMAPPING=rfc1459 CHARSET=ascii NICKLEN=9\
-        CHANNELLEN=50 TOPICLEN=160 ETRACE CPRIVMSG CNOTICE DEAF=D MONITOR=120 :are supported by this server\n");
-    client.send(":ircSchoolProject 005 TestUser FNC ACCEPT=20 MAP TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:10,\
-        NOTICE:10,ACCEPT:,MONITOR: :are supported by this server\n");
+    server_banner(client);
 }

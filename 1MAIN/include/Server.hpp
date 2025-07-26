@@ -57,7 +57,6 @@ public:
     Client              &getClient(const std::string &nick);
     void	            handle(char *buffer, Client &client);
     void	            applyRequest(char *buffer, Client &client);
-    //void	            sendCmds(Client &client);
 
 	bool				hasNick(std::string const &nick);
 	bool				hasUser(std::string const &user);
