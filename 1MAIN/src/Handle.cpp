@@ -216,23 +216,12 @@ void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)server;
     (void)input;
-    /*std::string arg = getHead(input);
-    Client client_who = server.getClient(arg);
-    client.send(server.getName());
-    client.send(" 352 ");
-    client.send(client.getNickname());
-    client.send(" * ");
-    client_who.send(client.getUsername());
-    client.send(" ");
-    client_who.send(client.getHostname());
-    client.send(" ");
-    client.send(server.getName());
-    client.send(" ");
-    client_who.send(client.getNickname());*/
-    /*>> :irc.mzima.net 352 TestNickN * ~TestIdent 45.148.156.203 irc.mzima.net TestNickN H :0 TestRealName%0A
-    >> :irc.mzima.net 315 TestNickN TestNickN :End of /WHO list.%0A*/
-    client.send(":ircSchoolProject 352 TestUser * ~TestUser 10.13.4.10 ircSchoolProject TestUser H :0 TestUser\n");
-    client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
+    std::string message352 = ":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername()
+        + " 10.13.4.10 ircSchoolProject " + client.getNickname() + " H :0 " + client.getRealname() + '\n';
+    std::string message315 = ":ircSchoolProject 315 " + client.getNickname()
+        + " " + client.getNickname() + " :End of /WHO list.\n";
+    client.send(message352);
+    client.send(message315);
 }
 
 void cmdUserHost(Server& server, Client& client, std::string input)
@@ -241,7 +230,10 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     std::string arg = getHead(input);
     if (arg == client.getNickname())
     {
-        client.send(":ircSchoolProject 302 TestUser :TestUser=-~TestUser@10.13.4.10\n");
+        std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
+           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
+        client.send(message302);
+        //client.send(":ircSchoolProject 302 NickName :NickName=+~UserName@10.13.4.10\n");
     }
 }
 

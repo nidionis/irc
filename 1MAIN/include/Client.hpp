@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/26 14:08:04 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:01:41 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ class Client
 {
 private:
     Server              		*server;
-    std::string         		_nickname;
-    std::string         		_username;
-    std::string         		_realname;
-    //std::string         		_hostname;
+    std::string         		_nickname; // NickName
+    std::string         		_username; // Ident
+    std::string         		_realname; // RealName
     std::vector<Channel>    	channels;
 	std::vector<std::string>    capabilities;
     std::vector<std::string>    flags;
