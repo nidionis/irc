@@ -119,7 +119,7 @@ void cmdMode(Server& server, Client& client, std::string input)
         {
             try
             {
-                channel.setOp(mode_char);
+                channel.setFlag(mode_char);
                 client.send("[debug] implemented so badly\r\n");
             }
             catch (std::runtime_error& err)

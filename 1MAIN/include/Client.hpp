@@ -13,7 +13,6 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 # include <main.hpp>
-# define LOG_IN "log_IN"
 # define LOGGED "logged"
 
 class Client

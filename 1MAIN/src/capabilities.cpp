@@ -50,7 +50,6 @@ void capLs(Server& server, Client& client, std::string args)
         client.send(cap_tab[i].header);
         //client.send(" ");
     }
-    client.setFlag(LOG_IN);
     client.send("\r\n");
 }
 
@@ -95,7 +94,6 @@ void capEnd(Server &server, Client &client, std::string caps) {
     (void)server;
     (void)caps;
     if (client.getUsername() != "" && client.getNickname() != "") {
-        client.resetFlag(LOG_IN);
         client.setFlag(LOGGED);
     }
     server_banner(client);

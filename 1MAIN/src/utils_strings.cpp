@@ -101,7 +101,7 @@ std::string lastWord(std::string& str)
     std::string wd = popWd(str);
     while (str != "")
     {
-        wd += popWd(str);
+        wd = popWd(str);
     }
     return wd;
 }
