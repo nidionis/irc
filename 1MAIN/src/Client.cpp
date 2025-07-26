@@ -13,7 +13,6 @@
 #include "Client.hpp"
 #include "utils_strings.hpp"
 
-
 Client::Client(void)
 {
     throw (std::runtime_error("client must be set with a server"));
