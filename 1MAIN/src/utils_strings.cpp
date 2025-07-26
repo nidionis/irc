@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <string>
-# define TRIMMED_CHARS " \t\r\n:"
+# define TRIMMED_CHARS ": \t\r\n"
 
 std::string trim(const std::string& str)
 {

@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	std::cout << "Starting IRC server..." << std::endl;
-	std::string	passwd(argv[1]);
+	std::string	passwd(argv[2]);
 	server.server_init(atoi(argv[1]), passwd);
 	try { server.serverSetup(); }
 	catch (const std::exception& err) { std::cout << err.what() << std::endl; }

@@ -218,6 +218,7 @@ Channel	&Server::getChannel(std::string const &channel_str)
 
 bool	Server::checkPasswd(std::string passwd)
 {
+	std::cout << "passwd: " << this->_passwd << std::endl;
 	if (passwd == this->_passwd)
 		return (true);
 	return (false);

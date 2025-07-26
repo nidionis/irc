@@ -64,6 +64,10 @@ void cmdJoin(Server& server, Client& client, std::string input)
     (void)client;
     std::string channel_str = getHead(input);
     Channel channel;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
     {
         try
@@ -117,7 +121,7 @@ void cmdMode(Server& server, Client& client, std::string input)
             try
             {
                 channel.setFlag(mode_char);
-                client.send("[debug] implemented so badly\r\n");
+                std::cout << "[debug] implemented so badly\r\n" << std::endl;
             }
             catch (std::runtime_error& err)
             {
@@ -176,6 +180,10 @@ void cmdTopic(Server& server, Client& client, std::string input)
     (void)server;
     std::string channel_str = getHead(input);
     std::string topic = getNextWds(input);
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
     {
         try
@@ -232,11 +240,12 @@ void cmdUserHost(Server& server, Client& client, std::string input)
 void cmdPass(Server& server, Client& client, std::string input)
 {
     (void)server;
-    if (server.checkPasswd(input))
+    std::string passwd = trim(input);
+    if (server.checkPasswd(passwd))
     {
         client.setFlag(PASSWD_OK);
-        client.send("passwd validated");
-        client.send("\r\n");
+        std::cout << "passwd validated" << std::endl;
+        std::cout << "\r\n" << std::endl;
     }
     else
     {
@@ -250,6 +259,10 @@ void cmdPrivmsg(Server& server, Client& client, std::string input)
     std::string name = getHead(input);
     name = trim(name, OPERATOR_OP);
     std::string msg = getNextWds(input);
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     if (name[0] == '#' && isValidName(name.substr(1)))
     {
         try
@@ -297,7 +310,7 @@ void processCommand(Server& server, Client& client, std::string input)
             return;
         }
     }
-    client.send("[processCommand]: Invalid command");
-    client.send(input);
+    std::cout << "[processCommand]: Invalid command" << std::endl;
+    std::cout << input << std::endl;
     std::cout << "<<<<<<<<<<<<<<<<<<" << std::endl;
 }
