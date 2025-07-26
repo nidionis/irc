@@ -233,7 +233,6 @@ void cmdUserHost(Server& server, Client& client, std::string input)
         std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
            + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
         client.send(message302);
-        //client.send(":ircSchoolProject 302 NickName :NickName=+~UserName@10.13.4.10\n");
     }
 }
 
