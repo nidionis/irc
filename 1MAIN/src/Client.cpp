@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/23 16:47:16 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/26 17:22:59 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ Client::Client(Server* server)
     memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
     this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
     this->fd_client_socket = -1;
-    // this->_nickname = "";
+    this->_nickname = "";
     this->_username = "";
     this->_realname = "";
-    this->_hostname = "";
     return;
 }
 
@@ -98,10 +97,11 @@ void	Client::setCap(const std::string &cap)
         if (!is_in(this->capabilities, cap))
         {
             this->capabilities.push_back(cap);
+            this->send(":");
             this->send(this->server->getName());
             this->send(" CAP ");
             this->send(this->getNickname());
-            this->send(" ACK : ");
+            this->send(" ACK :");
             this->send(cap + "\r\n");
             }
     }
@@ -125,46 +125,29 @@ bool    Client::hasCap(const std::string &cap)
     return is_in(this->capabilities, cap);
 }
 
-void	Client::setFlag(const std::string &cap)
+void	Client::setFlag(const std::string &flag)
 {
-    if (isCap(cap))
-    {
-        if (!is_in(this->capabilities, cap))
-        {
-            this->capabilities.push_back(cap);
-            this->send("[debug] flag" + cap + " set\r\n");
-        }
-    }
-}
-
-void Client::resetFlag(const std::string &cap)
-{
-    if (isCap(cap))
-    {
-        if (is_in(this->capabilities, cap))
-        {
-            std::vector<std::string>::iterator it = std::find(this->capabilities.begin(), this->capabilities.end(), cap);
-            this->capabilities.erase(it);
-            this->send("[debug] flag" + cap + " reset\r\n");
-        }
-    }
-}
-
-bool    Client::hasFlag(const std::string &cap)
-{
-    return is_in(this->capabilities, cap);
-}
-
-void    Client::setLog()
-{
-    if (this->_username != "" && this->_realname != "" && this->_nickname != "")
-    {
-        this->logged[MAX_CHANNELS] = true;
-        this->send("You are logged : \r\n");
-        this->send("username: " + this->_username + "\r\n");
-        this->send("realname: " + this->_realname + "\r\n");
-        this->send("hostname: " + this->_hostname + "\r\n");
+    if (is_in(this->flags, flag)) {
+        this->send("[debug] flag " + flag + " was already set\r\n");
     } else {
-        throw (std::runtime_error("log in failed\r\n"));
+        this->flags.push_back(flag);
+        //this->send("[debug] flag " + flag + " set\r\n");
     }
 }
+
+void Client::resetFlag(const std::string &flag)
+{
+    if (is_in(this->flags, flag)) {
+        std::vector<std::string>::iterator it = std::find(this->flags.begin(), this->flags.end(), flag);
+        this->flags.erase(it);
+        //this->send("[debug] flag " + flag + " reset\r\n");
+    } else {
+        this->send("[debug] flag " + flag + " was not set\r\n");
+    }
+}
+
+bool    Client::hasFlag(const std::string &flag)
+{
+    return is_in(this->capabilities, flag);
+}
+

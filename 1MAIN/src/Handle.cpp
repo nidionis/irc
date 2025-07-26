@@ -21,7 +21,6 @@ void cmdCap(Server& server, Client& client, std::string args)
     } else if (getHead(args) == "END") {
         capEnd(server, client, getNextWds(args));
     }
-    client.setLog();
 }
 
 void cmdNick(Server& server, Client& client, std::string input)
@@ -116,7 +115,7 @@ void cmdMode(Server& server, Client& client, std::string input)
     {
         //item is channel
         Channel channel = server.getChannel(item);
-        if (channel.isAdmin(client))
+        if (channel.isOperator(client))
         {
             try
             {
@@ -152,7 +151,7 @@ void cmdKick(Server& server, Client& client, std::string input)
         try
         {
             Channel& channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client))
+            if (channel.isOperator(client))
             {
                 try
                 {
@@ -166,7 +165,7 @@ void cmdKick(Server& server, Client& client, std::string input)
                 }
             }
             else
-                client.send("JOIN :You are not an admin of the channel\r\n");
+                client.send("JOIN :You are not an operator of the channel\r\n");
         }
         catch (const std::runtime_error& err)
         {
@@ -185,7 +184,7 @@ void cmdTopic(Server& server, Client& client, std::string input)
         try
         {
             Channel& channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client))
+            if (channel.isOperator(client))
             {
                 channel.setTopic(topic);
             }
@@ -203,6 +202,7 @@ void cmdPing(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string token = getHead(input);
+    client.send(":");
     client.send(server.getName() + " PONG :");
     client.send(input);
     client.send("\r\n");
@@ -211,21 +211,13 @@ void cmdPing(Server& server, Client& client, std::string input)
 void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)server;
-    std::string arg = getHead(input);
-    Client client_who = server.getClient(arg);
-    client.send(server.getName());
-    client.send(" 352 ");
-    client.send(client.getNickname());
-    client.send(" * ");
-    client_who.send(client.getUsername());
-    client.send(" ");
-    client_who.send(client.getHostname());
-    client.send(" ");
-    client.send(server.getName());
-    client.send(" ");
-    client_who.send(client.getNickname());
-    // //client.send(" * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
-    // //client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
+    (void)input;
+    std::string message352 = ":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername()
+        + " 10.13.4.10 ircSchoolProject " + client.getNickname() + " H :0 " + client.getRealname() + '\n';
+    std::string message315 = ":ircSchoolProject 315 " + client.getNickname()
+        + " " + client.getNickname() + " :End of /WHO list.\n";
+    client.send(message352);
+    client.send(message315);
 }
 
 void cmdUserHost(Server& server, Client& client, std::string input)
@@ -234,7 +226,9 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     std::string arg = getHead(input);
     if (arg == client.getNickname())
     {
-        client.send(":ircSchoolProject 302 TestUser TestUser=@host.example.com+\n");
+        std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
+           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
+        client.send(message302);
     }
 }
 
@@ -243,8 +237,7 @@ void cmdPass(Server &server, Client &client, std::string input)
     (void)server;
     if (server.checkPasswd(input))
     {
-        //client.setFlag(LOGGED);
-        client.setLog();
+        client.setFlag(LOGGED);
         client.send("Succefully logged in");
         client.send("\r\n");
     } else {
