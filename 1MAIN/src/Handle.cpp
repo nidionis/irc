@@ -120,7 +120,7 @@ void cmdMode(Server& server, Client& client, std::string input)
     {
         //item is channel
         Channel channel = server.getChannel(item);
-        if (channel.isAdmin(client))
+        if (channel.isOperator(client))
         {
             try
             {
@@ -156,7 +156,7 @@ void cmdKick(Server& server, Client& client, std::string input)
         try
         {
             Channel& channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client))
+            if (channel.isOperator(client))
             {
                 try
                 {
@@ -170,7 +170,7 @@ void cmdKick(Server& server, Client& client, std::string input)
                 }
             }
             else
-                client.send("JOIN :You are not an admin of the channel\r\n");
+                client.send("JOIN :You are not an operator of the channel\r\n");
         }
         catch (const std::runtime_error& err)
         {
@@ -189,7 +189,7 @@ void cmdTopic(Server& server, Client& client, std::string input)
         try
         {
             Channel& channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client))
+            if (channel.isOperator(client))
             {
                 channel.setTopic(topic);
             }
@@ -240,6 +240,13 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     {
         client.send(":ircSchoolProject 302 TestUser TestUser=@host.example.com+\n");
     }
+}
+
+void cmdQuit(Server &server, Client &client, std::string input) {
+    (void)server;
+    (void)input;
+    client.send("quiting");
+    client.clientCleanup();
 }
 
 void cmdPrivmsg(Server& server, Client& client, std::string input)
