@@ -78,16 +78,16 @@ void Channel::delClient(Client &client) {
     this->clients.erase(it);
 }
 
-bool    Channel::hasOp(std::string op) {
-    return is_in(this->op, op);
+bool    Channel::hasMode(std::string mode) {
+    return is_in(this->mode, mode);
 }
 
-void    Channel::setOp(std::string op) {
-    set(this->op, op);
+void    Channel::setMode(std::string mode) {
+    set(this->mode, mode);
 }
 
-void    Channel::delOp(std::string op) {
-    del(this->op, op);
+void    Channel::delMode(std::string mode) {
+    del(this->mode, mode);
 }
 
 void Channel::spawn(std::string msg)

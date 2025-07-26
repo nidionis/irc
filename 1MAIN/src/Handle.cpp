@@ -70,6 +70,10 @@ void cmdJoin(Server& server, Client& client, std::string input)
 {
     (void)server;
     (void)client;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string channel_str = getHead(input);
     Channel channel;
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
@@ -124,7 +128,7 @@ void cmdMode(Server& server, Client& client, std::string input)
         {
             try
             {
-                channel.setOp(mode_char);
+                channel.setMode(mode_char);
                 client.send("[debug] implemented so badly\r\n");
             }
             catch (std::runtime_error& err)
@@ -215,6 +219,10 @@ void cmdPing(Server& server, Client& client, std::string input)
 void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)server;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string arg = getHead(input);
     Client client_who = server.getClient(arg);
     client.send(server.getName());
@@ -235,6 +243,10 @@ void cmdWho(Server& server, Client& client, std::string input)
 void cmdUserHost(Server& server, Client& client, std::string input)
 {
     (void)server;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string arg = getHead(input);
     if (arg == client.getNickname())
     {
@@ -245,6 +257,10 @@ void cmdUserHost(Server& server, Client& client, std::string input)
 void cmdQuit(Server &server, Client &client, std::string input) {
     (void)server;
     (void)input;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     client.send("quiting");
     client.clientCleanup();
 }
@@ -252,6 +268,10 @@ void cmdQuit(Server &server, Client &client, std::string input) {
 void cmdPrivmsg(Server& server, Client& client, std::string input)
 {
     (void)server;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string name = getHead(input);
     name = trim(name, OPERATOR_OP);
     std::string msg = getNextWds(input);
