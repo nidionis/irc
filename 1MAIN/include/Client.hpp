@@ -14,6 +14,7 @@
 # define CLIENT_HPP
 # include <main.hpp>
 # define LOGGED "logged"
+# define PASSWD_OK "passwd_ok"
 
 class Client
 {

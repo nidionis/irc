@@ -14,11 +14,16 @@
 void cmdCap(Server& server, Client& client, std::string args)
 {
     (void)server;
-    if (getHead(args) == "LS") {
+    if (getHead(args) == "LS")
+    {
         capLs(server, client, getNextWds(args));
-    } else if (getHead(args) == "REQ") {
+    }
+    else if (getHead(args) == "REQ")
+    {
         capReq(server, client, getNextWds(args));
-    } else if (getHead(args) == "END") {
+    }
+    else if (getHead(args) == "END")
+    {
         capEnd(server, client, getNextWds(args));
     }
 }
@@ -43,22 +48,14 @@ void cmdUser(Server& server, Client& client, std::string input)
     (void)server;
     std::string user = getHead(input);
     std::string realname = lastWord(input);
-    if (user != "" && realname != "")
+    if (client.getUsername() != "") {
+        throw std::runtime_error("USER :You are already logged in");
+    } if (server.hasUser(user))
     {
-        if (client.getUsername() != "")
-        {
-            throw std::runtime_error("USER :You are already logged in");
-        }
-        if (server.hasUser(user))
-            client.send("USER :Username already in use\r\n");
-        else
-        {
-            client.setUsername(user);
-            client.setRealname(realname);
-        }
-    } else {
-        throw std::runtime_error("USER :failed to set names");
+        throw std::runtime_error("USER :Username already in use\r\n");
     }
+    client.setUsername(user);
+    client.setRealname(realname);
 }
 
 void cmdJoin(Server& server, Client& client, std::string input)
@@ -201,7 +198,7 @@ void cmdTopic(Server& server, Client& client, std::string input)
 void cmdPing(Server& server, Client& client, std::string input)
 {
     (void)server;
-    std::string token = getHead(input);
+
     client.send(":");
     client.send(server.getName() + " PONG :");
     client.send(input);
@@ -227,20 +224,22 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     if (arg == client.getNickname())
     {
         std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
-           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
+            + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
         client.send(message302);
     }
 }
 
-void cmdPass(Server &server, Client &client, std::string input)
+void cmdPass(Server& server, Client& client, std::string input)
 {
     (void)server;
     if (server.checkPasswd(input))
     {
-        client.setFlag(LOGGED);
-        client.send("Succefully logged in");
+        client.setFlag(PASSWD_OK);
+        client.send("passwd validated");
         client.send("\r\n");
-    } else {
+    }
+    else
+    {
         throw std::runtime_error("PASS :Password incorrect\r\n");
     }
 }

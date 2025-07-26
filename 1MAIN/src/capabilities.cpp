@@ -6,6 +6,7 @@
 
 #include <string>
 
+#include "../include/Client.hpp"
 #include "../include/Handle.hpp"
 
 const struct s_cmd cap_tab[] = {
@@ -93,7 +94,7 @@ static void server_banner(Client &client)
 void capEnd(Server &server, Client &client, std::string caps) {
     (void)server;
     (void)caps;
-    if (client.getUsername() != "" && client.getNickname() != "") {
+    if (client.getUsername() != "" && client.getNickname() != "" && client.hasFlag(PASSWD_OK)) {
         client.setFlag(LOGGED);
     }
     server_banner(client);
