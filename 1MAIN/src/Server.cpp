@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/26 13:55:04 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:46:50 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,12 @@ void	Server::serverSetup(void)
 
 void				Server::initServerSocket(void)
 {
-	// SOCK_STREAM | SOCK_NONBLOCK
 	this->fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (this->fd_server_socket == -1) {
         throw (std::runtime_error("socket() error"));
     } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
         throw (std::runtime_error("fcntl() error"));
     }
-    /*this->fd_server_socket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
-	if (this->fd_server_socket == -1) {
-        throw (std::runtime_error("socket() error"));
-    } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
-        throw (std::runtime_error("fcntl() error"));
-    }*/
 	return ;
 }
 

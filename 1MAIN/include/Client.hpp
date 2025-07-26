@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/26 15:01:41 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:40:03 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,16 @@
 # include <main.hpp>
 # include "capabilities.hpp"
 # include "utils_strings.hpp"
-# define LOG_IN "log_IN"
 # define LOGGED "logged"
-
-
-/*
-
-*/
 
 class Client
 {
 private:
     Server              		*server;
-    std::string         		_nickname; // NickName
-    std::string         		_username; // Ident
-    std::string         		_realname; // RealName
+    std::string         		_nickname;
+    std::string         		_username;
+    std::string         		_realname;
+    std::string         		_hostname;
     std::vector<Channel>    	channels;
 	std::vector<std::string>    capabilities;
     std::vector<std::string>    flags;
@@ -38,6 +33,7 @@ public:
 	GETTER_SETTER(std::string, _nickname, Nickname)
 	GETTER_SETTER(std::string, _username, Username)
 	GETTER_SETTER(std::string, _realname, Realname)
+	GETTER_SETTER(std::string, _hostname, Hostname)
 
 	struct sockaddr_in	IPv4_client_sock_addr;
 	int					fd_client_socket;

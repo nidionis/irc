@@ -11,13 +11,13 @@ Channel::Channel() {}
 
 Channel::~Channel() {
     this->clients.clear();
-    this->admins.clear();
+    this->operators.clear();
 }
 
 Channel::Channel(Client &client, std::string &name) {
     this->_name = name;
     this->clients.push_back(client);
-    this->admins.push_back(client);
+    this->operators.push_back(client);
 }
 
 bool Channel::operator==(const Channel &other) const {
@@ -27,13 +27,13 @@ Channel& Channel::operator=(const Channel& other) {
     if (this != &other) {
         _name = other.getName();
         clients = other.clients;
-        admins = other.admins;
+        operators = other.operators;
     }
     return *this;
 }
 
-bool Channel::isAdmin(Client &client) {
-    if (std::find(this->admins.begin(), this->admins.end(), client) != this->admins.end()) {
+bool Channel::isOperator(Client &client) {
+    if (std::find(this->operators.begin(), this->operators.end(), client) != this->operators.end()) {
         return true;
     } else {
         return false;
@@ -48,14 +48,14 @@ bool Channel::isClient(Client &client) {
     }
 }
 
-void Channel::setAdmin(Client &client) {
-    if (this->isAdmin(client))
+void Channel::setOperator(Client &client) {
+    if (this->isOperator(client))
     {
-        throw std::runtime_error("Client is already an admin");
+        throw std::runtime_error("Client is already an operator");
         return;
     }
-    this->admins.push_back(client);
-    client.send("you admin the channel\r\n");
+    this->operators.push_back(client);
+    client.send("you operator the channel\r\n");
 }
 
 void Channel::setClient(Client &client) {
@@ -78,16 +78,16 @@ void Channel::delClient(Client &client) {
     this->clients.erase(it);
 }
 
-bool    Channel::hasOp(std::string op) {
-    return is_in(this->op, op);
+bool    Channel::hasMode(std::string mode) {
+    return is_in(this->mode, mode);
 }
 
-void    Channel::setOp(std::string op) {
-    set(this->op, op);
+void    Channel::setMode(std::string mode) {
+    set(this->mode, mode);
 }
 
-void    Channel::delOp(std::string op) {
-    del(this->op, op);
+void    Channel::delMode(std::string mode) {
+    del(this->mode, mode);
 }
 
 void Channel::spawn(std::string msg)

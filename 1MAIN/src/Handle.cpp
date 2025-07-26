@@ -70,6 +70,10 @@ void cmdJoin(Server& server, Client& client, std::string input)
 {
     (void)server;
     (void)client;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string channel_str = getHead(input);
     Channel channel;
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
@@ -110,6 +114,10 @@ void cmdMode(Server& server, Client& client, std::string input)
     (void)server;
     (void)client;
     (void)input;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string item = getHead(input);
     std::string mode_char = getNextWds(input);
     if (client.hasFlag(LOGGED) == false)
@@ -120,11 +128,11 @@ void cmdMode(Server& server, Client& client, std::string input)
     {
         //item is channel
         Channel channel = server.getChannel(item);
-        if (channel.isAdmin(client))
+        if (channel.isOperator(client))
         {
             try
             {
-                channel.setOp(mode_char);
+                channel.setMode(mode_char);
                 client.send("[debug] implemented so badly\r\n");
             }
             catch (std::runtime_error& err)
@@ -156,7 +164,7 @@ void cmdKick(Server& server, Client& client, std::string input)
         try
         {
             Channel& channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client))
+            if (channel.isOperator(client))
             {
                 try
                 {
@@ -170,7 +178,7 @@ void cmdKick(Server& server, Client& client, std::string input)
                 }
             }
             else
-                client.send("JOIN :You are not an admin of the channel\r\n");
+                client.send("JOIN :You are not an operator of the channel\r\n");
         }
         catch (const std::runtime_error& err)
         {
@@ -189,7 +197,7 @@ void cmdTopic(Server& server, Client& client, std::string input)
         try
         {
             Channel& channel = server.getChannel(channel_str);
-            if (channel.isAdmin(client))
+            if (channel.isOperator(client))
             {
                 channel.setTopic(topic);
             }
@@ -215,30 +223,59 @@ void cmdPing(Server& server, Client& client, std::string input)
 void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)server;
-    (void)input;
-    std::string message352 = ":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername()
-        + " 10.13.4.10 ircSchoolProject " + client.getNickname() + " H :0 " + client.getRealname() + '\n';
-    std::string message315 = ":ircSchoolProject 315 " + client.getNickname()
-        + " " + client.getNickname() + " :End of /WHO list.\n";
-    client.send(message352);
-    client.send(message315);
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
+    std::string arg = getHead(input);
+    Client client_who = server.getClient(arg);
+    client.send(server.getName());
+    client.send(" 352 ");
+    client.send(client.getNickname());
+    client.send(" * ");
+    client_who.send(client.getUsername());
+    client.send(" ");
+    client_who.send(client.getHostname());
+    client.send(" ");
+    client.send(server.getName());
+    client.send(" ");
+    client_who.send(client.getNickname());
+    // //client.send(" * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
+    // //client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
 }
 
 void cmdUserHost(Server& server, Client& client, std::string input)
 {
     (void)server;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string arg = getHead(input);
     if (arg == client.getNickname())
     {
-        std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
-           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
-        client.send(message302);
+        client.send(":ircSchoolProject 302 TestUser TestUser=@host.example.com+\n");
     }
+}
+
+void cmdQuit(Server &server, Client &client, std::string input) {
+    (void)server;
+    (void)input;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
+    client.send("quiting");
+    client.clientCleanup();
 }
 
 void cmdPrivmsg(Server& server, Client& client, std::string input)
 {
     (void)server;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        throw (std::runtime_error("Client not logged in"));
+    }
     std::string name = getHead(input);
     name = trim(name, OPERATOR_OP);
     std::string msg = getNextWds(input);

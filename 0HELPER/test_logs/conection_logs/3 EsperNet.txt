@@ -1,25 +1,38 @@
 << CAP LS 302%0A
-<< NICK NickName%0A
-<< USER UserName 8 * :RealName%0A
->> :calamity.esper.net NOTICE * :*** No Ident response%0A
->> :calamity.esper.net CAP * LS :account-notify away-notify cap-notify chghost extended-join multi-prefix sasl tls userhost-in-names%0A
->> PING :FFFFFFFF4A6E5468%0A
+>> :anarchy.esper.net NOTICE * :*** Looking up your hostname...%0A
+>> :anarchy.esper.net NOTICE * :*** Checking Ident%0A
+>> :anarchy.esper.net NOTICE * :*** Couldn't look up your hostname%0A
+<< NICK TestNickName%0A
+<< USER TestIdent 8 * :TestRealName%0A
+>> :anarchy.esper.net NOTICE * :*** No Ident response%0A
+>> :anarchy.esper.net CAP * LS :account-notify away-notify cap-notify chghost extended-join multi-prefix sasl tls userhost-in-names%0A
+>> PING :66694916%0A
 << CAP REQ :account-notify away-notify cap-notify chghost extended-join multi-prefix userhost-in-names%0A
->> :calamity.esper.net CAP NickName ACK :account-notify away-notify cap-notify chghost extended-join multi-prefix userhost-in-names%0A
-<< PONG :FFFFFFFF4A6E5468%0A
+>> :anarchy.esper.net CAP TestNickName ACK :account-notify away-notify cap-notify chghost extended-join multi-prefix userhost-in-names%0A
+<< PONG :66694916%0A
 << CAP END%0A
->> :calamity.esper.net 001 NickName :Welcome to the EsperNet Internet Relay Chat Network NickName%0A
->> :calamity.esper.net 002 NickName :Your host is calamity.esper.net[139.99.136.176/6667], running version charybdis-3.5.3%0A
->> :calamity.esper.net 003 NickName :This server was created Fri Apr 25 2025 at 21:51:37 UTC%0A
->> :calamity.esper.net 004 NickName calamity.esper.net charybdis-3.5.3 DQRSZagiloswz CFILPQTbcefgijklmnopqrstvz bkloveqjfI%0A
->> :calamity.esper.net 005 NickName KNOCK ETRACE MONITOR=100 WHOX FNC CPRIVMSG CNOTICE SAFELIST ELIST=CTU CHANTYPES=# EXCEPTS INVEX :are supported by this server%0A
->> :calamity.esper.net 005 NickName CHANMODES=eIbq,k,flj,CFLPQTcgimnprstz CHANLIMIT=#:50 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=EsperNet STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 NICKLEN=24 MAXNICKLEN=30 CHANNELLEN=50 :are supported by this server%0A
->> :calamity.esper.net 005 NickName TOPICLEN=390 DEAF=D TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,acjorsxz CLIENTVER=3.0 :are supported by this server%0A
->> :NickName MODE NickName :+i%0A
-<< PING LAG150254%0A
->> :calamity.esper.net PONG calamity.esper.net :LAG150254%0A
-<< WHO NickName%0A
->> :calamity.esper.net 352 NickName * ~UserName 45.148.156.203 calamity.esper.net NickName H :0 RealName%0A
->> :calamity.esper.net 315 NickName NickName :End of /WHO list.%0A
-<< USERHOST NickName%0A
->> :calamity.esper.net 302 NickName :NickName=+~UserName@45.148.156.203 %0A
+>> :anarchy.esper.net 001 TestNickName :Welcome to the EsperNet Internet Relay Chat Network TestNickName%0A
+>> :anarchy.esper.net 002 TestNickName :Your host is anarchy.esper.net[51.255.119.242/6667], running version charybdis-3.5.3%0A
+>> :anarchy.esper.net 003 TestNickName :This server was created Fri Apr 25 2025 at 20:52:19 UTC%0A
+>> :anarchy.esper.net 004 TestNickName anarchy.esper.net charybdis-3.5.3 DQRSZagiloswz CFILPQTbcefgijklmnopqrstvz bkloveqjfI%0A
+>> :anarchy.esper.net 005 TestNickName KNOCK ETRACE MONITOR=100 WHOX FNC CPRIVMSG CNOTICE SAFELIST ELIST=CTU CHANTYPES=# EXCEPTS INVEX :are supported by this server%0A
+>> :anarchy.esper.net 005 TestNickName CHANMODES=eIbq,k,flj,CFLPQTcgimnprstz CHANLIMIT=#:50 PREFIX=(ov)@+ MAXLIST=bqeI:100 MODES=4 NETWORK=EsperNet STATUSMSG=@+ CALLERID=g CASEMAPPING=rfc1459 NICKLEN=24 MAXNICKLEN=30 CHANNELLEN=50 :are supported by this server%0A
+>> :anarchy.esper.net 005 TestNickName TOPICLEN=390 DEAF=D TARGMAX=NAMES:1,LIST:1,KICK:1,WHOIS:1,PRIVMSG:4,NOTICE:4,ACCEPT:,MONITOR: EXTBAN=$,acjorsxz CLIENTVER=3.0 :are supported by this server%0A
+>> :anarchy.esper.net 251 TestNickName :There are 5 users and 1487 invisible on 6 servers%0A
+>> :anarchy.esper.net 252 TestNickName 7 :IRC Operators online%0A
+>> :anarchy.esper.net 254 TestNickName 1817 :channels formed%0A
+>> :anarchy.esper.net 255 TestNickName :I have 519 clients and 1 servers%0A
+>> :anarchy.esper.net 265 TestNickName 519 650 :Current local users 519, max 650%0A
+>> :anarchy.esper.net 266 TestNickName 1492 1573 :Current global users 1492, max 1573%0A
+>> :anarchy.esper.net 250 TestNickName :Highest connection count: 651 (650 clients) (18943 connections received)%0A
+>> :anarchy.esper.net 375 TestNickName :- anarchy.esper.net Message of the Day - %0A
+>> :anarchy.esper.net 372 TestNickName :- [... Message of the day ...]
+>> :anarchy.esper.net 376 TestNickName :End of /MOTD command.%0A
+>> :TestNickName MODE TestNickName :+i%0A
+<< PING LAG135116%0A
+>> :anarchy.esper.net PONG anarchy.esper.net :LAG135116%0A
+<< WHO TestNickName%0A
+>> :anarchy.esper.net 352 TestNickName * ~TestIdent 45.148.156.203 anarchy.esper.net TestNickName H :0 TestRealName%0A
+>> :anarchy.esper.net 315 TestNickName TestNickName :End of /WHO list.%0A
+<< USERHOST TestNickName%0A
+>> :anarchy.esper.net 302 TestNickName :TestNickName=+~TestIdent@45.148.156.203 %0A
