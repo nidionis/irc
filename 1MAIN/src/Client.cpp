@@ -6,12 +6,13 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/23 16:47:16 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:22:30 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 #include "utils_strings.hpp"
+
 
 Client::Client(void)
 {
@@ -24,10 +25,9 @@ Client::Client(Server* server)
     memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
     this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
     this->fd_client_socket = -1;
-    // this->_nickname = "";
-    this->_username = "";
-    this->_realname = "";
-    this->_hostname = "";
+    this->_nickname = "NickName";
+    this->_username = "UserName";
+    this->_realname = "RealName";
     return;
 }
 

@@ -27,9 +27,9 @@ class Client
 {
 private:
     Server              		*server;
-    std::string         		_nickname;
-    std::string         		_username;
-    std::string         		_realname;
+    std::string         		_nickname; // NickName
+    std::string         		_username; // Ident
+    std::string         		_realname; // RealName
     std::vector<Channel>    	channels;
 	std::vector<std::string>    capabilities;
     std::vector<std::string>    flags;

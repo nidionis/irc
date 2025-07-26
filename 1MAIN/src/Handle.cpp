@@ -223,25 +223,13 @@ void cmdPing(Server& server, Client& client, std::string input)
 void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)server;
-    if (client.hasFlag(LOGGED) == false)
-    {
-        throw (std::runtime_error("Client not logged in"));
-    }
-    std::string arg = getHead(input);
-    Client client_who = server.getClient(arg);
-    client.send(server.getName());
-    client.send(" 352 ");
-    client.send(client.getNickname());
-    client.send(" * ");
-    client_who.send(client.getUsername());
-    client.send(" ");
-    client_who.send(client.getHostname());
-    client.send(" ");
-    client.send(server.getName());
-    client.send(" ");
-    client_who.send(client.getNickname());
-    // //client.send(" * TestUser host.example.com irc.example.com TestUser H :0 TestUser\n");
-    // //client.send(":ircSchoolProject 315 TestUser TestUser :End of WHO list\n");
+    (void)input;
+    std::string message352 = ":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername()
+        + " 10.13.4.10 ircSchoolProject " + client.getNickname() + " H :0 " + client.getRealname() + '\n';
+    std::string message315 = ":ircSchoolProject 315 " + client.getNickname()
+        + " " + client.getNickname() + " :End of /WHO list.\n";
+    client.send(message352);
+    client.send(message315);
 }
 
 void cmdUserHost(Server& server, Client& client, std::string input)
@@ -254,7 +242,9 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     std::string arg = getHead(input);
     if (arg == client.getNickname())
     {
-        client.send(":ircSchoolProject 302 TestUser TestUser=@host.example.com+\n");
+        std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
+           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
+        client.send(message302);
     }
 }
 
