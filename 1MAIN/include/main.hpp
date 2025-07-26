@@ -14,7 +14,6 @@
 # define MAIN_HPP
 
 # include <iostream>
-# include <string>
 # include <sstream>
 # include <algorithm>
 # include <cstring>
@@ -22,7 +21,6 @@
 # include <cerrno>
 # include <csignal>
 # include <exception>
-#include <vector>
 
 # include <stdio.h>
 # include <string.h>
@@ -33,13 +31,19 @@
 # include <poll.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <utils_strings.hpp>
+# include <capabilities.hpp>
+# include <vector_utils.hpp>
+
+#define GETTER_SETTER(type, name, f_name) \
+type get##f_name() const { return name; } \
+void set##f_name(type value) { name = value; }
 
 # define BUFFER_SIZE 1024
 # define PORT 6667
 # define QUEUE_SIZE 16
 # define MAX_CLIENTS 3
 # define MAX_CONNECTIONS (MAX_CLIENTS + 1)
-# define LEN_MAX_NAME 16
 
 class Server;
 class Client;

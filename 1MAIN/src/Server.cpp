@@ -6,18 +6,22 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 13:46:50 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:55:04 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 #include "Server.hpp"
 
+#include <iostream>
+#include <stdexcept>
 #include <string>
 #include <vector>
+#include <bits/ostream.tcc>
 
 #include "Client.hpp"
 #include "Handle.hpp"
+#include "../include/Channel.hpp"
 #include "../include/Client.hpp"
 
 void processCommand(Server &server, Client &client, std::string input);
@@ -40,6 +44,10 @@ Server::~Server(void)
 	return ;
 }
 
+std::string &Server::getName(void) {
+    return this->_name;
+}
+
 void	Server::serverSetup(void)
 {
 	initServerSocket();
@@ -52,12 +60,19 @@ void	Server::serverSetup(void)
 
 void				Server::initServerSocket(void)
 {
+	// SOCK_STREAM | SOCK_NONBLOCK
 	this->fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (this->fd_server_socket == -1) {
         throw (std::runtime_error("socket() error"));
     } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
         throw (std::runtime_error("fcntl() error"));
     }
+    /*this->fd_server_socket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
+	if (this->fd_server_socket == -1) {
+        throw (std::runtime_error("socket() error"));
+    } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
+        throw (std::runtime_error("fcntl() error"));
+    }*/
 	return ;
 }
 
@@ -110,6 +125,7 @@ ssize_t 		Server::sendClient(Client &cli, std::string msg) {
     if (byte_sent < 0) {
         throw (std::runtime_error("sending client error"));
     }
+	std::cout << ">> to " << cli.getNickname() << " >> : " << msg << std::endl;
     return byte_sent;
 }
 
@@ -122,8 +138,14 @@ Client&	Server::getClient(int i) {
     throw (std::runtime_error("client not found"));
 }
 
-void	Server::sendCmds(Client &client) {
-    sendClient(client, "CAP LS :multi-prefix\n");
+Client &Server::getClient(const std::string &nick)
+{
+	for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
+		if (it->getNickname() == nick) {
+			return *it;
+		}
+	}
+	throw (std::runtime_error("client not found"));
 }
 
 void	Server::handle(char *buffer, Client &client) {
@@ -142,13 +164,13 @@ bool	Server::hasNick(std::string const &nick)
 	return (false);
 }
 
-bool	Server::hasUser(std::string const &nick)
+bool	Server::hasUser(std::string const &username)
 {
 	std::string	name;
 	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
 	{
 		name = this->vector_clients[i].getUsername();
-		if (name == nick)
+		if (name == username)
 			return (true);
 	}
 	return (false);
@@ -168,4 +190,24 @@ bool	Server::hasChannel(std::string const &nick)
 
 void Server::pushChannel(Channel &channel) {
     this->channels.push_back(channel);
+}
+
+void Server::delChannel(Channel &channel) {
+    std::vector<Channel>::iterator it = std::find(channels.begin(), channels.end(), channel);
+    if (it != channels.end()) {
+        delete &(*it);
+        channels.erase(it);
+    }
+}
+
+Channel	&Server::getChannel(std::string const &channel_str)
+{
+	for (size_t i = 0; i < this->channels.size(); i++)
+	{
+		if (this->channels[i].getName() == channel_str)
+		{
+			return this->channels[i];
+		}
+	}
+	throw (std::runtime_error("channel not found"));
 }

@@ -4,6 +4,9 @@
 
 #include "../include/Channel.hpp"
 
+#include <stdexcept>
+#include <vector>
+
 Channel::Channel() {}
 
 Channel::~Channel() {
@@ -12,9 +15,21 @@ Channel::~Channel() {
 }
 
 Channel::Channel(Client &client, std::string &name) {
-    this->name = name;
+    this->_name = name;
     this->clients.push_back(client);
     this->admins.push_back(client);
+}
+
+bool Channel::operator==(const Channel &other) const {
+    return _name == other.getName();
+}
+Channel& Channel::operator=(const Channel& other) {
+    if (this != &other) {
+        _name = other.getName();
+        clients = other.clients;
+        admins = other.admins;
+    }
+    return *this;
 }
 
 bool Channel::isAdmin(Client &client) {
@@ -34,9 +49,51 @@ bool Channel::isClient(Client &client) {
 }
 
 void Channel::setAdmin(Client &client) {
+    if (this->isAdmin(client))
+    {
+        throw std::runtime_error("Client is already an admin");
+        return;
+    }
     this->admins.push_back(client);
+    client.send("you admin the channel\r\n");
 }
 
 void Channel::setClient(Client &client) {
+    if (this->isClient(client))
+    {
+        throw std::runtime_error("Client is already in the channel");
+        return;
+    }
     this->clients.push_back(client);
+    client.send("you joined the channel\r\n");
+}
+
+void Channel::delClient(Client &client) {
+    if (!this->isClient(client))
+    {
+        throw std::runtime_error("Client is not in the channel");
+        return;
+    }
+    std::vector<Client>::iterator it = std::find(this->clients.begin(), this->clients.end(), client);
+    this->clients.erase(it);
+}
+
+bool    Channel::hasOp(std::string op) {
+    return is_in(this->op, op);
+}
+
+void    Channel::setOp(std::string op) {
+    set(this->op, op);
+}
+
+void    Channel::delOp(std::string op) {
+    del(this->op, op);
+}
+
+void Channel::spawn(std::string msg)
+{
+    for (std::vector<Client>::iterator it = this->clients.begin(); it != this->clients.end(); ++it)
+    {
+        (*it).send(msg);
+    }
 }

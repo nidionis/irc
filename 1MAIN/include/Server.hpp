@@ -12,10 +12,12 @@
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
-# define SERV_NAME "ircSchoolProject"
+# define SERV_NAME ":ircSchoolProject"
 # include <Client.hpp>
 # include <Channel.hpp>
 #include <string>
+
+#include "Client.hpp"
 
 //class	Channel;
 //class	Client;
@@ -45,21 +47,24 @@ public:
 	Server(void);
 	~Server(void);
 
+    std::string         &getName();
 	void				serverSetup(void);
     void				serverCleanup(void);
 	void				pollLoop(void);
 
 	ssize_t				sendClient(Client &cli, std::string msg);
     Client              &getClient(int i);
+    Client              &getClient(const std::string &nick);
     void	            handle(char *buffer, Client &client);
     void	            applyRequest(char *buffer, Client &client);
-    void	            sendCmds(Client &client);
 
 	bool				hasNick(std::string const &nick);
 	bool				hasUser(std::string const &user);
 	bool				hasChannel(std::string const &channel);
 
     void                pushChannel(Channel &channel);
+    void                delChannel(Channel &channel);
+	Channel             &getChannel(std::string const &channel);
 };
 
 #endif //SERVER_HPP

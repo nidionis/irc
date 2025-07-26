@@ -8,27 +8,47 @@
 #include <string>
 #include <main.hpp>
 
-// Define the function pointer type
-typedef void (*CommandFunc)(Server &server, Client &client, std::string input);
-
-// Define the struct with the full definition
-struct s_cmd {
-    const char* header;
-    CommandFunc f;
-};
-
 // Function declarations
 void processCommand(Server &server, Client &client, std::string input);
 bool cmpHead(const std::string& input, const char* header);
 
 // Command function declarations
+void cmdCap(Server &server, Client &client, std::string args);
 void cmdNick(Server &server, Client &client, std::string input);
 void cmdUser(Server &server, Client &client, std::string input);
 void cmdJoin(Server &server, Client &client, std::string input);
-void cmdPart(Server &server, Client &client, std::string input);
+void cmdTopic(Server &server, Client &client, std::string input);
 void cmdPrivmsg(Server &server, Client &client, std::string input);
+void cmdMode(Server &server, Client &client, std::string input);
+void cmdKick(Server &server, Client &client, std::string input);
+void cmdPing(Server &server, Client &client, std::string input);
+void cmdWho(Server &server, Client &client, std::string input);
+void cmdUserHost(Server &server, Client &client, std::string input);
 
 // /!\ must be vreated using createChannel only -> use malloc by server and added by client
 void createChannel(Server &server, Client &client, std::string channel_str);
+
+typedef void (*CommandFunc)(Server &server, Client &client, std::string input);
+
+struct s_cmd {
+    const char* header;
+    CommandFunc f;
+};
+
+static const struct s_cmd commands [] = {
+    {"CAP",     &cmdCap },
+    {"NICK",    &cmdNick},
+    {"USER",    &cmdUser},
+    {"JOIN",    &cmdJoin},
+    {"KICK",    &cmdKick},
+    {"TOPIC",   &cmdTopic},
+    {"MODE",    &cmdMode},
+    {"PING",    &cmdPing},
+    {"WHO",     &cmdWho},
+    {"USERHOST", &cmdUserHost},
+    {"MSG",     &cmdPrivmsg},
+    {"PRIVMSG", &cmdPrivmsg},
+    {"",        NULL} // Terminator
+};
 
 #endif // HANDLE_HPP
