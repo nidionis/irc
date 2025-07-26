@@ -15,7 +15,6 @@
 # include <main.hpp>
 # include "capabilities.hpp"
 # include "utils_strings.hpp"
-# define LOG_IN "log_IN"
 # define LOGGED "logged"
 
 class Client

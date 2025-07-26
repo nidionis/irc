@@ -125,32 +125,28 @@ bool    Client::hasCap(const std::string &cap)
     return is_in(this->capabilities, cap);
 }
 
-void	Client::setFlag(const std::string &cap)
+void	Client::setFlag(const std::string &flag)
 {
-    if (isCap(cap))
-    {
-        if (!is_in(this->capabilities, cap))
-        {
-            this->capabilities.push_back(cap);
-            this->send("[debug] flag" + cap + " set\r\n");
-        }
+    if (is_in(this->flags, flag)) {
+        this->send("[debug] flag " + flag + " was already set\r\n");
+    } else {
+        this->flags.push_back(flag);
+        this->send("[debug] flag " + flag + " set\r\n");
     }
 }
 
-void Client::resetFlag(const std::string &cap)
+void Client::resetFlag(const std::string &flag)
 {
-    if (isCap(cap))
-    {
-        if (is_in(this->capabilities, cap))
-        {
-            std::vector<std::string>::iterator it = std::find(this->capabilities.begin(), this->capabilities.end(), cap);
-            this->capabilities.erase(it);
-            this->send("[debug] flag" + cap + " reset\r\n");
-        }
+    if (is_in(this->flags, flag)) {
+        std::vector<std::string>::iterator it = std::find(this->flags.begin(), this->flags.end(), flag);
+        this->flags.erase(it);
+        this->send("[debug] flag " + flag + " reset\r\n");
+    } else {
+        this->send("[debug] flag " + flag + " was not set\r\n");
     }
 }
 
-bool    Client::hasFlag(const std::string &cap)
+bool    Client::hasFlag(const std::string &flag)
 {
-    return is_in(this->capabilities, cap);
+    return is_in(this->flags, flag);
 }
