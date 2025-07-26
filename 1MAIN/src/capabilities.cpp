@@ -43,12 +43,12 @@ void capLs(Server& server, Client& client, std::string args)
 {
     (void)server;
     (void)args;
-    client.send(server.getName());
+    //client.send(server.getName());
     client.send("\r\nCAP * LS :");
     for (int i = 0; cap_tab[i].f; i++)
     {
         client.send(cap_tab[i].header);
-        client.send(" ");
+        //client.send(" ");
     }
     client.setFlag(LOGGED);
     client.send("\r\n");

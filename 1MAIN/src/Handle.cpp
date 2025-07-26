@@ -215,6 +215,7 @@ void cmdPing(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string token = getHead(input);
+    client.send(":");
     client.send(server.getName() + " PONG :");
     client.send(input);
     client.send("\r\n");
