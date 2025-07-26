@@ -27,7 +27,7 @@ private:
     std::string _key;
     std::string _topic;
     std::vector<Client> clients;
-    std::vector<Client> admins;
+    std::vector<Client> operators;
     std::vector<std::string> op;
 public:
     Channel();
@@ -40,9 +40,9 @@ public:
     GETTER_SETTER(std::string, _key, Key)
     GETTER_SETTER(std::string, _topic, Topic)
 
-    bool    isAdmin(Client &client);
+    bool    isOperator(Client &client);
     bool    isClient(Client &client);
-    void    setAdmin(Client &client);
+    void    setOperator(Client &client);
     void    setClient(Client &client);
     void    delClient(Client &client);
 
