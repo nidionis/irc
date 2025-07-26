@@ -9,7 +9,7 @@
 
 #include "main.hpp"
 # define MAX_CHANNELS 2
-# define CHANN_MODE "itkol"
+# define CHAN_OP "itkol"
 # define INVITE_ONLY    0
 # define TOPIC_RESTRICT 1
 # define KEY            2
@@ -27,8 +27,8 @@ private:
     std::string _key;
     std::string _topic;
     std::vector<Client> clients;
-    std::vector<Client> operators;
-    std::vector<std::string> mode;
+    std::vector<Client> admins;
+    std::vector<std::string> op;
 public:
     Channel();
     Channel(Client &client, std::string &name);
@@ -40,15 +40,15 @@ public:
     GETTER_SETTER(std::string, _key, Key)
     GETTER_SETTER(std::string, _topic, Topic)
 
-    bool    isOperator(Client &client);
+    bool    isAdmin(Client &client);
     bool    isClient(Client &client);
-    void    setOperator(Client &client);
+    void    setAdmin(Client &client);
     void    setClient(Client &client);
     void    delClient(Client &client);
 
-    void    setMode(std::string mode);
-    void    delMode(std::string mode);
-    bool    hasMode(std::string mode);
+    void    setOp(std::string op);
+    void    delOp(std::string op);
+    bool    hasOp(std::string op);
 
     void    spawn(std::string msg);
 };

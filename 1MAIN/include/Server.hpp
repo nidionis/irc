@@ -12,7 +12,7 @@
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
-# define SERV_NAME "ircSchoolProject"
+# define SERV_NAME ":ircSchoolProject"
 # include <Client.hpp>
 # include <Channel.hpp>
 #include <string>
