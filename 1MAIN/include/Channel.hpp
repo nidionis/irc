@@ -28,7 +28,7 @@ private:
     std::string _topic;
     std::vector<Client> clients;
     std::vector<Client> operators;
-    std::vector<std::string> op;
+    std::vector<std::string> flags;
 public:
     Channel();
     Channel(Client &client, std::string &name);
@@ -41,14 +41,16 @@ public:
     GETTER_SETTER(std::string, _topic, Topic)
 
     bool    isOperator(Client &client);
-    bool    isClient(Client &client);
     void    setOperator(Client &client);
+    void    delOperator(Client &client);
+
+    bool    isClient(Client &client);
     void    setClient(Client &client);
     void    delClient(Client &client);
 
-    void    setOp(std::string op);
-    void    delOp(std::string op);
-    bool    hasOp(std::string op);
+    void    setFlag(std::string flag);
+    void    delFlag(std::string flag);
+    bool    hasFlag(std::string flag);
 
     void    spawn(std::string msg);
 };

@@ -124,7 +124,7 @@ void cmdMode(Server& server, Client& client, std::string input)
         {
             try
             {
-                channel.setOp(mode_char);
+                channel.setFlag(mode_char);
                 client.send("[debug] implemented so badly\r\n");
             }
             catch (std::runtime_error& err)
@@ -293,4 +293,27 @@ void processCommand(Server& server, Client& client, std::string input)
     client.send("[processCommand]: Invalid command");
     client.send(input);
     std::cout << "<<<<<<<<<<<<<<<<<<" << std::endl;
+}
+
+void cmdInvite(Server &server, Client &client, std::string input) {
+    (void)server;
+    Client dest;
+    Channel channel;
+    try {
+        dest = server.getClient(popWd(input));
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(err.what());
+    }
+    try {
+        channel = server.getChannel(popWd(input));
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(err.what());
+    }
+
+    if (channel.isOperator(client)) {
+        dest.send(client.getNickname() + " INVITE " + dest.getNickname() + " " + channel.getName() + "\r\n");
+        channel.setClient(dest);
+    } else {
+        throw std::runtime_error(client.getNickname() + channel.getName() + "you are not operrator");
+    }
 }
