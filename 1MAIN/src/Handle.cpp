@@ -79,7 +79,8 @@ void cmdJoin(Server& server, Client& client, std::string input)
                     throw std::runtime_error("JOIN :Invalid channel key\r\n");
                 }
                 channel.setClient(client);
-            }
+
+}
             catch (std::runtime_error& err)
             {
                 client.send("JOIN :You are already in the channel\r\n");
