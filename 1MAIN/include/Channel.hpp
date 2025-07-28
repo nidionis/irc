@@ -40,9 +40,9 @@ public:
     void    setOperator(Client &client);
     void    delOperator(Client &client);
 
+    bool    isClient(Client &client);
     void    setClient(Client &client);
     void    delClient(Client &client);
-    bool    isClient(Client &client);
 
     void    setFlag(std::string flag);
     void    delFlag(std::string flag);

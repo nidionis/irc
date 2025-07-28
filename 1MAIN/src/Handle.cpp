@@ -232,7 +232,7 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     if (arg == client.getNickname())
     {
         std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
-            + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
+           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
         client.send(message302);
     }
 }
@@ -310,7 +310,30 @@ void processCommand(Server& server, Client& client, std::string input)
             return;
         }
     }
-    std::cout << "[processCommand]: Invalid command" << std::endl;
-    std::cout << input << std::endl;
+    client.send("[processCommand]: Invalid command");
+    client.send(input);
     std::cout << "<<<<<<<<<<<<<<<<<<" << std::endl;
+}
+
+void cmdInvite(Server &server, Client &client, std::string input) {
+    (void)server;
+    Client dest;
+    Channel channel;
+    try {
+        dest = server.getClient(popWd(input));
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(err.what());
+    }
+    try {
+        channel = server.getChannel(popWd(input));
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(err.what());
+    }
+
+    if (channel.isOperator(client)) {
+        dest.send(client.getNickname() + " INVITE " + dest.getNickname() + " " + channel.getName() + "\r\n");
+        channel.setClient(dest);
+    } else {
+        throw std::runtime_error(client.getNickname() + channel.getName() + "you are not operrator");
+    }
 }
