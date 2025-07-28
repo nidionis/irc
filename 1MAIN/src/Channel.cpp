@@ -102,3 +102,4 @@ void Channel::spawn(std::string msg)
         (*it).send(msg);
     }
 }
+

@@ -62,7 +62,8 @@ void cmdJoin(Server& server, Client& client, std::string input)
 {
     (void)server;
     (void)client;
-    std::string channel_str = getHead(input);
+    std::string channel_str = popWd(input);
+    std::string key = lastWord(input);
     Channel channel;
     if (client.hasFlag(LOGGED) == false)
     {
@@ -73,8 +74,10 @@ void cmdJoin(Server& server, Client& client, std::string input)
         try
         {
             channel = server.getChannel(channel_str);
-            try
-            {
+            try {
+                if (channel.getKey() != "" && channel.getKey() != key) {
+                    throw std::runtime_error("JOIN :Invalid channel key\r\n");
+                }
                 channel.setClient(client);
             }
             catch (std::runtime_error& err)
@@ -127,9 +130,17 @@ void cmdMode(Server& server, Client& client, std::string input)
                 }
             }
             if (mode_chars[0] == '+') {
-                channel.setFlag(mode_chars[1]);
+                if (mode_chars[1] == 'k') {
+                    channel.setKey(args);
+                } else {
+                    channel.setFlag(mode_chars[1]);
+                }
             } else if (mode_chars[0] == '-') {
-                channel.delFlag(mode_chars[1]);
+                if (mode_chars[1] == 'k') {
+                    channel.setKey("");
+                } else {
+                    channel.delFlag(mode_chars[1]);
+                }
             }
         }
     }
