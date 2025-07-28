@@ -83,15 +83,15 @@ void Channel::delClient(Client &client) {
     this->clients.erase(it);
 }
 
-bool    Channel::hasFlag(std::string flag) {
+bool    Channel::hasFlag(char flag) {
     return is_in(this->flags, flag);
 }
 
-void    Channel::setFlag(std::string flag) {
+void    Channel::setFlag(char flag) {
     set(this->flags, flag);
 }
 
-void    Channel::delFlag(std::string flag) {
+void    Channel::delFlag(char flag) {
     del(this->flags, flag);
 }
 
