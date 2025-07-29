@@ -40,22 +40,28 @@ bool Channel::isOperator(Client &client) {
     }
 }
 
+void Channel::setOperator(Client &client) {
+    if (this->isOperator(client))
+    {
+        throw std::runtime_error("Client is already an operator");
+    }
+    this->operators.push_back(client);
+    client.send("you operator the channel\r\n");
+}
+
+void Channel::delOperator(Client &client) {
+    if (!this->isOperator(client)) {
+        throw std::runtime_error("Client is not an operator");
+    }
+    del(this->operators, client);
+}
+
 bool Channel::isClient(Client &client) {
     if (std::find(this->clients.begin(), this->clients.end(), client) != this->clients.end()) {
         return true;
     } else {
         return false;
     }
-}
-
-void Channel::setOperator(Client &client) {
-    if (this->isOperator(client))
-    {
-        throw std::runtime_error("Client is already an operator");
-        return;
-    }
-    this->operators.push_back(client);
-    client.send("you operator the channel\r\n");
 }
 
 void Channel::setClient(Client &client) {
@@ -72,22 +78,21 @@ void Channel::delClient(Client &client) {
     if (!this->isClient(client))
     {
         throw std::runtime_error("Client is not in the channel");
-        return;
     }
     std::vector<Client>::iterator it = std::find(this->clients.begin(), this->clients.end(), client);
     this->clients.erase(it);
 }
 
-bool    Channel::hasOp(std::string op) {
-    return is_in(this->op, op);
+bool    Channel::hasFlag(char flag) {
+    return is_in(this->flags, flag);
 }
 
-void    Channel::setOp(std::string op) {
-    set(this->op, op);
+void    Channel::setFlag(char flag) {
+    set(this->flags, flag);
 }
 
-void    Channel::delOp(std::string op) {
-    del(this->op, op);
+void    Channel::delFlag(char flag) {
+    del(this->flags, flag);
 }
 
 void Channel::spawn(std::string msg)
@@ -97,3 +102,4 @@ void Channel::spawn(std::string msg)
         (*it).send(msg);
     }
 }
+

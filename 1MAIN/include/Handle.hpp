@@ -24,6 +24,8 @@ void cmdKick(Server &server, Client &client, std::string input);
 void cmdPing(Server &server, Client &client, std::string input);
 void cmdWho(Server &server, Client &client, std::string input);
 void cmdUserHost(Server &server, Client &client, std::string input);
+void cmdPass(Server &server, Client &client, std::string input);
+void cmdInvite(Server &server, Client &client, std::string input);
 
 // /!\ must be vreated using createChannel only -> use malloc by server and added by client
 void createChannel(Server &server, Client &client, std::string channel_str);
@@ -36,18 +38,20 @@ struct s_cmd {
 };
 
 static const struct s_cmd commands [] = {
-    {"CAP",     &cmdCap },
-    {"NICK",    &cmdNick},
-    {"USER",    &cmdUser},
-    {"JOIN",    &cmdJoin},
-    {"KICK",    &cmdKick},
-    {"TOPIC",   &cmdTopic},
-    {"MODE",    &cmdMode},
-    {"PING",    &cmdPing},
-    {"WHO",     &cmdWho},
+    {"CAP",      &cmdCap },
+    {"NICK",     &cmdNick},
+    {"USER",     &cmdUser},
+    {"JOIN",     &cmdJoin},   // channel : test later
+    {"KICK",     &cmdKick},   // channel : test later
+    {"TOPIC",    &cmdTopic},  // channel : test later
+    {"MODE",     &cmdMode},   // channel : test later
+    {"PING",     &cmdPing},
+    {"WHO",      &cmdWho},
     {"USERHOST", &cmdUserHost},
-    {"MSG",     &cmdPrivmsg},
-    {"PRIVMSG", &cmdPrivmsg},
+    {"MSG",      &cmdPrivmsg}, // ! MSG does not exist, use PRIVMSG !
+    {"PRIVMSG",  &cmdPrivmsg},
+    {"PASS",     &cmdPass}, // special : test later
+    {"INVITE",   &cmdInvite},
     {"",        NULL} // Terminator
 };
 

@@ -4,12 +4,8 @@
 
 #ifndef IRC_CHANNEL_H
 #define IRC_CHANNEL_H
-#include <Client.hpp>
-#include <string>
-
-#include "main.hpp"
-# define MAX_CHANNELS 2
-# define CHAN_OP "itkol"
+# include "main.hpp"
+# define AVAILABLE_MODE "itkol"
 # define INVITE_ONLY    0
 # define TOPIC_RESTRICT 1
 # define KEY            2
@@ -28,7 +24,7 @@ private:
     std::string _topic;
     std::vector<Client> clients;
     std::vector<Client> operators;
-    std::vector<std::string> op;
+    std::vector<char> flags;
 public:
     Channel();
     Channel(Client &client, std::string &name);
@@ -41,14 +37,16 @@ public:
     GETTER_SETTER(std::string, _topic, Topic)
 
     bool    isOperator(Client &client);
-    bool    isClient(Client &client);
     void    setOperator(Client &client);
+    void    delOperator(Client &client);
+
+    bool    isClient(Client &client);
     void    setClient(Client &client);
     void    delClient(Client &client);
 
-    void    setOp(std::string op);
-    void    delOp(std::string op);
-    bool    hasOp(std::string op);
+    void    setFlag(char flag);
+    void    delFlag(char flag);
+    bool    hasFlag(char flag);
 
     void    spawn(std::string msg);
 };

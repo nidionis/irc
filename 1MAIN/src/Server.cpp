@@ -26,16 +26,8 @@
 
 void processCommand(Server &server, Client &client, std::string input);
 
-Server::Server(void)
+Server::Server()
 {
-    this->_name = SERV_NAME;
-	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
-	this->IPv4_serv_sock_addr.sin_family = AF_INET;
-	this->IPv4_serv_sock_addr.sin_port = htons(PORT);
-	this->IPv4_serv_sock_addr.sin_addr.s_addr = INADDR_ANY;
-	this->fd_server_socket = -1;
-	memset(this->buffer, 0, BUFFER_SIZE);
-	this->vector_clients.empty();
 	return ;
 }
 
@@ -48,13 +40,25 @@ std::string &Server::getName(void) {
     return this->_name;
 }
 
+void Server::server_init(int port, std::string passwd)
+{
+	this->_name = SERV_NAME;
+	this->_passwd = passwd;
+	memset(&this->IPv4_serv_sock_addr, 0, sizeof(this->IPv4_serv_sock_addr));
+	this->IPv4_serv_sock_addr.sin_family = AF_INET;
+	this->IPv4_serv_sock_addr.sin_port = htons(port);
+	this->IPv4_serv_sock_addr.sin_addr.s_addr = INADDR_ANY;
+	this->fd_server_socket = -1;
+	memset(this->buffer, 0, BUFFER_SIZE);
+	this->vector_clients.empty();
+}
+
 void	Server::serverSetup(void)
 {
 	initServerSocket();
 	setServerSockopt();
 	bindServerSocket();
 	listenServerSocket();
-	std::cout << "Server listening on port " << PORT << "..." << std::endl;
 	return ;
 }
 
@@ -210,4 +214,12 @@ Channel	&Server::getChannel(std::string const &channel_str)
 		}
 	}
 	throw (std::runtime_error("channel not found"));
+}
+
+bool	Server::checkPasswd(std::string passwd)
+{
+	std::cout << "passwd: " << this->_passwd << std::endl;
+	if (passwd == this->_passwd)
+		return (true);
+	return (false);
 }

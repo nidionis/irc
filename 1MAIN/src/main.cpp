@@ -11,18 +11,25 @@
 /* ************************************************************************** */
 
 #include "main.hpp"
+
+#include <cstdlib>
+#include <stdlib.h>
+#include <string>
+
 #include "Server.hpp"
 
 int main(int argc, char **argv)
 {
 	Server	server;
-	
+
 	if (argc != 3)
 	{
 		std::cerr << "Usage: " << argv[0] << " <port> <password>" << std::endl;
 		return (1);
 	}
 	std::cout << "Starting IRC server..." << std::endl;
+	std::string	passwd(argv[2]);
+	server.server_init(atoi(argv[1]), passwd);
 	try { server.serverSetup(); }
 	catch (const std::exception& err) { std::cout << err.what() << std::endl; }
 	try { server.pollLoop(); }
@@ -46,17 +53,3 @@ void	pollDataCleanup(poll_data* poll_data)
 	poll_data->err_check = 0;
 	return ;
 }
-
-//bool cmpHead(const std::string str1, const std::string str2) {
-//    std::string wd1 = str1;
-//    std::string wd2 = str2;
-//
-//    std::transform(wd1.begin(), wd1.end(), wd1.begin(), ::tolower);
-//    std::transform(wd2.begin(), wd2.end(), wd2.begin(), ::tolower);
-//    std::stringstream ss1(wd1);
-//    std::stringstream ss2(wd2);
-//    // get first word
-//    ss1 >> wd1;
-//    ss2 >> wd2;
-//    return wd1 == wd2;
-//}
