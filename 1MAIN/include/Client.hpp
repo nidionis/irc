@@ -6,22 +6,15 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/26 15:01:41 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:40:03 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 # include <main.hpp>
-# include "capabilities.hpp"
-# include "utils_strings.hpp"
-# define LOG_IN "log_IN"
 # define LOGGED "logged"
-
-
-/*
-
-*/
+# define PASSWD_OK "passwd_ok"
 
 class Client
 {
@@ -49,16 +42,16 @@ public:
     bool operator==(const Client &other) const;
 	void clientCleanup(void);
 
-    Channel             *newChannel(std::string &name);
-    void                delChannel(Channel &channel);
-    ssize_t             send(std::string msg);
-	void				setCap(const std::string &cap);
-	void				resetCap(const std::string &cap);
-	bool				hasCap(const std::string &cap);
-    void				setFlag(const std::string &cap);
-    void				resetFlag(const std::string &cap);
-    bool				hasFlag(const std::string &cap);
-	ssize_t				send_banner(std::string line);
+    Channel* newChannel(std::string& name);
+    void delChannel(Channel& channel);
+    ssize_t send(std::string msg);
+    void setCap(const std::string& cap);
+    void resetCap(const std::string& cap);
+    bool hasCap(const std::string& cap);
+    void setFlag(const std::string& cap);
+    void resetFlag(const std::string& cap);
+    bool hasFlag(const std::string& cap);
+    ssize_t send_banner(std::string line);
 };
 
 //std::ostream& operator<<(std::ostream& os, const Client& client);

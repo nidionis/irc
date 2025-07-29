@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "Client.hpp"
-#include "utils_strings.hpp"
 
+#include <stdexcept>
 
 Client::Client(void)
 {
@@ -150,3 +150,4 @@ bool    Client::hasFlag(const std::string &flag)
 {
     return is_in(this->capabilities, flag);
 }
+

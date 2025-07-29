@@ -6,6 +6,7 @@
 
 #include <string>
 
+#include "../include/Client.hpp"
 #include "../include/Handle.hpp"
 
 const struct s_cmd cap_tab[] = {
@@ -50,7 +51,6 @@ void capLs(Server& server, Client& client, std::string args)
         client.send(cap_tab[i].header);
         //client.send(" ");
     }
-    client.setFlag(LOG_IN);
     client.send("\r\n");
 }
 
@@ -94,8 +94,7 @@ static void server_banner(Client &client)
 void capEnd(Server &server, Client &client, std::string caps) {
     (void)server;
     (void)caps;
-    if (client.getUsername() != "" && client.getNickname() != "") {
-        client.resetFlag(LOG_IN);
+    if (client.getUsername() != "" && client.getNickname() != "" && client.hasFlag(PASSWD_OK)) {
         client.setFlag(LOGGED);
     }
     server_banner(client);

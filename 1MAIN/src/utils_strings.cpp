@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <string>
-# define TRIMMED_CHARS " \t\r\n:"
+# define TRIMMED_CHARS ": \t\r\n"
 
 std::string trim(const std::string& str)
 {
@@ -101,7 +101,7 @@ std::string lastWord(std::string& str)
     std::string wd = popWd(str);
     while (str != "")
     {
-        wd += popWd(str);
+        wd = popWd(str);
     }
     return wd;
 }
