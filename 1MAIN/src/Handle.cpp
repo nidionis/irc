@@ -131,13 +131,13 @@ void cmdMode(Server& server, Client& client, std::string input)
                 if (mode_chars[1] == 'k') {
                     channel.setKey(args);
                 } else {
-                    channel.setFlag(mode_chars[1]);
+                    channel.setMode(mode_chars[1]);
                 }
             } else if (mode_chars[0] == '-') {
                 if (mode_chars[1] == 'k') {
                     channel.setKey("");
                 } else {
-                    channel.delFlag(mode_chars[1]);
+                    channel.delMode(mode_chars[1]);
                 }
             }
         }
@@ -341,7 +341,7 @@ void cmdInvite(Server &server, Client &client, std::string input) {
         throw std::runtime_error(err.what());
     }
 
-    if (channel.hasFlag('i')) {
+    if (channel.hasMode('i')) {
         if (channel.isOperator(client)) {
             throw std::runtime_error(client.getNickname() + channel.getName() + "you are not operrator");
         }

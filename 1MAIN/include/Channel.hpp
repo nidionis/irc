@@ -24,7 +24,7 @@ private:
     std::string _topic;
     std::vector<Client> clients;
     std::vector<Client> operators;
-    std::vector<char> flags;
+    std::vector<char> modes;
 public:
     Channel();
     Channel(Client &client, std::string &name);
@@ -44,9 +44,9 @@ public:
     void    setClient(Client &client);
     void    delClient(Client &client);
 
-    void    setFlag(char flag);
-    void    delFlag(char flag);
-    bool    hasFlag(char flag);
+    void    setMode(char mode);
+    void    delMode(char mode);
+    bool    hasMode(char mode);
 
     void    spawn(std::string msg);
 };
