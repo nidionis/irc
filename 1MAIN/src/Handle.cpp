@@ -31,11 +31,13 @@ void cmdNick(Server& server, Client& client, std::string input)
     {
         if (server.hasNick(nick))
             client.send("NICK :NickName already in use\r\n");
-        else
+        else {
             client.setNickname(nick);
+            client.send(":" + client.getNickname() + "!~" + client.getUsername() + "@" + client.getIp() + " Nick :" + nick + "\r\n");
+        }
     }
     else
-        client.send("NICK :You are now known as " + client.getNickname() + "\r\n");
+        client.send(":" + server.getName() + " 431 " + client.getNickname() + " : No nickname given\r\n");
 }
 
 void cmdUser(Server& server, Client& client, std::string input)

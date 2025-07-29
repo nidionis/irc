@@ -151,3 +151,7 @@ bool    Client::hasFlag(const std::string &flag)
     return is_in(this->capabilities, flag);
 }
 
+std::string Client::getIp() {
+    return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
+}
+

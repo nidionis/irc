@@ -51,6 +51,7 @@ public:
     void setFlag(const std::string& cap);
     void resetFlag(const std::string& cap);
     bool hasFlag(const std::string& cap);
+    std::string getIp();
     ssize_t send_banner(std::string line);
 };
 
