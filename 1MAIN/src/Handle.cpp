@@ -30,7 +30,7 @@ void cmdNick(Server& server, Client& client, std::string input)
     if (nick != "")
     {
         if (server.hasNick(nick))
-            client.send("NICK :NickName already in use\r\n");
+            client.send(":" + server.getName() + " 433 " + nick + " :Nickname is already in use.\r\n");
         else {
             client.setNickname(nick);
             client.send(":" + client.getNickname() + "!~" + client.getUsername() + "@" + client.getIp() + " Nick :" + nick + "\r\n");
