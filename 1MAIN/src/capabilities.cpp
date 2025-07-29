@@ -57,8 +57,8 @@ void capLs(Server& server, Client& client, std::string args)
 void capReq(Server& server, Client& client, std::string caps)
 {
     (void)server;
-    std::string cap = popWd(caps);
     std::cout << "[capReq] caps:" << caps << std::endl;
+    std::string cap = popWd(caps);
     //client.send(server.getName());
     if (!cap.empty())
     {
@@ -66,6 +66,7 @@ void capReq(Server& server, Client& client, std::string caps)
         {
             if (cap == cap_tab[i].header) {
                 cap_tab[i].f(server, client, "");
+                client.send(":" + server.getName() + " CAP " + client.getNickname() + " ACK :" + cap + "\r\n");
             } else {
                 client.send(":" + server.getName() + " CAP " + client.getNickname() + " NAK :" + cap + "\r\n");
             }
