@@ -32,6 +32,9 @@ void cmdNick(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string nick = getHead(input);
+    if (!client.hasFlag(PASSWD_OK)) {
+        client.clientCleanup();
+    }
     if (nick != "")
     {
         if (server.hasNick(nick))
@@ -52,6 +55,9 @@ void cmdUser(Server& server, Client& client, std::string input)
     (void)server;
     std::string user = getHead(input);
     std::string realname = lastWord(input);
+    if (!client.hasFlag(PASSWD_OK)) {
+        client.clientCleanup();
+    }
     if (client.getUsername() != "") {
         throw std::runtime_error("USER :You are already logged in");
     } if (server.hasUser(user))
@@ -167,6 +173,11 @@ void cmdKick(Server& server, Client& client, std::string input)
     std::string channel_str = popWd(input);
     Client& kicked = server.getClient(getHead(input));
     std::string reason = getNextWds(input);
+    if (client.hasFlag(LOGGED) == false)
+    {
+        client.clientCleanup();
+        //throw (std::runtime_error("Client not logged in"));
+    }
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
     {
         try
@@ -262,6 +273,11 @@ void cmdPass(Server& server, Client& client, std::string input)
 {
     (void)server;
     std::string passwd = trim(input);
+    if (client.hasFlag(PASSWD_OK)) {
+        throw (std::runtime_error(":" + server.getName() + " 462 " + client.getNickname() + " PASS :You may not reregister\r\n"));
+    } if (passwd == "") {
+        throw (std::runtime_error(":" + server.getName() + " 461 " + client.getNickname() + " PASS :Not enough parameters\r\n"));
+    }
     if (server.checkPasswd(passwd))
     {
         client.setFlag(PASSWD_OK);
@@ -270,7 +286,8 @@ void cmdPass(Server& server, Client& client, std::string input)
     }
     else
     {
-        throw std::runtime_error("PASS :Password incorrect\r\n");
+        client.send(":" + server.getName() + " 464 " + client.getNickname() + " PASS :Password incorrect\r\n");
+        client.clientCleanup();
     }
 }
 
@@ -342,6 +359,11 @@ void cmdInvite(Server &server, Client &client, std::string input) {
     (void)server;
     Client dest;
     Channel channel;
+    if (client.hasFlag(LOGGED) == false)
+    {
+        client.clientCleanup();
+        //throw (std::runtime_error("Client not logged in"));
+    }
     try {
         dest = server.getClient(popWd(input));
     } catch (std::runtime_error& err) {
