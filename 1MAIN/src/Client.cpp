@@ -29,9 +29,9 @@ Client::Client(Server* server)
     this->_username = "";
     this->_realname = "";
     this->must_kill = false;
-    /*if (this->server->checkPasswd() == "") {
+    if (this->server->checkPasswd("")) {
         this->setFlag(PASSWD_OK);
-    }*/
+    }
     return;
 }
 
