@@ -14,12 +14,17 @@
 void cmdCap(Server& server, Client& client, std::string args)
 {
     (void)server;
+    if (args == "") {
+        throw (std::runtime_error(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n"));
+    }
     if (getHead(args) == "LS") {
         capLs(server, client, getNextWds(args));
     } else if (getHead(args) == "REQ") {
         capReq(server, client, getNextWds(args));
     } else if (getHead(args) == "END") {
         capEnd(server, client, getNextWds(args));
+    } else {
+        throw (std::runtime_error(":" + server.getName() + " 410 " + client.getNickname() + getHead(args) + " :Invalid CAP subcommand\r\n"));
     }
 }
 
@@ -33,7 +38,9 @@ void cmdNick(Server& server, Client& client, std::string input)
             client.send(":" + server.getName() + " 433 " + nick + " :Nickname is already in use.\r\n");
         else {
             client.setNickname(nick);
-            client.send(":" + client.getNickname() + "!~" + client.getUsername() + "@" + client.getIp() + " Nick :" + nick + "\r\n");
+            if (client.hasFlag(LOGGED)) {
+                client.send( ":" + client.getNickname() + "!~" + client.getUsername() + "@" + client.getIp() + " Nick :" + nick + "\r\n");
+            }
         }
     }
     else
@@ -316,7 +323,7 @@ void processCommand(Server& server, Client& client, std::string input)
             catch (std::runtime_error& err)
             {
                 client.send(err.what());
-                client.send("\n");
+                client.send("\r\n");
             }
             return;
         }
