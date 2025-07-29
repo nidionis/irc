@@ -70,9 +70,9 @@ void capReq(Server& server, Client& client, std::string caps)
                 client.send(":" + server.getName() + " CAP " + client.getNickname() + " NAK :" + cap + "\r\n");
             }
         }
-    } else {
-        client.send(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n");
-    }
+    }// else {
+    //    client.send(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n");
+    //}
 }
 
 static void server_banner(Client &client)

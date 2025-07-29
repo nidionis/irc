@@ -14,7 +14,7 @@
 void cmdCap(Server& server, Client& client, std::string args)
 {
     (void)server;
-    if (args == "") {
+    if (getHead(args) == "") {
         throw (std::runtime_error(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n"));
     }
     if (getHead(args) == "LS") {
