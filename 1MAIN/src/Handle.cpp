@@ -14,16 +14,11 @@
 void cmdCap(Server& server, Client& client, std::string args)
 {
     (void)server;
-    if (getHead(args) == "LS")
-    {
+    if (getHead(args) == "LS") {
         capLs(server, client, getNextWds(args));
-    }
-    else if (getHead(args) == "REQ")
-    {
+    } else if (getHead(args) == "REQ") {
         capReq(server, client, getNextWds(args));
-    }
-    else if (getHead(args) == "END")
-    {
+    } else if (getHead(args) == "END") {
         capEnd(server, client, getNextWds(args));
     }
 }

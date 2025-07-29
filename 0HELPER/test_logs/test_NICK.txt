@@ -1,0 +1,53 @@
+/!\ missing tests :
+		if nickname is already registered by an other user
+/!\
+
+
+
+Command: NICK
+Parameters: <nickname>
+
+"Servers MUST allow at least all alphanumerical characters, square and curly brackets ([]{}),
+backslashes (\), and pipe (|) characters in nicknames, and MAY disallow digits as the first character."
+
+<< NICK%0A
+>> :calamity.esper.net 431 NickName :No nickname given%0A
+
+<< NICK NewNickName%0A
+>> :NickName!~UserName@45.148.156.203 NICK :NewNickName%0A
+
+<< NICK 4NickName%0A
+>> :calamity.esper.net 432 NickName 4NickName :Erroneous Nickname%0A
+
+<< NICK ThirdNickName FourthNickName%0A
+>> :NewNickName!~UserName@45.148.156.203 NICK :ThirdNickName%0A
+
+<< NICK N1ckName2%0A
+>> :NickName!~UserName@45.148.156.203 NICK :N1ckName2%0A
+
+<< NICK \[|{]}%0A
+>> :\gth\!~UserName@45.148.156.203 NICK :\[|{]}%0A
+
+<< NICK lahlsweh%0A
+>> :calamity.esper.net 433 asdasd lahlsweh :Nickname is already in use.%0A
+
+
+
+
+bugs found as of nico : e3df75d8d34bb74a969539179bb30943158234a4
+
+
+<< NICK%0A
+	-> Should reply ":ircSchoolProject 431 NickName :No nickname given%0A"
+
+<< NICK NewNickName%0A
+	-> Should reply ":NickName!~UserName@45.148.156.203 NICK :NewNickName%0A"
+	
+<< NICK 4NickName%0A
+	-> Should reply ":ircSchoolProject 432 NickName 4NickName :Erroneous Nickname%0A"
+
+<< NICK ThirdNickName FourthNickName%0A
+	-> Should reply ":NickName!~UserName@45.148.156.203 NICK :ThirdNickName%0A"
+
+<< NICK lahlsweh%0A
+	-> Should reply ":ircSchoolProject 433 asdasd lahlsweh :Nickname is already in use.%0A"
