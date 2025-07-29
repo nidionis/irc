@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/26 17:22:59 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:07:24 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ Client::Client(Server* server)
     this->_nickname = "";
     this->_username = "";
     this->_realname = "";
+    this->must_kill = false;
     return;
 }
 

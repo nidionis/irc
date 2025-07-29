@@ -71,6 +71,7 @@ void cmdJoin(Server& server, Client& client, std::string input)
     Channel channel;
     if (client.hasFlag(LOGGED) == false)
     {
+        client.must_kill = true;
         throw (std::runtime_error("Client not logged in"));
     }
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
@@ -119,6 +120,7 @@ void cmdMode(Server& server, Client& client, std::string input)
     std::string args = input;
     Channel channel;
     if (client.hasFlag(LOGGED) == false) {
+        client.must_kill = true;
         throw (std::runtime_error("Client not logged in\r\n"));
     }
     if (item[0] == '#') {
@@ -200,6 +202,7 @@ void cmdTopic(Server& server, Client& client, std::string input)
     std::string topic = getNextWds(input);
     if (client.hasFlag(LOGGED) == false)
     {
+        client.must_kill = true;
         throw (std::runtime_error("Client not logged in"));
     }
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
@@ -279,6 +282,7 @@ void cmdPrivmsg(Server& server, Client& client, std::string input)
     std::string msg = getNextWds(input);
     if (client.hasFlag(LOGGED) == false)
     {
+        client.must_kill = true;
         throw (std::runtime_error("Client not logged in"));
     }
     if (name[0] == '#' && isValidName(name.substr(1)))
@@ -324,8 +328,9 @@ void processCommand(Server& server, Client& client, std::string input)
             {
                 client.send(err.what());
                 client.send("\r\n");
+                if (client.must_kill == true) { return ; }
             }
-            return;
+            return ;
         }
     }
     client.send("[processCommand]: Invalid command");
