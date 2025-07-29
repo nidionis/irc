@@ -20,6 +20,8 @@ void cmdCap(Server& server, Client& client, std::string args)
         capReq(server, client, getNextWds(args));
     } else if (getHead(args) == "END") {
         capEnd(server, client, getNextWds(args));
+    } else {
+        client.send(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n");
     }
 }
 
