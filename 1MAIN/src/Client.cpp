@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/02 15:43:53 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:50:34 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,3 @@ bool    Client::hasFlag(const std::string &flag)
 std::string Client::getIp() {
     return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
 }
-
-std::string Client::getIp() {
-    return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
-}
-

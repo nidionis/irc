@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/02 14:11:28 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/02 16:06:43 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void				Server::serverCleanup(void)
 
 ssize_t 		Server::sendClient(Client &cli, std::string msg) {
     int byte_sent;
-    int flags = MSG_DONTWAIT; // | MSG_NOSIGNAL;
+    int flags = MSG_DONTWAIT | MSG_NOSIGNAL;
     byte_sent = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
     if (byte_sent < 0) {
         throw (std::runtime_error("sending client error"));
