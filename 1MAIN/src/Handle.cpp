@@ -395,6 +395,7 @@ void cmdQuit(Server &server, Client &client, std::string input)
     (void)server;
     (void)client;
     (void)input;
+    std::cout << "TMP cmdQuit()" << std::endl;
     client.must_kill = true;
     return ;
 }
