@@ -6,13 +6,13 @@
 #    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/27 13:48:14 by lahlsweh          #+#    #+#              #
-#    Updated: 2025/06/27 17:29:21 by lahlsweh         ###   ########.fr        #
+#    Updated: 2025/08/02 14:19:48 by lahlsweh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler settings
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -g3 -fsanitize=leak,address,undefined,null,float-divide-by-zero
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -g3 #-fsanitize=leak,address,undefined,null,float-divide-by-zero
 DEBUG_FLAGS = -g3 -O0 -DDEBUG
 
 # Project settings

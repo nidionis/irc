@@ -33,7 +33,9 @@ void cmdNick(Server& server, Client& client, std::string input)
     (void)server;
     std::string nick = getHead(input);
     if (!client.hasFlag(PASSWD_OK)) {
-        client.clientCleanup();
+        std::cerr << "TEST NICK QUIT" << std::endl;
+        //client.clientCleanup();
+        client.must_kill = true;
     }
     if (nick != "")
     {
@@ -56,7 +58,8 @@ void cmdUser(Server& server, Client& client, std::string input)
     std::string user = getHead(input);
     std::string realname = lastWord(input);
     if (!client.hasFlag(PASSWD_OK)) {
-        client.clientCleanup();
+        //client.clientCleanup();
+        client.must_kill = true;
     }
     if (client.getUsername() != "") {
         throw std::runtime_error("USER :You are already logged in");
@@ -175,7 +178,8 @@ void cmdKick(Server& server, Client& client, std::string input)
     std::string reason = getNextWds(input);
     if (client.hasFlag(LOGGED) == false)
     {
-        client.clientCleanup();
+        //client.clientCleanup();
+        client.must_kill = true;
         //throw (std::runtime_error("Client not logged in"));
     }
     if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
@@ -287,7 +291,8 @@ void cmdPass(Server& server, Client& client, std::string input)
     else
     {
         client.send(":" + server.getName() + " 464 " + client.getNickname() + " PASS :Password incorrect\r\n");
-        client.clientCleanup();
+        //client.clientCleanup();
+        client.must_kill = true;
     }
 }
 
@@ -361,7 +366,8 @@ void cmdInvite(Server &server, Client &client, std::string input) {
     Channel channel;
     if (client.hasFlag(LOGGED) == false)
     {
-        client.clientCleanup();
+        //client.clientCleanup();
+        client.must_kill = true;
         //throw (std::runtime_error("Client not logged in"));
     }
     try {
@@ -382,4 +388,14 @@ void cmdInvite(Server &server, Client &client, std::string input) {
     }
     dest.send(client.getNickname() + " INVITE " + dest.getNickname() + " " + channel.getName() + "\r\n");
     channel.setClient(dest);
+}
+
+void cmdQuit(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    (void)client;
+    (void)input;
+    std::cout << "TMP cmdQuit()" << std::endl;
+    client.must_kill = true;
+    return ;
 }

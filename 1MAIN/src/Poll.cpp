@@ -6,16 +6,31 @@
 #include "Server.hpp"
 #include "Client.hpp"
 
+volatile sig_atomic_t exit_program = false;
+
+void handle_signal(int sig) {
+    if (sig == SIGINT) {
+        std::cout << "SIGINT caught. Terminating program ..." << std::endl;
+        exit_program = true;
+    }
+}
+
 void Server::pollLoop(void)
 {
     poll_data p_data;
 
+    std::signal(SIGINT, handle_signal);
     p_data.fd_nb = 1;
     p_data.err_check = 0;
-    p_data.fds[0].fd = this->fd_server_socket;
-    p_data.fds[0].events = POLLIN;
+    for (int i = 0; i < MAX_CONNECTIONS; ++i)
+    {
+        p_data.fds[i].fd = this->fd_server_socket;
+        p_data.fds[i].events = POLLIN;
+        p_data.fds[i].revents = 0;
+    }
     while (true)
     {
+        if (exit_program == true) { break ; }
         p_data.err_check = poll(p_data.fds, p_data.fd_nb, -1);
         if (p_data.err_check == -1)
         {
@@ -25,9 +40,11 @@ void Server::pollLoop(void)
         for (p_data.i = 0; p_data.i < p_data.fd_nb; p_data.i++)
         {
             if (p_data.fds[p_data.i].revents & (POLLERR | POLLHUP | POLLNVAL))
-            { pollFailHandler(&p_data); }
-            else if (p_data.fds[p_data.i].revents & POLLIN)
-            { pollClientHandler(&p_data); }
+            {
+                std::cerr << "Error/hangup on fd: " << p_data.fds[p_data.i].fd << ". Closing." << std::endl;
+                pollFailHandler(&p_data);
+            }
+            else if (p_data.fds[p_data.i].revents & POLLIN) { pollClientHandler(&p_data); }
         }
     }
     return;
@@ -35,9 +52,20 @@ void Server::pollLoop(void)
 
 void Server::pollFailHandler(poll_data* p_data)
 {
-    std::cout << "Error/hangup on fd: " << p_data->fds[p_data->i].fd << ". Closing." << std::endl;
-    close(p_data->fds[p_data->i].fd);
+    int bad_fd = p_data->fds[p_data->i].fd;
+
+    close(bad_fd);
+    for (size_t j = 0; j < this->vector_clients.size(); j++)
+    {
+        if (this->vector_clients[j].fd_client_socket == bad_fd)
+        {
+            this->vector_clients.erase(this->vector_clients.begin() + j);
+            break;
+        }
+    }
     p_data->fds[p_data->i] = p_data->fds[p_data->fd_nb - 1];
+    p_data->fds[p_data->i].events = 0;
+    p_data->fds[p_data->i].revents = 0;
     p_data->fd_nb--;
     p_data->i--;
     return;
@@ -54,7 +82,6 @@ void Server::pollClientHandler(poll_data* p_data)
         } catch (const std::exception &err) {
             err.what();
         }
-        //answerClient(p_data);//, request);
     }
     return ;
 }
@@ -102,7 +129,6 @@ void	Server::pollClientRecv(poll_data* p_data)
     {
         if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
             throw (std::runtime_error("recv failed"));
-            //std::cerr << "error: Client read failed." << std::endl;
             return ;
         } else {
             pollClientDisconnect(p_data);
@@ -112,7 +138,6 @@ void	Server::pollClientRecv(poll_data* p_data)
     } else if (recv_read == 0) {
         pollClientDisconnect(p_data);
     } else {
-        //if (recv_read < BUFFER_SIZE) { -> n'entre jamais dans cette condition
         buffer[recv_read] = '\0';
         handle(buffer, getClient(p_data->i));
         if (getClient(p_data->i).must_kill == true)
@@ -121,10 +146,6 @@ void	Server::pollClientRecv(poll_data* p_data)
             pollClientDisconnect(p_data);
         }
         usleep(200);
-        //std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << "$" << std::endl << std::flush;
-        //} else {
-        //    throw (std::runtime_error("recv() buffer overflow"));
-        //}
     }
     return ;
 }
