@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/26 17:22:59 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/02 11:33:21 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ Client::Client(Server* server)
     this->_nickname = "";
     this->_username = "";
     this->_realname = "";
+    this->must_kill = false;
+    if (this->server->checkPasswd("")) {
+        this->setFlag(PASSWD_OK);
+    }
     return;
 }
 
@@ -131,7 +135,7 @@ void	Client::setFlag(const std::string &flag)
         this->send("[debug] flag " + flag + " was already set\r\n");
     } else {
         this->flags.push_back(flag);
-        //this->send("[debug] flag " + flag + " set\r\n");
+        this->send("[debug] flag " + flag + " set\r\n");
     }
 }
 
@@ -149,5 +153,9 @@ void Client::resetFlag(const std::string &flag)
 bool    Client::hasFlag(const std::string &flag)
 {
     return is_in(this->capabilities, flag);
+}
+
+std::string Client::getIp() {
+    return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
 }
 

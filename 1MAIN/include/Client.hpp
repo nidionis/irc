@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 13:40:03 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:07:11 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ public:
 	struct sockaddr_in	IPv4_client_sock_addr;
 	int					fd_client_socket;
 	socklen_t			client_addrlen;
+    bool                must_kill;
 
 	Client(void);
     Client(Server *server);
@@ -51,6 +52,7 @@ public:
     void setFlag(const std::string& cap);
     void resetFlag(const std::string& cap);
     bool hasFlag(const std::string& cap);
+    std::string getIp();
     ssize_t send_banner(std::string line);
 };
 

@@ -25,7 +25,13 @@ void Server::pollLoop(void)
         for (p_data.i = 0; p_data.i < p_data.fd_nb; p_data.i++)
         {
             if (p_data.fds[p_data.i].revents & (POLLERR | POLLHUP | POLLNVAL))
-            { pollFailHandler(&p_data); }
+            {
+                std::cerr << "Error/hangup on fd: " << p_data.fds[p_data.i].fd << ". Closing." << std::endl
+                          << "pollfd.revents=" << p_data.fds[p_data.i].revents
+                          << " (" << POLLERR << "=POLLERR;" << POLLHUP
+                          << "=POLLHUP;" << POLLNVAL << "=POLLNVAL)" << std::endl;
+                pollFailHandler(&p_data);
+            }
             else if (p_data.fds[p_data.i].revents & POLLIN)
             { pollClientHandler(&p_data); }
         }
@@ -35,7 +41,6 @@ void Server::pollLoop(void)
 
 void Server::pollFailHandler(poll_data* p_data)
 {
-    std::cout << "Error/hangup on fd: " << p_data->fds[p_data->i].fd << ". Closing." << std::endl;
     close(p_data->fds[p_data->i].fd);
     p_data->fds[p_data->i] = p_data->fds[p_data->fd_nb - 1];
     p_data->fd_nb--;
@@ -115,6 +120,11 @@ void	Server::pollClientRecv(poll_data* p_data)
         //if (recv_read < BUFFER_SIZE) { -> n'entre jamais dans cette condition
         buffer[recv_read] = '\0';
         handle(buffer, getClient(p_data->i));
+        if (getClient(p_data->i).must_kill == true)
+        {
+            std::cout << "TMP TEST : CLIENT KILLED" << std::endl;
+            pollClientDisconnect(p_data);
+        }
         usleep(200);
         //std::cout << "Received from fd " << p_data->fds[p_data->i].fd << ": " << buffer << "$" << std::endl << std::flush;
         //} else {

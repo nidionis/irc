@@ -83,16 +83,16 @@ void Channel::delClient(Client &client) {
     this->clients.erase(it);
 }
 
-bool    Channel::hasFlag(char flag) {
-    return is_in(this->flags, flag);
+bool    Channel::hasMode(char mode) {
+    return is_in(this->modes, mode);
 }
 
-void    Channel::setFlag(char flag) {
-    set(this->flags, flag);
+void    Channel::setMode(char mode) {
+    set(this->modes, mode);
 }
 
-void    Channel::delFlag(char flag) {
-    del(this->flags, flag);
+void    Channel::delMode(char mode) {
+    del(this->modes, mode);
 }
 
 void Channel::spawn(std::string msg)

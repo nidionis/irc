@@ -47,8 +47,8 @@ bugs found as of nico : e3df75d8d34bb74a969539179bb30943158234a4
 << CAP REQ :multi-prefix%0A
 	-> Should always reply ":ircSchoolProject CAP NickName ACK :multi-prefix%"
 
-<< CAP REQ :badarg%0A
-	-> Should reply ":ircSchoolProject CAP NickName NAK :badarg"
+<< CAP REQ : badarg%0A
+	-> Should reply ":ircSchoolProject CAP NickName 	 :badarg"
 
 << CAP END%0A after initial connection
 	-> Should not reply anything
