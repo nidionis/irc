@@ -54,13 +54,13 @@ bool isValidName(const std::string& str)
     {
         return false;
     }
-    if (std::isdigit(str[0]))
-    {
-        return false;
-    }
+    //if (std::isdigit(str[0]))
+    //{
+    //    return false;
+    //}
     for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
     {
-        if (!std::isalnum(*it))
+        if (!(std::isalnum(*it) || *it == '[') || *it == ']' || *it == '\\' || *it == '|' || *it == '{' || *it == '}')
         {
             return false;
         }
