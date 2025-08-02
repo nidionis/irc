@@ -389,3 +389,12 @@ void cmdInvite(Server &server, Client &client, std::string input) {
     dest.send(client.getNickname() + " INVITE " + dest.getNickname() + " " + channel.getName() + "\r\n");
     channel.setClient(dest);
 }
+
+void cmdQuit(Server &server, Client &client, std::string input)
+{
+    (void)server;
+    (void)client;
+    (void)input;
+    client.must_kill = true;
+    return ;
+}

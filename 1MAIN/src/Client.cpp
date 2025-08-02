@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/02 11:33:21 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/02 13:57:37 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,10 @@ bool    Client::hasCap(const std::string &cap)
 void	Client::setFlag(const std::string &flag)
 {
     if (is_in(this->flags, flag)) {
-        this->send("[debug] flag " + flag + " was already set\r\n");
+        //this->send("[debug] flag " + flag + " was already set\r\n");
     } else {
         this->flags.push_back(flag);
-        this->send("[debug] flag " + flag + " set\r\n");
+        //this->send("[debug] flag " + flag + " set\r\n");
     }
 }
 
@@ -146,13 +146,13 @@ void Client::resetFlag(const std::string &flag)
         this->flags.erase(it);
         //this->send("[debug] flag " + flag + " reset\r\n");
     } else {
-        this->send("[debug] flag " + flag + " was not set\r\n");
+        //this->send("[debug] flag " + flag + " was not set\r\n");
     }
 }
 
 bool    Client::hasFlag(const std::string &flag)
 {
-    return is_in(this->capabilities, flag);
+    return is_in(this->flags, flag);
 }
 
 std::string Client::getIp() {
