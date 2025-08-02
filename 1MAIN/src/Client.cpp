@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/02 14:10:43 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:43:53 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,10 @@ void Client::resetFlag(const std::string &flag)
 bool    Client::hasFlag(const std::string &flag)
 {
     return is_in(this->flags, flag);
+}
+
+std::string Client::getIp() {
+    return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
 }
 
 std::string Client::getIp() {
