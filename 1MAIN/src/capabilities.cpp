@@ -60,6 +60,7 @@ void capReq(Server& server, Client& client, std::string caps)
     std::cout << "[capReq] caps:" << caps << std::endl;
     std::string cap = popWd(caps);
     //client.send(server.getName());
+    std::string messageCAP_ACK;
     if (!cap.empty())
     {
         for (int i = 0; cap_tab[i].f; i++)
@@ -67,7 +68,10 @@ void capReq(Server& server, Client& client, std::string caps)
             if (cap == cap_tab[i].header)
             {
                 cap_tab[i].f(server, client, "");
-                std::string messageCAP_ACK = ":" + server.getName() + " CAP " + client.getNickname() + " ACK :" + cap + "\r\n";
+                if (client.getNickname() != "")
+                    messageCAP_ACK = ":" + server.getName() + " CAP " + client.getNickname() + " ACK :" + cap + "\r\n";
+                else
+                    messageCAP_ACK = ":" + server.getName() + " CAP " + "*" + " ACK :" + cap + "\r\n";
                 client.send(messageCAP_ACK);
             } else
             {
@@ -75,7 +79,8 @@ void capReq(Server& server, Client& client, std::string caps)
                 client.send(messageCAP_NAK);
             }
         }
-    }// else {
+    }
+    // else {
     //    client.send(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n");
     //}
 }
