@@ -51,3 +51,12 @@ bugs found as of nico : e3df75d8d34bb74a969539179bb30943158234a4
 
 << NICK lahlsweh%0A
 	-> Should reply ":ircSchoolProject 433 asdasd lahlsweh :Nickname is already in use.%0A"
+
+
+bugs found as of present :
+
+[10:22] << NICK NewNickName%0A
+[10:22] >> :NewNickName!~UserName@127.0.0.1 Nick :NewNickName%0A
+
+[10:22] << NICK NewNickName%0A
+[10:22] >> :NickName!~UserName@45.148.156.203 NICK :NewNickName%0A

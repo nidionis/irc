@@ -35,20 +35,8 @@ Parameters: <subcommand> [:<capabilities>]
 [no server reply]
 
 
+bugs found as of present :
 
-bugs found as of nico : e3df75d8d34bb74a969539179bb30943158234a4
-
-<< CAP%0A				
-	-> Should reply ":ircSchoolProject 461 NickName CAP :Not enough parameters"
-
-<< CAP REQ:multi-prefix%0A
-	-> Should reply ":ircSchoolProject 410 NickName REQ:multi-prefix :Invalid CAP subcommand"
-
-<< CAP REQ :multi-prefix%0A
-	-> Should always reply ":ircSchoolProject CAP NickName ACK :multi-prefix%"
-
-<< CAP REQ : badarg%0A
-	-> Should reply ":ircSchoolProject CAP NickName 	 :badarg"
-
-<< CAP END%0A after initial connection
-	-> Should not reply anything
+<< CAP REQ : multi-prefix%0A
+	-> Should reply either ":ircSchoolProject 410 NickName REQ:multi-prefix :Invalid CAP subcommand"
+					   or ":ircSchoolProject CAP NickName ACK :multi-prefix"
