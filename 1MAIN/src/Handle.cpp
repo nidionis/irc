@@ -15,7 +15,9 @@ void cmdDebug(Server& server, Client& client, std::string args) {
     (void)server;
     (void)client;
     (void)args;
-    client.send("serv ip " + server.getIp());
+    std::cout << "serv port ";
+    std::cout << server.getPort();
+    //client.send("serv ip " + server.getIp());
 }
 
 void cmdCap(Server& server, Client& client, std::string args)

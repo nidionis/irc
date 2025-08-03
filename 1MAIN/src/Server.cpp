@@ -39,6 +39,9 @@ Server::~Server(void)
 std::string &Server::getName(void) {
     return this->_name;
 }
+in_port_t Server::getPort() {
+    return ntohs(IPv4_serv_sock_addr.sin_port);
+}
 
 void Server::server_init(int port, std::string passwd)
 {
