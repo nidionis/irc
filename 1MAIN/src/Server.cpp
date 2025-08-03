@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/03 15:29:56 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/03 15:34:04 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,11 @@ std::string	getLocalIPv4Address(void)
 		{
             socket_address = (struct sockaddr_in *)ptr_it_ifaddrs->ifa_addr;
             local_ipv4_addr = inet_ntoa(socket_address->sin_addr);
-            if (local_ipv4_addr != "127.0.0.1") { std::cout << "Detected local IPv4: " << local_ipv4_addr << std::endl; break; }
+            if (local_ipv4_addr != "127.0.0.1")
+			{
+				std::cout << "Detected local IPv4: " << local_ipv4_addr << std::endl;
+				break;
+			}
         }
     }
     freeifaddrs(network_interfaces);
