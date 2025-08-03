@@ -25,6 +25,7 @@
 #include "../include/Client.hpp"
 
 void processCommand(Server &server, Client &client, std::string input);
+std::string	getLocalIPv4Address(void);
 
 Server::Server()
 {
@@ -155,6 +156,11 @@ Client &Server::getClient(const std::string &nick)
 	throw (std::runtime_error("client not found"));
 }
 
+std::string	Server::getIp(void)
+{
+	return (getLocalIPv4Address());
+}
+
 void	Server::handle(char *buffer, Client &client) {
     processCommand(*this, client, buffer);
 }
@@ -227,7 +233,33 @@ bool	Server::checkPasswd(std::string passwd)
 	return (false);
 }
 
-std::string Server::getIp() {
+std::string	getLocalIPv4Address(void)
+{
+    struct ifaddrs		*network_interfaces;
+    struct ifaddrs		*ptr_it_ifaddrs;
+    struct sockaddr_in	*socket_address;
+    std::string 		local_ipv4_addr;
 
-        return inet_ntoa(this->IPv4_serv_sock_addr.sin_addr);
+    if (getifaddrs(&network_interfaces) == -1)
+	{
+        perror("getifaddrs");
+        return ("NULL");
+    }
+    for (ptr_it_ifaddrs = network_interfaces; ptr_it_ifaddrs != NULL; ptr_it_ifaddrs = ptr_it_ifaddrs->ifa_next)
+	{
+        if (ptr_it_ifaddrs->ifa_addr == NULL)
+            continue;
+        if (ptr_it_ifaddrs->ifa_addr->sa_family == AF_INET)
+		{
+            socket_address = (struct sockaddr_in *)ptr_it_ifaddrs->ifa_addr;
+            local_ipv4_addr = inet_ntoa(socket_address->sin_addr);
+            if (local_ipv4_addr != "127.0.0.1")
+			{
+				std::cout << "Detected local IPv4: " << local_ipv4_addr << std::endl;
+				break;
+			}
+        }
+    }
+    freeifaddrs(network_interfaces);
+	return (local_ipv4_addr);
 }

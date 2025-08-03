@@ -92,7 +92,7 @@ void	Server::pollClientConnect(poll_data* p_data)
     Client&	new_client = this->vector_clients.back();
 
     new_client.fd_client_socket = accept(this->fd_server_socket,
-                                         (struct sockaddr *)&new_client.IPv4_client_sock_addr, &new_client.client_addrlen);
+        (struct sockaddr *)&new_client.IPv4_client_sock_addr, &new_client.client_addrlen);
     if (new_client.fd_client_socket == -1)
     {
         this->vector_clients.pop_back();
