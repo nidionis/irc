@@ -17,6 +17,7 @@ void capLs(Server &server, Client &client, std::string args);
 void capReq(Server &server, Client &client, std::string caps);
 void capEnd(Server &server, Client &client, std::string caps);
 bool isCap(const std::string& cap);
+void server_banner(Client &client);
 
 extern const struct s_cmd cap_tab[];
 

@@ -54,6 +54,7 @@ public:
     bool hasFlag(const std::string& cap);
     std::string getIp();
     ssize_t send_banner(std::string line);
+    bool isLogged();
 };
 
 //std::ostream& operator<<(std::ostream& os, const Client& client);

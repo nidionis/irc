@@ -158,3 +158,7 @@ bool    Client::hasFlag(const std::string &flag)
 std::string Client::getIp() {
     return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
 }
+
+bool Client::isLogged() {
+    return (getUsername() != "" && getNickname() != "" && hasFlag(PASSWD_OK));
+}

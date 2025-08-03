@@ -44,8 +44,9 @@ void capLs(Server& server, Client& client, std::string args)
 {
     (void)server;
     (void)args;
-    //client.send(server.getName());
-    client.send("\r\nCAP * LS :");
+    client.send(":");
+    client.send(server.getName());
+    client.send(" CAP * LS :");
     for (int i = 0; cap_tab[i].f; i++)
     {
         client.send(cap_tab[i].header);
@@ -85,8 +86,10 @@ void capReq(Server& server, Client& client, std::string caps)
     //}
 }
 
-static void server_banner(Client &client)
+void server_banner(Client &client)
 {
+    if (client.hasFlag("pouet"))
+        return ;
     std::string message001 = ":ircSchoolProject 001 " + client.getNickname() + " :Welcome to the ircSchoolProject " + client.getNickname() + '\n';
     std::string message002 = ":ircSchoolProject 002 " + client.getNickname() + " :Your host is ircSchoolProject[10.13.4.10/6667], running version v1.0\n";
     std::string message003 = ":ircSchoolProject 003 " + client.getNickname() + " :This server was created Wed Jul 2025 at 12:00:00 EST\n";
@@ -99,15 +102,14 @@ static void server_banner(Client &client)
     client.send(message004);
     client.send(message005);
     client.send(messageMODE);
+    client.setFlag("pouet");
 }
 
 void capEnd(Server &server, Client &client, std::string caps) {
     (void)server;
     (void)caps;
-    if (!client.hasFlag(LOGGED)) {
-        if (client.getUsername() != "" && client.getNickname() != "" && client.hasFlag(PASSWD_OK)) {
-            client.setFlag(LOGGED);
-        }
-        server_banner(client);
-    }
+        //if (client.getUsername() != "" && client.getNickname() != "" && client.hasFlag(PASSWD_OK)) {
+        //    client.setFlag(LOGGED);
+        if (client.isLogged())
+            server_banner(client);
 }
