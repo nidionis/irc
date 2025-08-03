@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:39 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/06/30 13:39:49 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/03 15:29:37 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <Client.hpp>
 # include <Channel.hpp>
 #include <string>
+#include <ifaddrs.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "Client.hpp"
 
@@ -57,6 +60,7 @@ public:
     ssize_t sendClient(Client& cli, std::string msg);
     Client& getClient(int i);
     Client& getClient(const std::string& nick);
+    std::string getIp(void);
     void handle(char* buffer, Client& client);
     void applyRequest(char* buffer, Client& client);
 
