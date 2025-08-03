@@ -223,3 +223,8 @@ bool	Server::checkPasswd(std::string passwd)
 		return (true);
 	return (false);
 }
+
+std::string Server::getIp() {
+
+        return inet_ntoa(this->IPv4_serv_sock_addr.sin_addr);
+}

@@ -11,6 +11,13 @@
 #include "../include/Server.hpp"
 #include "../include/utils_strings.hpp"
 
+void cmdDebug(Server& server, Client& client, std::string args) {
+    (void)server;
+    (void)client;
+    (void)args;
+    client.send("serv ip " + server.getIp());
+}
+
 void cmdCap(Server& server, Client& client, std::string args)
 {
     (void)server;
@@ -47,7 +54,7 @@ void cmdNick(Server& server, Client& client, std::string input)
     client.setNickname(nick);
 
     if (client.isLogged())
-        server_banner(client);
+        server_banner(client, server);
 }
 
 void cmdUser(Server& server, Client& client, std::string input)
@@ -252,7 +259,7 @@ void cmdWho(Server& server, Client& client, std::string input)
     (void)server;
     (void)input;
     std::string message352 = ":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername()
-        + " 10.13.4.10 ircSchoolProject " + client.getNickname() + " H :0 " + client.getRealname() + '\n';
+        + " " + server.getIp() + " ircSchoolProject " + client.getNickname() + " " + client.getRealname() + '\n';
     std::string message315 = ":ircSchoolProject 315 " + client.getNickname()
         + " " + client.getNickname() + " :End of /WHO list.\n";
     client.send(message352);
@@ -266,7 +273,7 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     if (arg == client.getNickname())
     {
         std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
-           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@10.13.4.10\n";
+           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
         client.send(message302);
     }
 }

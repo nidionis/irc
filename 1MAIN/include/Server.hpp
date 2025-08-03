@@ -50,6 +50,7 @@ public:
 
     void server_init(int port, std::string passwd);
     std::string& getName();
+    std::string getIp();
     void serverSetup();
     void serverCleanup(void);
     void pollLoop(void);

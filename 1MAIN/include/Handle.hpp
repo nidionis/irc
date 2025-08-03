@@ -27,6 +27,7 @@ void cmdUserHost(Server &server, Client &client, std::string input);
 void cmdPass(Server &server, Client &client, std::string input);
 void cmdInvite(Server &server, Client &client, std::string input);
 void cmdQuit(Server &server, Client &client, std::string input);
+void cmdDebug(Server& server, Client& client, std::string args);
 
 // /!\ must be vreated using createChannel only -> use malloc by server and added by client
 void createChannel(Server &server, Client &client, std::string channel_str);
@@ -54,6 +55,7 @@ static const struct s_cmd commands [] = {
     {"PASS",     &cmdPass}, // special : test later
     {"INVITE",   &cmdInvite},
     {"QUIT",     &cmdQuit},
+    {"DEBUG",     &cmdDebug},
     {"",        NULL} // Terminator
 };
 
