@@ -88,7 +88,7 @@ void capReq(Server& server, Client& client, std::string caps)
 
 void server_banner(Client &client, Server &server)
 {
-    if (client.hasFlag("pouet"))
+    if (client.hasFlag("BANNER_SENT"))
         return ;
     std::string message001 = ":ircSchoolProject 001 " + client.getNickname() + " :Welcome to the ircSchoolProject " + client.getNickname() + '\n';
     std::string message002 = ":ircSchoolProject 002 " + client.getNickname() + " :Your host is ircSchoolProject[" + server.getIp() + "/" + ft_put_uint16(server.getPort()) + "], running version v1.0\n";
@@ -102,7 +102,7 @@ void server_banner(Client &client, Server &server)
     client.send(message004);
     client.send(message005);
     client.send(messageMODE);
-    client.setFlag("pouet");
+    client.setFlag("BANNER_SENT");
 }
 
 void capEnd(Server &server, Client &client, std::string caps) {
@@ -110,6 +110,7 @@ void capEnd(Server &server, Client &client, std::string caps) {
     (void)caps;
         //if (client.getUsername() != "" && client.getNickname() != "" && client.hasFlag(PASSWD_OK)) {
         //    client.setFlag(LOGGED);
+        client.setFlag("CAP_END");
         if (client.isLogged())
             server_banner(client, server);
 }

@@ -131,11 +131,8 @@ bool    Client::hasCap(const std::string &cap)
 
 void	Client::setFlag(const std::string &flag)
 {
-    if (is_in(this->flags, flag)) {
-        //this->send("[debug] flag " + flag + " was already set\r\n");
-    } else {
+    if (!is_in(this->flags, flag)) {
         this->flags.push_back(flag);
-        //this->send("[debug] flag " + flag + " set\r\n");
     }
 }
 
@@ -144,9 +141,6 @@ void Client::resetFlag(const std::string &flag)
     if (is_in(this->flags, flag)) {
         std::vector<std::string>::iterator it = std::find(this->flags.begin(), this->flags.end(), flag);
         this->flags.erase(it);
-        //this->send("[debug] flag " + flag + " reset\r\n");
-    } else {
-        //this->send("[debug] flag " + flag + " was not set\r\n");
     }
 }
 
@@ -160,5 +154,5 @@ std::string Client::getIp() {
 }
 
 bool Client::isLogged() {
-    return (getUsername() != "" && getNickname() != "" && hasFlag(PASSWD_OK));
+    return (getUsername() != "" && getNickname() != "" && hasFlag(PASSWD_OK) && hasFlag("CAP_END"));
 }
