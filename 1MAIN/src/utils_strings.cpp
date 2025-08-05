@@ -105,3 +105,22 @@ std::string lastWord(std::string& str)
     }
     return wd;
 }
+
+std::string ft_put_uint16(uint16_t num)
+{
+    char        string[5];
+    std::string result;
+    int         i = 4;
+
+    if (num == 0) { return "0"; }
+    while (i >= 0 && num != 0)
+    {
+        string[i] = (num % 10) + '0';
+        num /= 10;
+        i--;
+    }
+    i++;
+    while (i < 5)
+        { result += string[i++]; }
+    return (result);
+}

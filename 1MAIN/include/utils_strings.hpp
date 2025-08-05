@@ -19,5 +19,6 @@ bool    	isValidName(const std::string& str);
 std::string to_string(const ssize_t value);
 std::string popWd(std::string& str);
 std::string lastWord(std::string& str);
+std::string ft_put_uint16(uint16_t num);
 
-#endif //UTILS_STRINGS_H
+#endif //UTILS_STRINGS_HPP
