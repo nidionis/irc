@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/03 10:30:20 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:23:59 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,11 @@ std::string Client::getIp() {
     return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
 }
 
-bool Client::isLogged() {
+bool Client::isLogged()
+{
+    std::cout << "getUsername() : [" + getUsername() << "]" << std::endl
+              << "getNickname() : [" + getNickname() << "]" << std::endl
+              << "hasFlag(PASSWD_OK) : [" << hasFlag(PASSWD_OK) << "]" << std::endl
+              << "hasFlag(\"CAP_END\") : [" << hasFlag("CAP_END") << "]" << std::endl;
     return (getUsername() != "" && getNickname() != "" && hasFlag(PASSWD_OK) && hasFlag("CAP_END"));
 }

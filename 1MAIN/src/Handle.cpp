@@ -70,13 +70,11 @@ void cmdUser(Server& server, Client& client, std::string input)
     }
     if (client.getUsername() != "") {
         throw std::runtime_error("USER :You are already logged in");
-    } if (server.hasUser(user))
-    {
-        throw std::runtime_error("USER :Username already in use\r\n");
     }
     client.setUsername(user);
     client.setRealname(realname);
-}
+    std::cout << "TEST USER : [" << client.getUsername() << "]" << std::endl;
+}   
 
 void cmdJoin(Server& server, Client& client, std::string input)
 {
