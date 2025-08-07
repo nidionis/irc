@@ -6,13 +6,17 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 13:54:33 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:18:38 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "handle.hpp"
 
 /*
+Command: JOIN
+Parameters: <channel>{,<channel>} [<key>{,<key>}]
+Alt Params: 0
+
 [13:49] << JOIN #NewChannel%0A
 [13:49] >> :NickName!~UserName@45.148.156.203 JOIN #NewChannel * :RealName%0A
 [13:49] << MODE #NewChannel%0A
@@ -23,6 +27,36 @@
 [13:49] >> :swepipe.esper.net 329 NickName #NewChannel 1754567346%0A
 [13:49] << MODE #NewChannel +b%0A
 [13:49] >> :swepipe.esper.net 368 NickName #NewChannel :End of Channel Ban List%0A
+
+// joining several channels at once :
+[14:12] << JOIN #test123,#test456,#test789%0A
+[14:12] >> :NickName!~UserName@45.148.156.203 JOIN #test123 * :RealName%0A
+[14:12] << MODE #test123%0A
+[14:12] >> :swepipe.esper.net MODE #test123 +nt%0A
+[14:12] >> :swepipe.esper.net 353 NickName = #test123 :@NickName!~UserName@45.148.156.203%0A
+[14:12] >> :swepipe.esper.net 366 NickName #test123 :End of /NAMES list.%0A
+[14:12] >> :NickName!~UserName@45.148.156.203 JOIN #test456 * :RealName%0A
+[14:12] >> :swepipe.esper.net MODE #test456 +nt%0A
+[14:12] >> :swepipe.esper.net 353 NickName = #test456 :@NickName!~UserName@45.148.156.203%0A
+[14:12] >> :swepipe.esper.net 366 NickName #test456 :End of /NAMES list.%0A
+[14:12] >> :NickName!~UserName@45.148.156.203 JOIN #test789 * :RealName%0A
+[14:12] >> :swepipe.esper.net MODE #test789 +nt%0A
+[14:12] >> :swepipe.esper.net 353 NickName = #test789 :@NickName!~UserName@45.148.156.203%0A
+[14:12] >> :swepipe.esper.net 366 NickName #test789 :End of /NAMES list.%0A
+[14:12] >> :swepipe.esper.net 324 NickName #test123 +nt%0A
+[14:12] >> :swepipe.esper.net 329 NickName #test123 1754568766%0A
+[14:12] << MODE #test123 +b%0A
+[14:12] >> :swepipe.esper.net 368 NickName #test123 :End of Channel Ban List%0A
+[14:12] << MODE #test456%0A
+[14:12] >> :swepipe.esper.net 324 NickName #test456 +nt%0A
+[14:12] >> :swepipe.esper.net 329 NickName #test456 1754568766%0A
+[14:12] << MODE #test456 +b%0A
+[14:12] >> :swepipe.esper.net 368 NickName #test456 :End of Channel Ban List%0A
+[14:13] << MODE #test789%0A
+[14:13] >> :swepipe.esper.net 324 NickName #test789 +nt%0A
+[14:13] >> :swepipe.esper.net 329 NickName #test789 1754568766%0A
+[14:13] << MODE #test789 +b%0A
+[14:13] >> :swepipe.esper.net 368 NickName #test789 :End of Channel Ban List%0A
 */
 
 void cmdJoin(Server& server, Client& client, std::string input)
@@ -70,6 +104,38 @@ void cmdJoin(Server& server, Client& client, std::string input)
     {
         client.send("JOIN :Invalid channel name\r\n");
     }
+}
+
+/*
+Command: PART
+Parameters: <channel>{,<channel>} [<reason>]
+
+// SUCCESS MESSAGE with no reason
+[13:57] << PART #TestChannel :%0A
+[13:57] >> :NickName!~UserName@45.148.156.203 PART #TestChannel%0A
+
+// SUCCESS MESSAGE with reason
+[14:05] << PART #test654 :hello%0A
+[14:05] >> :NickName!~UserName@45.148.156.203 PART #test654 :hello%0A
+
+// SUCCESS messages, part 3 channels at once
+[14:14] << PART #test123,#test456,#test789 :%0A
+[14:14] >> :NickName!~UserName@45.148.156.203 PART #test123%0A
+[14:14] >> :NickName!~UserName@45.148.156.203 PART #test456%0A
+[14:14] >> :NickName!~UserName@45.148.156.203 PART #test789%0A
+
+// error : channel exist but user is not part of it
+[14:00] << PART #test :%0A
+[14:00] >> :swepipe.esper.net 442 NickName #test :You're not on that channel%0A
+
+// error : channel does not exist
+[14:00] << PART #test54654 :%0A
+[14:00] >> :swepipe.esper.net 403 NickName #test54654 :No such channel%0A
+*/
+
+void cmdPart(Server& server, Client& client, std::string args)
+{
+    return ;
 }
 
 void cmdMode(Server& server, Client& client, std::string input)

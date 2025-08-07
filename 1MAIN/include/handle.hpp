@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:43:34 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 12:46:08 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:58:51 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void cmdPass(Server &server, Client &client, std::string input);
 void cmdInvite(Server &server, Client &client, std::string input);
 void cmdQuit(Server &server, Client &client, std::string input);
 void cmdDebug(Server& server, Client& client, std::string args);
+void cmdPart(Server& server, Client& client, std::string args);
 
 typedef void (*CommandFunc)(Server &server, Client &client, std::string input);
 
@@ -82,7 +83,8 @@ static const struct s_cmd commands [] = {
     {"PASS",     &cmdPass}, // special : test later
     {"INVITE",   &cmdInvite},
     {"QUIT",     &cmdQuit},
-    {"DEBUG",     &cmdDebug},
+    {"DEBUG",    &cmdDebug},
+    {"PART",     &cmdPart},
     {"",        NULL} // Terminator
 };
 
