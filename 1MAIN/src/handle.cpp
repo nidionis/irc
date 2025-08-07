@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:43:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 13:41:18 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:07:12 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,22 @@ void cmdPing(Server& server, Client& client, std::string input)
     client.send("\r\n");
 }
 
+/*
+Command: WHO
+Parameters: <mask>
+
+// if user is requested and present in several channels, only first channel found is displayed
+[15:40] << WHO NickName%0A
+[15:40] >> :calamity.esper.net 352 NickName #test789 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
+[15:40] >> :calamity.esper.net 315 NickName NickName :End of /WHO list.%0A
+
+// if channel is requested, list all users inside
+[15:43] << WHO #test123%0A
+[15:43] >> :calamity.esper.net 352 NickName #test123 ~lahlsweh 45.148.156.203 calamity.esper.net test1 H :0 Lucas Ahlsweh%0A
+[15:43] >> :calamity.esper.net 352 NickName #test123 ~lahlsweh 45.148.156.203 calamity.esper.net test2 H :0 Lucas Ahlsweh%0A
+[15:43] >> :calamity.esper.net 352 NickName #test123 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
+[15:43] >> :calamity.esper.net 315 NickName #test123 :End of /WHO list.%0A
+*/
 void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)input;
@@ -180,7 +196,6 @@ void processCommand(Server& server, Client& client, std::string input)
 void cmdQuit(Server &server, Client &client, std::string input)
 {
     (void)server;
-    (void)client;
     (void)input;
     std::cout << "TMP cmdQuit()" << std::endl;
     client.must_kill = true;

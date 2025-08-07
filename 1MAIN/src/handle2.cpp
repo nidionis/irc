@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 14:26:25 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:06:42 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,46 +17,45 @@ Command: JOIN
 Parameters: <channel>{,<channel>} [<key>{,<key>}]
 Alt Params: 0
 
-[13:49] << JOIN #NewChannel%0A
-[13:49] >> :NickName!~UserName@45.148.156.203 JOIN #NewChannel * :RealName%0A
-[13:49] << MODE #NewChannel%0A
-[13:49] >> :swepipe.esper.net MODE #NewChannel +nt%0A
-[13:49] >> :swepipe.esper.net 353 NickName = #NewChannel :@NickName!~UserName@45.148.156.203%0A
-[13:49] >> :swepipe.esper.net 366 NickName #NewChannel :End of /NAMES list.%0A
-[13:49] >> :swepipe.esper.net 324 NickName #NewChannel +nt%0A
-[13:49] >> :swepipe.esper.net 329 NickName #NewChannel 1754567346%0A
-[13:49] << MODE #NewChannel +b%0A
-[13:49] >> :swepipe.esper.net 368 NickName #NewChannel :End of Channel Ban List%0A
+// join a channel alone
+[15:32] << JOIN #test456%0A
+[15:32] >> :NickName!~UserName@45.148.156.203 JOIN #test456 * :RealName%0A
+[15:32] << MODE #test456%0A
+[15:32] >> :calamity.esper.net MODE #test456 +nt%0A
+[15:32] >> :calamity.esper.net 353 NickName = #test456 :@NickName!~UserName@45.148.156.203%0A
+[15:32] >> :calamity.esper.net 366 NickName #test456 :End of /NAMES list.%0A
+[15:32] >> :calamity.esper.net 324 NickName #test456 +nt%0A
+[15:32] >> :calamity.esper.net 329 NickName #test456 1754573574%0A
+[15:32] << MODE #test456 +b%0A
+[15:32] >> :calamity.esper.net 368 NickName #test456 :End of Channel Ban List%0A
 
-// joining several channels at once :
-[14:12] << JOIN #test123,#test456,#test789%0A
-[14:12] >> :NickName!~UserName@45.148.156.203 JOIN #test123 * :RealName%0A
-[14:12] << MODE #test123%0A
-[14:12] >> :swepipe.esper.net MODE #test123 +nt%0A
-[14:12] >> :swepipe.esper.net 353 NickName = #test123 :@NickName!~UserName@45.148.156.203%0A
-[14:12] >> :swepipe.esper.net 366 NickName #test123 :End of /NAMES list.%0A
-[14:12] >> :NickName!~UserName@45.148.156.203 JOIN #test456 * :RealName%0A
-[14:12] >> :swepipe.esper.net MODE #test456 +nt%0A
-[14:12] >> :swepipe.esper.net 353 NickName = #test456 :@NickName!~UserName@45.148.156.203%0A
-[14:12] >> :swepipe.esper.net 366 NickName #test456 :End of /NAMES list.%0A
-[14:12] >> :NickName!~UserName@45.148.156.203 JOIN #test789 * :RealName%0A
-[14:12] >> :swepipe.esper.net MODE #test789 +nt%0A
-[14:12] >> :swepipe.esper.net 353 NickName = #test789 :@NickName!~UserName@45.148.156.203%0A
-[14:12] >> :swepipe.esper.net 366 NickName #test789 :End of /NAMES list.%0A
-[14:12] >> :swepipe.esper.net 324 NickName #test123 +nt%0A
-[14:12] >> :swepipe.esper.net 329 NickName #test123 1754568766%0A
-[14:12] << MODE #test123 +b%0A
-[14:12] >> :swepipe.esper.net 368 NickName #test123 :End of Channel Ban List%0A
-[14:12] << MODE #test456%0A
-[14:12] >> :swepipe.esper.net 324 NickName #test456 +nt%0A
-[14:12] >> :swepipe.esper.net 329 NickName #test456 1754568766%0A
-[14:12] << MODE #test456 +b%0A
-[14:12] >> :swepipe.esper.net 368 NickName #test456 :End of Channel Ban List%0A
-[14:13] << MODE #test789%0A
-[14:13] >> :swepipe.esper.net 324 NickName #test789 +nt%0A
-[14:13] >> :swepipe.esper.net 329 NickName #test789 1754568766%0A
-[14:13] << MODE #test789 +b%0A
-[14:13] >> :swepipe.esper.net 368 NickName #test789 :End of Channel Ban List%0A
+// join a channel that has 2 other users
+[15:33] << JOIN #test852%0A
+[15:33] >> :NickName!~UserName@45.148.156.203 JOIN #test852 * :RealName%0A
+[15:33] << MODE #test852%0A
+[15:33] >> :calamity.esper.net 353 NickName = #test852 :NickName!~UserName@45.148.156.203 test1!~lahlsweh@45.148.156.203 @test2!~lahlsweh@45.148.156.203%0A
+[15:33] >> :calamity.esper.net 366 NickName #test852 :End of /NAMES list.%0A
+[15:33] >> :calamity.esper.net 324 NickName #test852 +nt%0A
+[15:33] >> :calamity.esper.net 329 NickName #test852 1754573556%0A
+[15:33] << MODE #test852 +b%0A
+[15:33] >> :calamity.esper.net 368 NickName #test852 :End of Channel Ban List%0A
+
+// join a channel alone, then 2 other users joins it
+[15:37] << JOIN #test123%0A
+[15:37] >> :NickName!~UserName@45.148.156.203 JOIN #test123 * :RealName%0A
+[15:37] << MODE #test123%0A
+[15:37] >> :calamity.esper.net MODE #test123 +nt%0A
+[15:37] >> :calamity.esper.net 353 NickName = #test123 :@NickName!~UserName@45.148.156.203%0A
+[15:37] >> :calamity.esper.net 366 NickName #test123 :End of /NAMES list.%0A
+[15:37] >> :calamity.esper.net 324 NickName #test123 +nt%0A
+[15:37] >> :calamity.esper.net 329 NickName #test123 1754573841%0A
+[15:37] << MODE #test123 +b%0A
+[15:37] >> :calamity.esper.net 368 NickName #test123 :End of Channel Ban List%0A
+[15:37] >> :test2!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
+[15:37] >> :test1!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
+
+
+=> do not implement the MODE replies in cmdJoin(), those will be handled in cmdMode()
 */
 
 void cmdJoin(Server& server, Client& client, std::string input)
@@ -122,12 +121,6 @@ Parameters: <channel>{,<channel>} [<reason>]
 [14:05] << PART #test654 :hello%0A
 [14:05] >> :NickName!~UserName@45.148.156.203 PART #test654 :hello%0A
 
-// SUCCESS messages, part 3 channels at once
-[14:14] << PART #test123,#test456,#test789 :%0A
-[14:14] >> :NickName!~UserName@45.148.156.203 PART #test123%0A
-[14:14] >> :NickName!~UserName@45.148.156.203 PART #test456%0A
-[14:14] >> :NickName!~UserName@45.148.156.203 PART #test789%0A
-
 // error : channel exist but user is not part of it
 [14:00] << PART #test :%0A
 [14:00] >> :swepipe.esper.net 442 NickName #test :You're not on that channel%0A
@@ -144,6 +137,13 @@ void cmdPart(Server& server, Client& client, std::string args)
     (void)args;
     return ;
 }
+
+/*
+Command: MODE
+Parameters: <target> [<modestring> [<mode arguments>...]]
+  
+/!\ not tested yet /!\
+*/
 
 void cmdMode(Server& server, Client& client, std::string input)
 {
@@ -207,6 +207,51 @@ void cmdMode(Server& server, Client& client, std::string input)
     }
 }
 
+/*
+Command: KICK
+Parameters: <channel> <user> *( "," <user> ) [<comment>]
+
+// kick self (no comment)
+[15:09] << KICK #test321 NickName :%0A
+[15:09] >> :NickName!~UserName@45.148.156.203 KICK #test321 NickName :NickName%0A
+
+// kick other (no comment)
+[15:14] << KICK #test456 lahlsweh :%0A
+[15:14] >> :NickName!~UserName@45.148.156.203 KICK #test456 lahlsweh :lahlsweh%0A
+
+// kick self (comment)
+[15:11] << KICK #test456 NickName :somecomment%0A
+[15:11] >> :NickName!~UserName@45.148.156.203 KICK #test456 NickName :somecomment%0A
+
+// kick other (comment)
+[15:15] << KICK #test456 lahlsweh :somecomment%0A
+[15:15] >> :NickName!~UserName@45.148.156.203 KICK #test456 lahlsweh :somecomment%0A
+
+// not operator (no comment)
+[15:10] << KICK #test123 lahlsweh :%0A
+[15:10] >> :calamity.esper.net 482 NickName #test123 :You're not a channel operator%0A
+
+// not operator (comment)
+[15:12] << KICK #test123 lahlsweh :somecomment%0A
+[15:12] >> :calamity.esper.net 482 NickName #test123 :You're not a channel operator%0A
+
+// bad format
+[15:13] << KICK #test456 NickName:somecomment%0A
+[15:13] >> :calamity.esper.net 401 NickName NickName:somecomment :No such nick/channel%0A
+
+// bad format
+[15:13] << KICK #test456 NickName: somecomment%0A
+[15:13] >> :calamity.esper.net 401 NickName NickName: :No such nick/channel%0A
+
+// wrong channel
+[15:19] << KICK #test456 lahlsweh :somereason%0A
+[15:19] >> :calamity.esper.net 403 NickName #test456 :No such channel%0A
+
+// user not in channel
+[15:19] << KICK #test951 lahlsweh :somereason%0A
+[15:19] >> :calamity.esper.net 441 NickName lahlsweh #test951 :They aren't on that channel%0A
+*/
+
 void cmdKick(Server& server, Client& client, std::string input)
 {
     std::string channel_str = popWd(input);
@@ -245,6 +290,13 @@ void cmdKick(Server& server, Client& client, std::string input)
     }
 }
 
+/*
+Command: TOPIC
+Parameters: <channel> [<topic>]
+  
+/!\ not tested yet /!\
+*/
+
 void cmdTopic(Server& server, Client& client, std::string input)
 {
     (void)server;
@@ -274,6 +326,27 @@ void cmdTopic(Server& server, Client& client, std::string input)
     }
 }
 
+/*
+Command: PRIVMSG
+Parameters: <target>{,<target>} <text to be sent>
+
+// when DMing an other user, server will not resond whethe it succeeded or failed
+[15:50] << PRIVMSG test2 :ggg%0A
+
+// sending to channel, success but no server reply
+[15:52] << PRIVMSG #test123 :testchannel%0A
+
+// message received, server must process it but not respond
+[15:51] >> :test2!~lahlsweh@45.148.156.203 PRIVMSG NickName :trert%0A
+
+// channel does not exist
+[15:54] << PRIVMSG #badchan :test%0A
+[15:54] >> :calamity.esper.net 401 NickName #badchan :No such nick/channel%0A
+
+// user does not exist
+[15:55] << PRIVMSG baduser789 :test%0A
+[15:55] >> :calamity.esper.net 401 NickName baduser789 :No such nick/channel%0A
+*/
 void cmdPrivmsg(Server& server, Client& client, std::string input)
 {
     std::string name = getHead(input);
@@ -308,6 +381,38 @@ void cmdPrivmsg(Server& server, Client& client, std::string input)
     }
     throw std::runtime_error("PRIVMSG : Failure");
 }
+
+/*
+Command: INVITE
+Parameters: <nickname> <channel>
+
+// success
+[15:56] << INVITE test1 #test123%0A
+[15:56] >> :calamity.esper.net 341 NickName test1 #test123%0A
+
+// invite received
+[15:57] >> :test2!~lahlsweh@45.148.156.203 INVITE NickName :#test456%0A
+
+// user exist, channel does not exist
+[15:58] << INVITE test2 #test987%0A
+[15:58] >> :calamity.esper.net 403 NickName #test987 :No such channel%0A
+
+// user already on channel
+[15:58] << INVITE test2 #test456%0A
+[15:58] >> :calamity.esper.net 443 NickName test2 #test456 :is already on channel%0A
+
+// user does not exist, channel exist
+[15:58] << INVITE test46542 #test456%0A
+[15:58] >> :calamity.esper.net 401 NickName test46542 :No such nick/channel%0A
+
+// user not on channel
+[16:00] << INVITE test2 #test789%0A
+[16:00] >> :calamity.esper.net 442 NickName #test789 :You're not on that channel%0A
+
+// not operator
+[16:03] << INVITE test1 #test456%0A
+[16:03] >> :calamity.esper.net 482 NickName #test456 :You're not a channel operator%0A
+*/
 
 void cmdInvite(Server &server, Client &client, std::string input) {
     Client dest;
