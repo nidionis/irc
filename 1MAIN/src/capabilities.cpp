@@ -62,6 +62,7 @@ void capLs(Server& server, Client& client, std::string args)
     client.send("\r\n");
 }
 
+
 void capReq(Server& server, Client& client, std::string caps)
 {
     (void)server;
