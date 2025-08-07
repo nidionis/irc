@@ -21,8 +21,8 @@
 # include <sstream>
 # include <stdint.h> // uint16_t
 
-# define TRIMMED_CHARS ": \t\r\n"
-# define LEN_MAX_NAME 16
+# define TRIMMED_CHARS ":, \t\r\n"
+# define LEN_MAX_NAME 50
 
 std::string trim(const std::string& str);
 std::string trim(const std::string& str, const std::string& chars);

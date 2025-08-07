@@ -64,13 +64,15 @@ void cmdJoin(Server& server, Client& client, std::string input)
     std::string channel_str = popWd(input);
     std::string key = lastWord(input);
     Channel channel;
+    std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
+        + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
 
     if (client.isLogged() == false)
     {
         client.must_kill = true;
         return ;
     }
-    if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
+    if (channel_str[0] == '#' && channel_str.length() < LEN_MAX_NAME)// && isValidName(channel_str.substr(1)))
     {
         try
         {
@@ -81,8 +83,6 @@ void cmdJoin(Server& server, Client& client, std::string input)
                     throw std::runtime_error("JOIN :Invalid channel key\r\n");
                 }
                 channel.setClient(client);
-                std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
-                    + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
                 client.send(reply_success);
             }
             catch (std::runtime_error& err)
@@ -96,6 +96,7 @@ void cmdJoin(Server& server, Client& client, std::string input)
             try
             {
                 client.newChannel(channel_str);
+                client.send(reply_success);
             }
             catch (std::runtime_error& err)
             {
