@@ -65,6 +65,7 @@ void Channel::delOperator(Client &client) {
     del(this->operators, client);
 }
 
+
 bool Channel::isClient(Client &client) {
     if (std::find(this->clients.begin(), this->clients.end(), client) != this->clients.end()) {
         return true;
@@ -80,7 +81,17 @@ void Channel::setClient(Client &client) {
         return;
     }
     this->clients.push_back(client);
-    client.send("you joined the channel\r\n");
+    client.send(":");
+    client.send(client.getNickname());
+    client.send("!~"); // dirty
+    client.send(client.getUsername());
+    client.send("@");
+    client.send(getLocalIPv4Address());
+    client.send("JOIN");
+    client.send(getName());
+    client.send(" * :");
+    client.send(client.getRealname());
+    client.send("\r\n");
 }
 
 void Channel::delClient(Client &client) {
