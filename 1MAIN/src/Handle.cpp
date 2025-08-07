@@ -65,11 +65,12 @@ void cmdUser(Server& server, Client& client, std::string input)
     std::string user = getHead(input);
     std::string realname = lastWord(input);
     if (!client.hasFlag(PASSWD_OK)) {
-        //client.clientCleanup();
         client.must_kill = true;
     }
-    if (client.getUsername() != "") {
-        throw std::runtime_error("USER :You are already logged in");
+    if (client.getUsername() != "")
+    {
+        std::string message462 = ":ircSchoolProject 462 " + client.getNickname() + " :You may not reregister\r\n";
+        throw std::runtime_error(message462);
     }
     client.setUsername(user);
     client.setRealname(realname);
