@@ -6,18 +6,11 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:57:59 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/03 15:28:05 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:46:45 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
-
-#include <cstdlib>
-#include <stdlib.h>
-#include <string>
-#include <signal.h>
-
-#include "Server.hpp"
 
 int main(int argc, char **argv)
 {

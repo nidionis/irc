@@ -1,16 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:43:34 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:46:08 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by nidionis on 02/07/25.
 //
 
 #ifndef HANDLE_HPP
-#define HANDLE_HPP
+# define HANDLE_HPP
 
-#include <string>
-#include <main.hpp>
+# include <iostream>
+
+# include "Client.hpp"
+# include "capabilities.hpp"
+
+# define PASSWD_OK "passwd_ok"
+
+# define AVAILABLE_MODE "itkol"
+//# define INVITE_ONLY    0
+//# define TOPIC_RESTRICT 1
+//# define KEY            2
+# define OP             3
+//# define LIMIT          4
+//# define TOPIC_MAX_LEN  2048
+
+# define OPERATOR_OP "%@"
+//# define HALFOP 0
+//# define CHANOP 1
+
+class Server;
+class Client;
 
 // Function declarations
 void processCommand(Server &server, Client &client, std::string input);
-bool cmpHead(const std::string& input, const char* header);
 
 // Command function declarations
 void cmdCap(Server &server, Client &client, std::string args);
@@ -28,9 +58,6 @@ void cmdPass(Server &server, Client &client, std::string input);
 void cmdInvite(Server &server, Client &client, std::string input);
 void cmdQuit(Server &server, Client &client, std::string input);
 void cmdDebug(Server& server, Client& client, std::string args);
-
-// /!\ must be vreated using createChannel only -> use malloc by server and added by client
-void createChannel(Server &server, Client &client, std::string channel_str);
 
 typedef void (*CommandFunc)(Server &server, Client &client, std::string input);
 

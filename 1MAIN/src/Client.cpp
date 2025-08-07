@@ -6,13 +6,11 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:59:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/05 16:23:59 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:25:02 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
-
-#include <stdexcept>
 
 Client::Client(void)
 {

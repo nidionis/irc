@@ -1,21 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Channel.hpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:43:30 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:38:45 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by nidionis on 04/07/25.
 //
 
-#ifndef IRC_CHANNEL_H
-#define IRC_CHANNEL_H
-# include "main.hpp"
-# define AVAILABLE_MODE "itkol"
-# define INVITE_ONLY    0
-# define TOPIC_RESTRICT 1
-# define KEY            2
-# define OP             3
-# define LIMIT          4
-# define TOPIC_MAX_LEN  2048
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
-# define OPERATOR_OP "%@"
-# define HALFOP 0
-# define CHANOP 1
+# include <vector>
+# include <iostream>
+
+# include "Client.hpp"
+
+# define GETTER_SETTER(type, name, f_name) \
+type get##f_name() const { return name; } \
+void set##f_name(type value) { name = value; }
+
+class Client;
 
 class Channel {
 private:
@@ -51,4 +62,4 @@ public:
     void    spawn(std::string msg);
 };
 
-#endif //IRC_CHANNEL_H
+#endif //CHANNEL_HPP

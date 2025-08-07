@@ -6,24 +6,42 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:39 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/03 15:29:37 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:46:21 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
+
+# include <vector>
+
+# include <cerrno>
+# include <csignal>
+# include <cstring>
+
+# include <fcntl.h>   // fcntl()
+# include <ifaddrs.h> // getifaddrs()
+# include <signal.h>
+# include <stdio.h>   // perror()
+
+# include <arpa/inet.h>
+# include <netinet/in.h>
+# include <sys/socket.h>
+# include <sys/types.h>
+
+# include "main.hpp"
+# include "Channel.hpp"
+
 # define SERV_NAME "ircSchoolProject"
-# include <Client.hpp>
-# include <Channel.hpp>
-#include <string>
-#include <ifaddrs.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+# define BUFFER_SIZE 1024
+# define QUEUE_SIZE 16
 
-#include "Client.hpp"
+# define MAX_CLIENTS 3
+# define MAX_CONNECTIONS (MAX_CLIENTS + 1)
+# define BUFFER_SIZE 1024
 
-//class	Channel;
-//class	Client;
+class Client;
+class Channel;
 
 class Server
 {
@@ -63,7 +81,6 @@ public:
     std::string getIp(void);
     in_port_t getPort();
     void        handle(char* buffer, Client& client);
-    void applyRequest(char* buffer, Client& client);
 
     bool hasNick(std::string const& nick);
     bool hasUser(std::string const& user);
@@ -75,5 +92,9 @@ public:
 
     bool	checkPasswd(std::string passwd);
 };
+
+void handle_signal(int sig);
+void processCommand(Server &server, Client &client, std::string input);
+std::string	getLocalIPv4Address(void);
 
 #endif //SERVER_HPP

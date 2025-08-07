@@ -1,9 +1,16 @@
-#include "main.hpp"
-#include "utils_strings.hpp"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_strings.cpp                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:42:48 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:25:15 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <algorithm>
-#include <string>
-# define TRIMMED_CHARS ": \t\r\n"
+#include "utils_strings.hpp"
 
 std::string trim(const std::string& str)
 {

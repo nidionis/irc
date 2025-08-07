@@ -6,15 +6,24 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:58:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/07/29 17:07:11 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:41:24 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
-# include <main.hpp>
-# define LOGGED "logged"
+
+# include "Server.hpp"
+# include "capabilities.hpp"
+
+# define MAX_CHANNELS 2
 # define PASSWD_OK "passwd_ok"
+
+# define GETTER_SETTER(type, name, f_name) \
+type get##f_name() const { return name; } \
+void set##f_name(type value) { name = value; }
+
+class Channel;
 
 class Client
 {

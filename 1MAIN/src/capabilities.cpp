@@ -1,13 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   capabilities.cpp                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:43:45 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:28:09 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by n on 20/07/25.
 //
 
 #include "capabilities.hpp"
-
-#include <string>
-
-#include "../include/Client.hpp"
-#include "../include/Handle.hpp"
 
 const struct s_cmd cap_tab[] = {
     {"multi-prefix",    &multiPrefix },
@@ -108,8 +115,6 @@ void server_banner(Client &client, Server &server)
 void capEnd(Server &server, Client &client, std::string caps) {
     (void)server;
     (void)caps;
-        //if (client.getUsername() != "" && client.getNickname() != "" && client.hasFlag(PASSWD_OK)) {
-        //    client.setFlag(LOGGED);
         client.setFlag("CAP_END");
         if (client.isLogged())
             server_banner(client, server);

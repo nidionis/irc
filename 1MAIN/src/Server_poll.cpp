@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server_poll.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:43:56 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:25:10 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by nidionis on 02/07/25.
 //
 
-#include "main.hpp"
 #include "Server.hpp"
-#include "Client.hpp"
 
 volatile sig_atomic_t exit_program = false;
 

@@ -1,11 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Channel.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:43:47 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:24:59 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by nidionis on 04/07/25.
 //
 
-#include "../include/Channel.hpp"
-
-#include <stdexcept>
-#include <vector>
+#include "Channel.hpp"
 
 Channel::Channel() {}
 

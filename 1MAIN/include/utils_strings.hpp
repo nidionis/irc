@@ -1,12 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_strings.hpp                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:43:41 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:46:35 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by n on 17/07/25.
 //
 
-#ifndef UTILS_STRINGS_H
-#define UTILS_STRINGS_H
+#ifndef UTILS_STRINGS_HPP
+# define UTILS_STRINGS_HPP
 
-# include <string>
+# include <algorithm>
 # include <sstream>
+# include <stdint.h> // uint16_t
+
+# define TRIMMED_CHARS ": \t\r\n"
 # define LEN_MAX_NAME 16
 
 std::string trim(const std::string& str);

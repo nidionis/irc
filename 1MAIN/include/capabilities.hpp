@@ -1,16 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   capabilities.hpp                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 11:43:27 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 12:40:51 by lahlsweh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by n on 20/07/25.
 //
 
-#ifndef CAPABILITIES_H
-# define CAPABILITIES_H
+#ifndef CAPABILITIES_HPP
+# define CAPABILITIES_HPP
 
-// Forward declarations
-class Server;
+
+# include "handle.hpp"
+
+# define PASSWD_OK "passwd_ok"
+
 class Client;
 
-#include <string>
-#include "Handle.hpp"  // For s_cmd definition
+extern const struct s_cmd cap_tab[];
 
 void multiPrefix(Server &server, Client &client, std::string input);
 void capLs(Server &server, Client &client, std::string args);
@@ -19,6 +33,4 @@ void capEnd(Server &server, Client &client, std::string caps);
 bool isCap(const std::string& cap);
 void server_banner(Client &client, Server &server);
 
-extern const struct s_cmd cap_tab[];
-
-#endif //CAPABILITIES_H
+#endif //CAPABILITIES_HPP

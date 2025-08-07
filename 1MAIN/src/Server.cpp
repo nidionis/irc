@@ -6,26 +6,11 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/02 16:06:43 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:25:12 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.hpp"
 #include "Server.hpp"
-
-#include <iostream>
-#include <stdexcept>
-#include <string>
-#include <vector>
-#include <bits/ostream.tcc>
-
-#include "Client.hpp"
-#include "Handle.hpp"
-#include "../include/Channel.hpp"
-#include "../include/Client.hpp"
-
-void processCommand(Server &server, Client &client, std::string input);
-std::string	getLocalIPv4Address(void);
 
 Server::Server()
 {

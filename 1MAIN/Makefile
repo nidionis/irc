@@ -6,7 +6,7 @@
 #    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/27 13:48:14 by lahlsweh          #+#    #+#              #
-#    Updated: 2025/08/02 14:19:48 by lahlsweh         ###   ########.fr        #
+#    Updated: 2025/08/07 12:12:29 by lahlsweh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,9 @@ INCLUDE_DIR = include
 SRCS = main.cpp \
        utils_strings.cpp \
        capabilities.cpp \
-       vector_utils.cpp \
        Server.cpp \
-       Poll.cpp \
-       Handle.cpp \
+       Server_poll.cpp \
+       handle.cpp \
        Channel.cpp \
        Client.cpp
 
