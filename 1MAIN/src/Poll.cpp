@@ -8,10 +8,13 @@
 
 volatile sig_atomic_t exit_program = false;
 
-void handle_signal(int sig) {
-    if (sig == SIGINT) {
-        std::cout << "SIGINT caught. Terminating program ..." << std::endl;
+void handle_signal(int sig)
+{
+    if (sig == SIGINT)
+    {
+        std::cout << "\nSIGINT caught. Terminating program ..." << std::endl;
         exit_program = true;
+        return ;
     }
 }
 

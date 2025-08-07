@@ -52,7 +52,7 @@ void cmdNick(Server& server, Client& client, std::string input)
         throw (std::runtime_error (":" + server.getName() + " 433 * " + nick + " :Nickname is already in use.\r\n"));
 
     if (client.getNickname() != "")
-        client.send( ":" + client.getNickname() + "+~" + client.getUsername() + "@" + client.getIp() + " NICK :" + nick + "\r\n");
+        client.send( ":" + client.getNickname() + "!~" + client.getUsername() + "@" + client.getIp() + " NICK :" + nick + "\r\n");
     client.setNickname(nick);
 
     if (client.isLogged())
