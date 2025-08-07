@@ -6,11 +6,24 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 13:41:20 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:54:33 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "handle.hpp"
+
+/*
+[13:49] << JOIN #NewChannel%0A
+[13:49] >> :NickName!~UserName@45.148.156.203 JOIN #NewChannel * :RealName%0A
+[13:49] << MODE #NewChannel%0A
+[13:49] >> :swepipe.esper.net MODE #NewChannel +nt%0A
+[13:49] >> :swepipe.esper.net 353 NickName = #NewChannel :@NickName!~UserName@45.148.156.203%0A
+[13:49] >> :swepipe.esper.net 366 NickName #NewChannel :End of /NAMES list.%0A
+[13:49] >> :swepipe.esper.net 324 NickName #NewChannel +nt%0A
+[13:49] >> :swepipe.esper.net 329 NickName #NewChannel 1754567346%0A
+[13:49] << MODE #NewChannel +b%0A
+[13:49] >> :swepipe.esper.net 368 NickName #NewChannel :End of Channel Ban List%0A
+*/
 
 void cmdJoin(Server& server, Client& client, std::string input)
 {

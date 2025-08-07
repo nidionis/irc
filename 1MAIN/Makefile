@@ -6,7 +6,7 @@
 #    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/27 13:48:14 by lahlsweh          #+#    #+#              #
-#    Updated: 2025/08/07 12:12:29 by lahlsweh         ###   ########.fr        #
+#    Updated: 2025/08/07 13:41:55 by lahlsweh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS = main.cpp \
        Server.cpp \
        Server_poll.cpp \
        handle.cpp \
+	   handle2.cpp \
        Channel.cpp \
        Client.cpp
 
