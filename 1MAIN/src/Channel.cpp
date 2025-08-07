@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:43:47 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 12:24:59 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:21:46 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,8 @@ void Channel::setClient(Client &client) {
     if (this->isClient(client))
     {
         throw std::runtime_error("Client is already in the channel");
-        return;
     }
     this->clients.push_back(client);
-    client.send(":");
-    client.send(client.getNickname());
-    client.send("!~"); // dirty
-    client.send(client.getUsername());
-    client.send("@");
-    client.send(getLocalIPv4Address());
-    client.send("JOIN");
-    client.send(getName());
-    client.send(" * :");
-    client.send(client.getRealname());
-    client.send("\r\n");
 }
 
 void Channel::delClient(Client &client) {

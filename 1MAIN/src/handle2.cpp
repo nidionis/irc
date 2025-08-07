@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 14:18:38 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:26:25 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ void cmdJoin(Server& server, Client& client, std::string input)
                     throw std::runtime_error("JOIN :Invalid channel key\r\n");
                 }
                 channel.setClient(client);
+                std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
+                    + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
+                client.send(reply_success);
             }
             catch (std::runtime_error& err)
             {
@@ -135,6 +138,9 @@ Parameters: <channel>{,<channel>} [<reason>]
 
 void cmdPart(Server& server, Client& client, std::string args)
 {
+    (void)server;
+    (void)client;
+    (void)args;
     return ;
 }
 
