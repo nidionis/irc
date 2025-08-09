@@ -119,16 +119,25 @@ Parameters: <mask>
 [15:43] >> :calamity.esper.net 352 NickName #test123 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
 [15:43] >> :calamity.esper.net 315 NickName #test123 :End of /WHO list.%0A
 */
+
 void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)input;
-    std::string message352 = "* ~" + client.getUsername()
-        + " " + server.getIp() + " ircSchoolProject " + " " + client.getRealname() + '\n';
-    std::string message315 = client.getNickname() + " :End of /WHO list.\n";
+    std::string name = getHead(input);
     server.sendHead(client, "352");
-    client.send(message352);
-    server.sendHead(client, "315");
-    client.send(message315);
+    Channel channel;
+    if (server.hasNick(name)) {
+        Client target = server.getClient(name);
+        channel = server.getChannel(target.getChannel().getName());
+    } else if (server.hasChannel(name)) {
+        channel = server.getChannel(name);
+    }
+    client.send(channel.getName());
+    client.send(" ");
+    client.send(getLocalIPv4Address());
+    client.send(server.getName() + " H@ :0 " + client.getRealname() + "\r\n");
+    server.sendHead(client, "312");
+    client.send(client.getNickname() + ":End of /WHO list.\r\n");
 }
 
 void cmdUserHost(Server& server, Client& client, std::string input)

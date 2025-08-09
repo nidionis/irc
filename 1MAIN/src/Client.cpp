@@ -17,7 +17,6 @@ Client::Client(void)
     throw (std::runtime_error("client must be set with a server"));
 }
 
-
 Client::Client(Server* server)
 {
     this->server = server;
@@ -159,4 +158,8 @@ bool Client::isLogged()
               << "hasFlag(PASSWD_OK) : [" << hasFlag(PASSWD_OK) << "]" << std::endl
               << "hasFlag(\"CAP_END\") : [" << hasFlag("CAP_END") << "]" << std::endl;
     return (getUsername() != "" && getNickname() != "" && hasFlag(PASSWD_OK) && hasFlag("CAP_END"));
+}
+
+Channel &Client::getChannel(void) {
+    return channels.front();
 }

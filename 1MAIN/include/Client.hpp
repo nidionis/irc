@@ -64,6 +64,7 @@ public:
     std::string getIp();
     ssize_t send_banner(std::string line);
     bool isLogged();
+	Channel &getChannel(void);
 };
 
 //std::ostream& operator<<(std::ostream& os, const Client& client);
