@@ -84,8 +84,10 @@ void cmdUser(Server& server, Client& client, std::string input)
     }
     if (client.getUsername() != "")
     {
-        std::string message462 = ":ircSchoolProject 462 " + client.getNickname() + " :You may not reregister\r\n";
-        throw std::runtime_error(message462);
+        std::string message462 = client.getNickname() + " :You may not reregister\r\n";
+        server.sendHead(client, "462");
+        client.send(message462);
+        throw std::runtime_error("");
     }
     client.setUsername(user);
     client.setRealname(realname);
@@ -120,11 +122,12 @@ Parameters: <mask>
 void cmdWho(Server& server, Client& client, std::string input)
 {
     (void)input;
-    std::string message352 = ":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername()
-        + " " + server.getIp() + " ircSchoolProject " + client.getNickname() + " " + client.getRealname() + '\n';
-    std::string message315 = ":ircSchoolProject 315 " + client.getNickname()
-        + " " + client.getNickname() + " :End of /WHO list.\n";
+    std::string message352 = "* ~" + client.getUsername()
+        + " " + server.getIp() + " ircSchoolProject " + " " + client.getRealname() + '\n';
+    std::string message315 = client.getNickname() + " :End of /WHO list.\n";
+    server.sendHead(client, "352");
     client.send(message352);
+    server.sendHead(client, "315");
     client.send(message315);
 }
 
@@ -133,8 +136,8 @@ void cmdUserHost(Server& server, Client& client, std::string input)
     std::string arg = getHead(input);
     if (arg == client.getNickname())
     {
-        std::string message302 = ":ircSchoolProject 302 " + client.getNickname()
-           + " :" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
+        std::string message302 = ":" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
+        server.sendHead(client, "302");
         client.send(message302);
     }
 }

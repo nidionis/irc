@@ -98,16 +98,21 @@ void server_banner(Client &client, Server &server)
 {
     if (client.hasFlag("BANNER_SENT"))
         return ;
-    std::string message001 = ":ircSchoolProject 001 " + client.getNickname() + " :Welcome to the ircSchoolProject " + client.getNickname() + '\n';
-    std::string message002 = ":ircSchoolProject 002 " + client.getNickname() + " :Your host is ircSchoolProject[" + server.getIp() + "/" + ft_put_uint16(server.getPort()) + "], running version v1.0\n";
-    std::string message003 = ":ircSchoolProject 003 " + client.getNickname() + " :This server was created Wed Jul 2025 at 12:00:00 EST\n";
-    std::string message004 = ":ircSchoolProject 004 " + client.getNickname() + " ircSchoolProject v1.0 o itkol kl\n";
-    std::string message005 = ":ircSchoolProject 005 " + client.getNickname() + " CHANMODES=o,k,l,it :are supported by this server\n";
+    std::string message001 = ":Welcome to the ircSchoolProject " + client.getNickname() + '\n';
+    std::string message002 = ":Your host is ircSchoolProject[" + server.getIp() + "/" + ft_put_uint16(server.getPort()) + "], running version v1.0\n";
+    std::string message003 = ":This server was created Wed Jul 2025 at 12:00:00 EST\n";
+    std::string message004 = "ircSchoolProject v1.0 o itkol kl\n";
+    std::string message005 = "CHANMODES=o,k,l,it :are supported by this server\n";
     std::string messageMODE = ":" + client.getNickname() + " MODE " + client.getNickname() + " :+i\n";
+    server.sendHead(client, "001");
     client.send(message001);
+    server.sendHead(client, "002");
     client.send(message002);
+    server.sendHead(client, "003");
     client.send(message003);
+    server.sendHead(client, "004");
     client.send(message004);
+    server.sendHead(client, "005");
     client.send(message005);
     client.send(messageMODE);
     client.setFlag("BANNER_SENT");

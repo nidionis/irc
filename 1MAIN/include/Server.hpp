@@ -76,6 +76,7 @@ public:
     void pollLoop(void);
 
     ssize_t	sendClient(Client& cli, std::string msg);
+    ssize_t	sendHead(Client& cli, std::string nb);
     Client& getClient(int i);
     Client& getClient(const std::string& nick);
     std::string getIp(void);

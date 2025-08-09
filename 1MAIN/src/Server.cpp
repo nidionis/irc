@@ -122,6 +122,10 @@ ssize_t 		Server::sendClient(Client &cli, std::string msg) {
     return byte_sent;
 }
 
+ssize_t	Server::sendHead(Client& cli, std::string nb) {
+	return cli.send(":" + getName() + " " + nb + " " + cli.getNickname() + " ");
+}
+
 Client&	Server::getClient(int i) {
     for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
         if (!--i) { //i comes from p_data->i, which start at 1 (and i'ts dangerous)
