@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:43:43 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 10:30:19 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:29:25 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	del(std::vector<T>& v, T x);
 template <typename T>
 bool	has(std::vector<T> v, T x);
 
-# include "../src/vector_utils.tpp"
+# include "../templates/vector_utils.tpp"
 
 #endif //VECTOR_UTILS_HPP
