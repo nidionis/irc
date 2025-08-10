@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 16:47:04 by lahlsweh         ###   ########.fr       */
+/*   Created: 2025/08/10 11:20:44 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/10 12:01:34 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,54 +57,41 @@ Alt Params: 0
 => do not implement the MODE replies in cmdJoin(), those will be handled in cmdMode()
 */
 
-void cmdJoin(Server& server, Client& client, std::string input)
+void	cmdJoin(Server &server, Client &client, std::string args)
 {
-    std::string channel_str = popWd(input);
-    std::string key = lastWord(input);
-    Channel channel;
+	std::string	channel_str = popWd(args);
+	std::string	key = lastWord(args);
+	Channel		channel;
 
-    if (client.isLogged() == false)
-    {
-        client.must_kill = true;
-        return ;
-    }
-    if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
-    {
-        try
-        {
-            channel = server.getChannel(channel_str);
-            try
-            {
-                if (channel.getKey() != "" && channel.getKey() != key) {
-                    throw std::runtime_error("JOIN :Invalid channel key\r\n");
-                }
-                channel.setClient(client);
-                std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
-                    + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
-                client.send(reply_success);
-            }
-            catch (std::runtime_error& err)
-            {
-                client.send("JOIN :You are already in the channel\r\n");
-            }
-        }
-        catch (const std::runtime_error& err)
-        {
-            client.send("JOIN :Channel does not exist\r\n");
-            try
-            {
-                client.newChannel(channel_str);
-            }
-            catch (std::runtime_error& err)
-            {
-                client.send("JOIN : failed :Too many channels\r\n");
-            }
-        }
-    }
-    else
-    {
-        client.send("JOIN :Invalid channel name\r\n");
-    }
+	if (client.isLogged() == false)
+		{ client.setmust_kill(true); return ; }
+	if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
+	{
+		try
+		{
+			channel = server.getChannel(channel_str);
+			try
+			{
+				if (channel.getKey() != "" && channel.getKey() != key)
+					{ throw (std::runtime_error("JOIN :Invalid channel key\r\n")); }
+				channel.setClient(client);
+				std::string	reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
+					+ "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
+				client.send(reply_success);
+			}
+			catch (std::runtime_error& err)
+				{ client.send("JOIN :You are already in the channel\r\n"); }
+		}
+		catch (const std::runtime_error& err)
+		{
+			client.send("JOIN :Channel does not exist\r\n");
+			try { client.newChannel(channel_str); }
+			catch (std::runtime_error& err)
+				{ client.send("JOIN : failed :Too many channels\r\n"); }
+		}
+	}
+	else { client.send("JOIN :Invalid channel name\r\n"); }
+	return ;
 }
 
 /*
@@ -128,81 +115,61 @@ Parameters: <channel>{,<channel>} [<reason>]
 [14:00] >> :swepipe.esper.net 403 NickName #test54654 :No such channel%0A
 */
 
-void cmdPart(Server& server, Client& client, std::string args)
+void	cmdPart(Server &server, Client &client, std::string args)
 {
-    (void)server;
-    (void)client;
-    (void)args;
-    return ;
+	(void)server;
+	(void)client;
+	(void)args;
+	return ;
 }
 
 /*
 Command: MODE
 Parameters: <target> [<modestring> [<mode arguments>...]]
-  
 /!\ not tested yet /!\
 */
 
-void cmdMode(Server& server, Client& client, std::string input)
+void	cmdMode(Server &server, Client &client, std::string args)
 {
-    std::string item = popWd(input);
-    std::string mode_chars = popWd(input);
-    std::string args = input;
-    Channel channel;
+	std::string	item = popWd(args);
+	std::string	mode_chars = popWd(args);
+	Channel		channel;
 
-    if (client.isLogged() == false)
-    {
-        client.must_kill = true;
-        return ;
-    }
-    if (item[0] == '#') {
-        try {
-            channel = server.getChannel(item);
-        }
-        catch (const std::runtime_error& err)
-        {
-            throw std::runtime_error(err.what());
-        }
-        if (channel.isOperator(client))
-        {
-            if (mode_chars[0] == '+' || mode_chars[0] == '-')
-            {
-                if (!strchr(AVAILABLE_MODE, mode_chars[1]))
-                {
-                    throw std::runtime_error("MODE :Invalid mode\r\n");
-                }
-            }
-            if (mode_chars[0] == '+')
-            {
-                if (mode_chars[1] == 'k')
-                {
-                    channel.setKey(args);
-                }
-                else
-                {
-                    channel.setMode(mode_chars[1]);
-                }
-            }
-            else if (mode_chars[0] == '-')
-            {
-                if (mode_chars[1] == 'k')
-                {
-                    channel.setKey("");
-                }
-                else
-                {
-                    channel.delMode(mode_chars[1]);
-                }
-            }
-        }
-    }
-    else
-    {
-        if (server.hasUser(item))
-        {
-            client.send("[debug] do something with user here\r\n");
-        }
-    }
+	if (client.isLogged() == false)
+		{ client.setmust_kill(true); return ; }
+	if (item[0] == '#') {
+		try { channel = server.getChannel(item); }
+		catch (const std::runtime_error& err)
+			{ throw std::runtime_error(err.what()); }
+		if (channel.isOperator(client))
+		{
+			if (mode_chars[0] == '+' || mode_chars[0] == '-')
+			{
+				if (!strchr(AVAILABLE_MODE, mode_chars[1]))
+					{ throw std::runtime_error("MODE :Invalid mode\r\n"); }
+			}
+			if (mode_chars[0] == '+')
+			{
+				if (mode_chars[1] == 'k')
+					{ channel.setKey(args); }
+				else
+					{ channel.setMode(mode_chars[1]); }
+			}
+			else if (mode_chars[0] == '-')
+			{
+				if (mode_chars[1] == 'k')
+					{ channel.setKey(""); }
+				else
+					{ channel.delMode(mode_chars[1]); }
+			}
+		}
+	}
+	else
+	{
+		if (server.hasUser(item))
+			{ std::cout << "[debug] do something with user here\r\n" << std::endl; }
+	}
+	return ;
 }
 
 /*
@@ -250,42 +217,34 @@ Parameters: <channel> <user> *( "," <user> ) [<comment>]
 [15:19] >> :calamity.esper.net 441 NickName lahlsweh #test951 :They aren't on that channel%0A
 */
 
-void cmdKick(Server& server, Client& client, std::string input)
+void	cmdKick(Server &server, Client &client, std::string args)
 {
-    std::string channel_str = popWd(input);
-    Client& kicked = server.getClient(getHead(input));
-    std::string reason = getNextWds(input);
-    if (client.isLogged() == false)
-    {
-        client.must_kill = true;
-        return ;
-    }
-    if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
-    {
-        try
-        {
-            Channel& channel = server.getChannel(channel_str);
-            if (channel.isOperator(client))
-            {
-                try
-                {
-                    channel.delClient(client);
-                }
-                catch (std::runtime_error& err)
-                {
-                    client.send("JOIN : Nick ");
-                    client.send(kicked.getNickname());
-                    client.send("not in the channel\r\n");
-                }
-            }
-            else
-                client.send("JOIN :You are not an operator of the channel\r\n");
-        }
-        catch (const std::runtime_error& err)
-        {
-            client.send("JOIN :Channel does not exist\r\n");
-        }
-    }
+	std::string	channel_str = popWd(args);
+	Client		&kicked = server.getClient(getHead(args));
+	std::string	reason = getNextWds(args);
+
+	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
+	if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
+	{
+		try
+		{
+			Channel&	channel = server.getChannel(channel_str);
+			if (channel.isOperator(client))
+			{
+				try { channel.delClient(client); }
+				catch (std::runtime_error& err)
+				{
+					client.send("JOIN : Nick ");
+					client.send(kicked.getNickname());
+					client.send("not in the channel\r\n");
+				}
+			}
+			else { client.send("JOIN :You are not an operator of the channel\r\n"); }
+		}
+		catch (const std::runtime_error& err)
+			{ client.send("JOIN :Channel does not exist\r\n"); }
+	}
+	return ;
 }
 
 /*
@@ -295,33 +254,29 @@ Parameters: <channel> [<topic>]
 /!\ not tested yet /!\
 */
 
-void cmdTopic(Server& server, Client& client, std::string input)
+void	cmdTopic(Server &server, Client &client, std::string args)
 {
-    (void)server;
-    std::string channel_str = getHead(input);
-    std::string topic = getNextWds(input);
-    if (client.isLogged() == false)
-    {
-        client.must_kill = true;
-        return ;
-    }
-    if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
-    {
-        try
-        {
-            Channel& channel = server.getChannel(channel_str);
-            if (channel.isOperator(client))
-            {
-                channel.setTopic(topic);
-            }
-        }
-        catch (const std::runtime_error& err)
-        {
-            client.send("TOPIC : ");
-            client.send(err.what());
-            client.send("\r\n");
-        }
-    }
+	(void)server;
+	std::string	channel_str = getHead(args);
+	std::string	topic = getNextWds(args);
+
+	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
+	if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
+	{
+		try
+		{
+			Channel&	channel = server.getChannel(channel_str);
+			if (channel.isOperator(client))
+				{ channel.setTopic(topic); }
+		}
+		catch (const std::runtime_error& err)
+		{
+			client.send("TOPIC : ");
+			client.send(err.what());
+			client.send("\r\n");
+		}
+	}
+	return ;
 }
 
 /*
@@ -353,39 +308,31 @@ Parameters: <target>{,<target>} <text to be sent>
 [16:46] << PRIVMSG :NickName :test%0A
 [16:46] >> :anarchy.esper.net 412 NickName :No text to send%0A
 */
-void cmdPrivmsg(Server& server, Client& client, std::string input)
+void	cmdPrivmsg(Server &server, Client &client, std::string args)
 {
-    std::string name = getHead(input);
-    name = trim(name, OPERATOR_OP);
-    std::string msg = getNextWds(input);
-    if (client.isLogged() == false)
-    {
-        client.must_kill = true;
-        return ;
-    }
-    if (name[0] == '#' && isValidName(name.substr(1)))
-    {
-        try
-        {
-            Channel& channel = server.getChannel(name);
-            channel.spawn(client.getNickname() + " : " + msg);
-        }
-        catch (const std::runtime_error& err)
-        {
-            client.send(err.what());
-        }
-    }
-    else if (server.hasNick(name))
-    {
-        Client dest = server.getClient(name);
-        dest.send(client.getNickname() + " : " + msg);
-        dest.send("\r\n");
-    }
-    else
-    {
-        throw std::runtime_error("PRIVMSG : channel or client not found");
-    }
-    throw std::runtime_error("PRIVMSG : Failure");
+	std::string	name = getHead(args);
+	std::string	msg = getNextWds(args);
+
+	name = trim(name, OPERATOR_OP);
+	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
+	if (name[0] == '#' && isValidName(name.substr(1)))
+	{
+		try
+		{
+			Channel&	channel = server.getChannel(name);
+			channel.spawn(client.getNickname() + " : " + msg);
+		}
+		catch (const std::runtime_error& err)
+			{ client.send(err.what()); }
+	}
+	else if (server.hasNick(name))
+	{
+		Client	dest = server.getClient(name);
+		dest.send(client.getNickname() + " : " + msg);
+		dest.send("\r\n");
+	}
+	else { throw std::runtime_error("PRIVMSG : channel or client not found"); }
+	throw (std::runtime_error("PRIVMSG : Failure"));
 }
 
 /*
@@ -420,30 +367,25 @@ Parameters: <nickname> <channel>
 [16:03] >> :calamity.esper.net 482 NickName #test456 :You're not a channel operator%0A
 */
 
-void cmdInvite(Server &server, Client &client, std::string input) {
-    Client dest;
-    Channel channel;
-    if (client.isLogged() == false)
-    {
-        client.must_kill = true;
-        return ;
-    }
-    try {
-        dest = server.getClient(popWd(input));
-    } catch (std::runtime_error& err) {
-        throw std::runtime_error(err.what());
-    }
-    try {
-        channel = server.getChannel(popWd(input));
-    } catch (std::runtime_error& err) {
-        throw std::runtime_error(err.what());
-    }
+void	cmdInvite(Server &server, Client &client, std::string args)
+{
+	Client	dest;
+	Channel	channel;
 
-    if (channel.hasMode('i')) {
-        if (channel.isOperator(client)) {
-            throw std::runtime_error(client.getNickname() + channel.getName() + "you are not operrator");
-        }
-    }
-    dest.send(client.getNickname() + " INVITE " + dest.getNickname() + " " + channel.getName() + "\r\n");
-    channel.setClient(dest);
+	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
+	try { dest = server.getClient(popWd(args)); }
+	catch (std::runtime_error& err)
+		{ throw std::runtime_error(err.what()); }
+	try { channel = server.getChannel(popWd(args)); }
+	catch (std::runtime_error& err)
+		{ throw std::runtime_error(err.what()); }
+	if
+	(channel.hasMode('i'))
+	{
+		if (channel.isOperator(client))
+			{ throw (std::runtime_error(client.getNickname() + channel.getName() + "you are not operrator")); }
+	}
+	dest.send(client.getNickname() + " INVITE " + dest.getNickname() + " " + channel.getName() + "\r\n");
+	channel.setClient(dest);
+	return ;
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/07 11:43:30 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 12:38:45 by lahlsweh         ###   ########.fr       */
+/*   Created: 2025/08/10 10:29:51 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/10 11:16:02 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,41 @@ void set##f_name(type value) { name = value; }
 
 class Client;
 
-class Channel {
+class Channel
+{
 private:
-    std::string _name;
-    std::string _key;
-    std::string _topic;
-    std::vector<Client> clients;
-    std::vector<Client> operators;
-    std::vector<char> modes;
+	std::string			_name;
+	std::string			_key;
+	std::string			_topic;
+	std::vector<Client>	clients;
+	std::vector<Client>	operators;
+	std::vector<char>	modes;
+
 public:
-    Channel();
-    Channel(Client &client, std::string &name);
-    bool operator==(const Channel &other) const;
-    Channel &operator=(const Channel &other);
-    ~Channel();
+	Channel(void);
+	Channel(Client &client, std::string &name);
+	Channel	&operator=(const Channel &other);
+	~Channel(void);
 
-    GETTER_SETTER(std::string, _name, Name)
-    GETTER_SETTER(std::string, _key, Key)
-    GETTER_SETTER(std::string, _topic, Topic)
+	bool	operator==(const Channel &other) const;
 
-    bool    isOperator(Client &client);
-    void    setOperator(Client &client);
-    void    delOperator(Client &client);
+	GETTER_SETTER(std::string, _name, Name)
+	GETTER_SETTER(std::string, _key, Key)
+	GETTER_SETTER(std::string, _topic, Topic)
 
-    bool    isClient(Client &client);
-    void    setClient(Client &client);
-    void    delClient(Client &client);
+	bool	isOperator(Client &client);
+	void	setOperator(Client &client);
+	void	delOperator(Client &client);
 
-    void    setMode(char mode);
-    void    delMode(char mode);
-    bool    hasMode(char mode);
+	bool	isClient(Client &client);
+	void	setClient(Client &client);
+	void	delClient(Client &client);
 
-    void    spawn(std::string msg);
+	void	setMode(char mode);
+	void	delMode(char mode);
+	bool	hasMode(char mode);
+
+	void	spawn(std::string msg);
 };
 
 #endif //CHANNEL_HPP

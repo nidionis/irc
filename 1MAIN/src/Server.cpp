@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 15:38:24 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 12:25:12 by lahlsweh         ###   ########.fr       */
+/*   Created: 2025/08/10 11:21:03 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/10 11:56:05 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-Server::Server()
+Server::Server(void)
 {
 	return ;
 }
@@ -22,14 +22,16 @@ Server::~Server(void)
 	return ;
 }
 
-std::string &Server::getName(void) {
-    return this->_name;
+std::string &Server::getName(void)
+{
+	return (this->_name);
 }
-in_port_t Server::getPort() {
-    return ntohs(IPv4_serv_sock_addr.sin_port);
+in_port_t Server::getPort(void)
+{
+	return (ntohs(IPv4_serv_sock_addr.sin_port));
 }
 
-void Server::server_init(int port, std::string passwd)
+void	Server::server_init(int port, std::string passwd)
 {
 	this->_name = SERV_NAME;
 	this->_passwd = passwd;
@@ -55,17 +57,16 @@ void				Server::initServerSocket(void)
 {
 	// SOCK_STREAM | SOCK_NONBLOCK
 	this->fd_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (this->fd_server_socket == -1)
+		{ throw (std::runtime_error("socket() error")); }
+	if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1)
+		{ throw (std::runtime_error("fcntl() error")); }
+	/*this->fd_server_socket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
 	if (this->fd_server_socket == -1) {
-        throw (std::runtime_error("socket() error"));
-    } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
-        throw (std::runtime_error("fcntl() error"));
-    }
-    /*this->fd_server_socket = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
-	if (this->fd_server_socket == -1) {
-        throw (std::runtime_error("socket() error"));
-    } if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
-        throw (std::runtime_error("fcntl() error"));
-    }*/
+		throw (std::runtime_error("socket() error"));
+	} if (fcntl(this->fd_server_socket, F_SETFL, O_NONBLOCK) == -1) {
+		throw (std::runtime_error("fcntl() error"));
+	}*/
 	return ;
 }
 
@@ -73,19 +74,17 @@ void				Server::setServerSockopt(void)
 {
 	int	opt_toggle = 1;
 	
-	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle)) == -1) {
-        throw (std::runtime_error("setsockopt() SO_REUSEADDR error"));
-    } if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle)) == -1) {
-        throw (std::runtime_error("setsockopt() SO_KEEPALIVE error"));
-    }
+	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_REUSEADDR, &opt_toggle, sizeof(opt_toggle)) == -1)
+		{ throw (std::runtime_error("setsockopt() SO_REUSEADDR error")); }
+	if (setsockopt(this->fd_server_socket, SOL_SOCKET, SO_KEEPALIVE, &opt_toggle, sizeof(opt_toggle)) == -1)
+		{ throw (std::runtime_error("setsockopt() SO_KEEPALIVE error")); }
 	return ;
 }
 
 void				Server::bindServerSocket(void)
 {
-	if (bind(this->fd_server_socket, (struct sockaddr *)&this->IPv4_serv_sock_addr, sizeof(this->IPv4_serv_sock_addr)) == -1) {
-        throw (std::runtime_error("bind() error"));
-    }
+	if (bind(this->fd_server_socket, (struct sockaddr *)&this->IPv4_serv_sock_addr, sizeof(this->IPv4_serv_sock_addr)) == -1)
+		{ throw (std::runtime_error("bind() error")); }
 	return ;
 }
 
@@ -112,31 +111,31 @@ void				Server::serverCleanup(void)
 }
 
 ssize_t 		Server::sendClient(Client &cli, std::string msg) {
-    int byte_sent;
-    int flags = MSG_DONTWAIT | MSG_NOSIGNAL;
-    byte_sent = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
-    if (byte_sent < 0) {
-        throw (std::runtime_error("sending client error"));
-    }
+	int byte_sent;
+	int flags = MSG_DONTWAIT | MSG_NOSIGNAL;
+	byte_sent = send(cli.fd_client_socket, msg.c_str(), msg.size(), flags);
+	if (byte_sent < 0)
+		{ throw (std::runtime_error("sending client error")); }
 	std::cout << ">> to " << cli.getNickname() << " >> : " << msg << std::endl;
-    return byte_sent;
+	return (byte_sent);
 }
 
-Client&	Server::getClient(int i) {
-    for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
-        if (!--i) { //i comes from p_data->i, which start at 1 (and i'ts dangerous)
-            return *it;
-        }
-    }
-    throw (std::runtime_error("client not found"));
-}
-
-Client &Server::getClient(const std::string &nick)
+Client&	Server::getClient(int i)
 {
-	for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it) {
-		if (it->getNickname() == nick) {
-			return *it;
-		}
+	for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it)
+	{
+		if (!--i) //i comes from p_data->i, which start at 1 (and i'ts dangerous)
+			{ return (*it); }
+	}
+	throw (std::runtime_error("client not found"));
+}
+
+Client	&Server::getClient(const std::string &nick)
+{
+	for (std::vector<Client>::iterator it = vector_clients.begin(); it != vector_clients.end(); ++it)
+	{
+		if (it->getNickname() == nick)
+		{ return (*it); }
 	}
 	throw (std::runtime_error("client not found"));
 }
@@ -146,18 +145,20 @@ std::string	Server::getIp(void)
 	return (getLocalIPv4Address());
 }
 
-void	Server::handle(char *buffer, Client &client) {
-    processCommand(*this, client, buffer);
+void	Server::handle(char *buffer, Client &client)
+{
+	processCommand(*this, client, buffer);
+	return ;
 }
 
 bool	Server::hasNick(std::string const &nick)
 {
 	std::string	name;
+
 	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
 	{
 		name = this->vector_clients[i].getNickname();
-		if (name == nick)
-			return (true);
+		if (name == nick) {return (true); }
 	}
 	return (false);
 }
@@ -165,11 +166,11 @@ bool	Server::hasNick(std::string const &nick)
 bool	Server::hasUser(std::string const &username)
 {
 	std::string	name;
+
 	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
 	{
 		name = this->vector_clients[i].getUsername();
-		if (name == username)
-			return (true);
+		if (name == username) { return (true); }
 	}
 	return (false);
 }
@@ -177,25 +178,32 @@ bool	Server::hasUser(std::string const &username)
 bool	Server::hasChannel(std::string const &nick)
 {
 	std::string	name;
+
 	for (unsigned int i = 0; i < this->vector_clients.size(); ++i)
 	{
 		name = this->vector_clients[i].getUsername();
-		if (name == nick)
-			return (true);
+		if (name == nick) {return (true); }
 	}
 	return (false);
 }
 
-void Server::pushChannel(Channel &channel) {
-    this->channels.push_back(channel);
+void Server::pushChannel(Channel &channel)
+{
+	this->channels.push_back(channel);
+	return ;
 }
 
-void Server::delChannel(Channel &channel) {
-    std::vector<Channel>::iterator it = std::find(channels.begin(), channels.end(), channel);
-    if (it != channels.end()) {
-        delete &(*it);
-        channels.erase(it);
-    }
+void Server::delChannel(Channel &channel)
+{
+	std::vector<Channel>::iterator	it;
+	
+	it = std::find(channels.begin(), channels.end(), channel);
+	if (it != channels.end())
+	{
+		delete (&(*it));
+		channels.erase(it);
+	}
+	return ;
 }
 
 Channel	&Server::getChannel(std::string const &channel_str)
@@ -203,9 +211,7 @@ Channel	&Server::getChannel(std::string const &channel_str)
 	for (size_t i = 0; i < this->channels.size(); i++)
 	{
 		if (this->channels[i].getName() == channel_str)
-		{
-			return this->channels[i];
-		}
+			{ return this->channels[i]; }
 	}
 	throw (std::runtime_error("channel not found"));
 }
@@ -220,31 +226,31 @@ bool	Server::checkPasswd(std::string passwd)
 
 std::string	getLocalIPv4Address(void)
 {
-    struct ifaddrs		*network_interfaces;
-    struct ifaddrs		*ptr_it_ifaddrs;
-    struct sockaddr_in	*socket_address;
-    std::string 		local_ipv4_addr;
+	struct ifaddrs		*network_interfaces;
+	struct ifaddrs		*ptr_it_ifaddrs;
+	struct sockaddr_in	*socket_address;
+	std::string			local_ipv4_addr;
 
-    if (getifaddrs(&network_interfaces) == -1)
+	if (getifaddrs(&network_interfaces) == -1)
 	{
-        perror("getifaddrs");
-        return ("NULL");
-    }
-    for (ptr_it_ifaddrs = network_interfaces; ptr_it_ifaddrs != NULL; ptr_it_ifaddrs = ptr_it_ifaddrs->ifa_next)
+		perror("getifaddrs");
+		return ("NULL");
+	}
+	for (ptr_it_ifaddrs = network_interfaces; ptr_it_ifaddrs != NULL; ptr_it_ifaddrs = ptr_it_ifaddrs->ifa_next)
 	{
-        if (ptr_it_ifaddrs->ifa_addr == NULL)
-            continue;
-        if (ptr_it_ifaddrs->ifa_addr->sa_family == AF_INET)
+		if (ptr_it_ifaddrs->ifa_addr == NULL)
+			{ continue; }
+		if (ptr_it_ifaddrs->ifa_addr->sa_family == AF_INET)
 		{
-            socket_address = (struct sockaddr_in *)ptr_it_ifaddrs->ifa_addr;
-            local_ipv4_addr = inet_ntoa(socket_address->sin_addr);
-            if (local_ipv4_addr != "127.0.0.1")
+			socket_address = (struct sockaddr_in *)ptr_it_ifaddrs->ifa_addr;
+			local_ipv4_addr = inet_ntoa(socket_address->sin_addr);
+			if (local_ipv4_addr != "127.0.0.1")
 			{
 				std::cout << "Detected local IPv4: " << local_ipv4_addr << std::endl;
 				break;
 			}
-        }
-    }
-    freeifaddrs(network_interfaces);
+		}
+	}
+	freeifaddrs(network_interfaces);
 	return (local_ipv4_addr);
 }
