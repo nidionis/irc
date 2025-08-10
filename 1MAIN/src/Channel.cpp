@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 12:03:06 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:09:17 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ Channel::Channel(Client &client, std::string &name)
 
 bool	Channel::operator==(const Channel &other) const
 {
-	return (_name == other.getName());
+	return (this->_name == other.getName());
 }
 Channel	&Channel::operator=(const Channel& other)
 {
 	if (this != &other)
 	{
-		_name = other.getName();
-		clients = other.clients;
-		operators = other.operators;
+		this->_name = other.getName();
+		this->clients = other.clients;
+		this->operators = other.operators;
 	}
 	return (*this);
 }
@@ -93,9 +93,11 @@ void Channel::setClient(Client &client)
 
 void Channel::delClient(Client &client)
 {
+	std::vector<Client>::iterator	it;
+
 	if (!this->isClient(client))
 		{ throw std::runtime_error("Client is not in the channel"); }
-	std::vector<Client>::iterator it = std::find(this->clients.begin(), this->clients.end(), client);
+	it = std::find(this->clients.begin(), this->clients.end(), client);
 	this->clients.erase(it);
 	return ;
 }
@@ -119,10 +121,9 @@ void	Channel::delMode(char mode)
 
 void Channel::spawn(std::string msg)
 {
-	std::vector<Client>::iterator it;
-	std::vector<Client>::iterator ite = this->clients.end();
+	std::vector<Client>::iterator	it;
+	std::vector<Client>::iterator	ite = this->clients.end();
 
 	for (it = this->clients.begin(); it != ite; ++it) { (*it).send(msg); }
 	return ;
 }
-

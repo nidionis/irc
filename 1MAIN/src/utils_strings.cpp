@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:10 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 11:58:38 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:51:50 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ std::string	getNextWds(const std::string& str)
 
 bool	isValidName(const std::string& str)
 {
+	std::string::const_iterator	it;
+
 	if (str.empty() || str.length() >= LEN_MAX_NAME)
 		{ return (false); }
-	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+	for (it = str.begin(); it != str.end(); ++it)
 	{
 		if (!(std::isalnum(*it) || *it == '[') || *it == ']' || *it == '\\' || *it == '|' || *it == '{' || *it == '}')
 			{ return (false); }

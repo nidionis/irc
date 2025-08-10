@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 11:42:37 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:22:35 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ void	cmdUser(Server &server, Client &client, std::string args)
 
 void	cmdPing(Server &server, Client &client, std::string args)
 {
-	std::string	message_pong = ":" + server.getName() + " PONG :" + args + "\r\n";
-
-	client.send(message_pong);
+	client.send(":" + server.getName() + " PONG :" + args + "\r\n");
 	return ;
 }
 
@@ -101,13 +99,9 @@ Parameters: <mask>
 void	cmdWho(Server &server, Client &client, std::string args)
 {
 	(void)args;
-	std::string	message352 = ":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername()
-		+ " " + server.getIp() + " ircSchoolProject " + client.getNickname() + " " + client.getRealname() + '\n';
-	std::string message315 = ":ircSchoolProject 315 " + client.getNickname()
-		+ " " +	client.getNickname() + " :End of /WHO list.\n";
 
-	client.send(message352);
-	client.send(message315);
+	client.send(":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername() + " " + server.getIp() + " ircSchoolProject " + client.getNickname() + " " + client.getRealname() + "\r\n");
+	client.send(":ircSchoolProject 315 " + client.getNickname() + " " +	client.getNickname() + " :End of /WHO list.\r\n");
 	return ;
 }
 
@@ -115,11 +109,7 @@ void	cmdUserHost(Server &server, Client &client, std::string args)
 {
 	std::string	arg = getHead(args);
 	if (arg == client.getNickname())
-	{
-		std::string	message302 = ":ircSchoolProject 302 " + client.getNickname()
-			+ " :" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
-		client.send(message302);
-	}
+		{ client.send(":ircSchoolProject 302 " + client.getNickname() + " :" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\r\n"); }
 	return ;
 }
 
@@ -151,7 +141,7 @@ void	processCommand(Server &server, Client &client, std::string args)
 	std::string	cmd_arg = getNextWds(args);
 
 	std::cout << "##############################" << std::endl;
-	std::cout << "<< " << args << std::endl;
+	std::cout << "<< " << args << std::flush;
 	for (int i = 0; commands[i].f != NULL; i++)
 	{
 		if (cmd_flg == commands[i].header)
@@ -166,8 +156,7 @@ void	processCommand(Server &server, Client &client, std::string args)
 			return ;
 		}
 	}
-	client.send("[processCommand]: Invalid command");
-	client.send(args);
+	client.send(":" + server.getName() + " 421 " + client.getNickname() + ' ' + cmd_flg + " :Unknown command\r\n");
 	std::cout << "<<<<<<<<<<<<<<<<<<" << std::endl;
 	return ;
 }
@@ -176,6 +165,7 @@ void	cmdQuit(Server &server, Client &client, std::string args)
 {
 	(void)server;
 	(void)args;
+
 	std::cout << "TMP cmdQuit()" << std::endl;
 	client.setmust_kill(true);
 	return ;

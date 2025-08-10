@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:47 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 11:19:03 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:39:14 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ class	Server
 private:
 	std::string				_name;
 	std::string				_passwd;
-	struct	sockaddr_in		IPv4_serv_sock_addr;
-	int						fd_server_socket;
-	char					buffer[BUFFER_SIZE];
-	std::vector<Client>		vector_clients;
-	std::vector<Channel>	channels;
+	struct	sockaddr_in		_IPv4_serv_sock_addr;
+	int						_fd_server_socket;
+	char					_buffer[BUFFER_SIZE];
+	std::vector<Client>		_vector_clients;
+	std::vector<Channel>	_channels;
 
 	void	initServerSocket(void);
 	void	setServerSockopt(void);

@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:44 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 12:01:34 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:04:20 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ void	cmdJoin(Server &server, Client &client, std::string args)
 				if (channel.getKey() != "" && channel.getKey() != key)
 					{ throw (std::runtime_error("JOIN :Invalid channel key\r\n")); }
 				channel.setClient(client);
-				std::string	reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
-					+ "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
-				client.send(reply_success);
+				client.send(":" + client.getNickname() + "!~" + client.getUsername() + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n");
 			}
 			catch (std::runtime_error& err)
 				{ client.send("JOIN :You are already in the channel\r\n"); }

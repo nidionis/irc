@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:30:26 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 11:37:56 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 12:53:38 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,21 @@ static const struct s_cmd1 commands[] =
 	{"CAP",			&cmdCap},
 	{"NICK",		&cmdNick},
 	{"USER",		&cmdUser},
-	{"JOIN",		&cmdJoin},		// channel : test later
-	{"KICK",		&cmdKick},		// channel : test later
-	{"TOPIC",		&cmdTopic},		// channel : test later
-	{"MODE",		&cmdMode},		// channel : test later
+	{"JOIN",		&cmdJoin},
+	{"KICK",		&cmdKick},
+	{"TOPIC",		&cmdTopic},
+	{"MODE",		&cmdMode},
 	{"PING",		&cmdPing},
 	{"WHO",			&cmdWho},
 	{"USERHOST",	&cmdUserHost},
-	{"MSG",			&cmdPrivmsg},	// ! MSG does not exist, use PRIVMSG !
+	{"MSG",			&cmdPrivmsg},
 	{"PRIVMSG",		&cmdPrivmsg},
-	{"PASS",		&cmdPass},		// special : test later
+	{"PASS",		&cmdPass},
 	{"INVITE",		&cmdInvite},
 	{"QUIT",		&cmdQuit},
 	{"DEBUG",		&cmdDebug},
 	{"PART",		&cmdPart},
-	{"",			NULL}			// Terminator
+	{"",			NULL}
 };
 
 #endif // HANDLE_HPP

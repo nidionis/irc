@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 11:35:04 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:22:06 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ Channel	*Client::newChannel(std::string& name)
 
 void	Client::delChannel(Channel& channel)
 {
-	std::vector<Channel>::iterator it = std::find(this->_channels.begin(), this->_channels.end(), channel);
+	std::vector<Channel>::iterator	it;
+	
+	it = std::find(this->_channels.begin(), this->_channels.end(), channel);
 	this->_channels.erase(it);
 	this->_server->delChannel(channel);
 }
@@ -84,13 +86,8 @@ ssize_t	Client::send_banner(std::string line)
 {
 	static size_t	i = 0;
 	ssize_t			byte_sent = 0;
-	std::string		message_banner = this->_server->getName() + " " + to_string(i) + " " + line;
-	byte_sent += this->send(message_banner);
-	/*byte_sent += this->send(this->_server->getName());
-	byte_sent += this->send(" ");
-	byte_sent += this->send(to_string(i));
-	byte_sent += this->send(" ");
-	byte_sent += this->send(line);*/
+
+	byte_sent += this->send(this->_server->getName() + " " + to_string(i) + " " + line);
 	i++;
 	return (byte_sent);
 }
@@ -106,11 +103,13 @@ void	Client::setCap(const std::string &cap)
 
 void	Client::resetCap(const std::string &cap)
 {
+	std::vector<std::string>::iterator	it;
+
 	if (isCap(cap))
 	{
 		if (is_in(this->_capabilities, cap))
 		{
-			std::vector<std::string>::iterator it = std::find(this->_capabilities.begin(), this->_capabilities.end(), cap);
+			it = std::find(this->_capabilities.begin(), this->_capabilities.end(), cap);
 			this->_capabilities.erase(it);
 			this->send("CAP REQ : " + cap + " reset\r\n");
 		}
@@ -130,7 +129,8 @@ void	Client::setFlag(const std::string &flag)
 
 void	Client::resetFlag(const std::string &flag)
 {
-	std::vector<std::string>::iterator it;
+	std::vector<std::string>::iterator	it;
+
 	if (is_in(this->_flags, flag))
 	{
 		it = std::find(this->_flags.begin(), this->_flags.end(), flag);
