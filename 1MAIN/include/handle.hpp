@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:30:26 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:46:39 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:03:03 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 class Server;
 class Client;
 
-typedef void(*CommandFunc1)(Server &server, Client &client, std::string args);
+typedef void(*CommandFunc1)(Server& server, Client& client, std::string args);
 
 struct	s_cmd1
 {
@@ -45,22 +45,22 @@ struct	s_cmd1
 	CommandFunc1	f;
 };
 
-void	cmdCap(Server &server, Client &client, std::string args);
-void	cmdNick(Server &server, Client &client, std::string args);
-void	cmdUser(Server &server, Client &client, std::string args);
-void	cmdJoin(Server &server, Client &client, std::string args);
-void	cmdTopic(Server &server, Client &client, std::string args);
-void	cmdPrivmsg(Server &server, Client &client, std::string args);
-void	cmdMode(Server &server, Client &client, std::string args);
-void	cmdKick(Server &server, Client &client, std::string args);
-void	cmdPing(Server &server, Client &client, std::string args);
-void	cmdWho(Server &server, Client &client, std::string args);
-void	cmdUserHost(Server &server, Client &client, std::string args);
-void	cmdPass(Server &server, Client &client, std::string args);
-void	cmdInvite(Server &server, Client &client, std::string args);
-void	cmdQuit(Server &server, Client &client, std::string args);
-void	cmdDebug(Server &server, Client &client, std::string args);
-void	cmdPart(Server &server, Client &client, std::string args);
+void	cmdCap(Server& server, Client& client, std::string args);
+void	cmdNick(Server& server, Client& client, std::string args);
+void	cmdUser(Server& server, Client& client, std::string args);
+void	cmdJoin(Server& server, Client& client, std::string args);
+void	cmdTopic(Server& server, Client& client, std::string args);
+void	cmdPrivmsg(Server& server, Client& client, std::string args);
+void	cmdMode(Server& server, Client& client, std::string args);
+void	cmdKick(Server& server, Client& client, std::string args);
+void	cmdPing(Server& server, Client& client, std::string args);
+void	cmdWho(Server& server, Client& client, std::string args);
+void	cmdUserHost(Server& server, Client& client, std::string args);
+void	cmdPass(Server& server, Client& client, std::string args);
+void	cmdInvite(Server& server, Client& client, std::string args);
+void	cmdQuit(Server& server, Client& client, std::string args);
+void	cmdDebug(Server& server, Client& client, std::string args);
+void	cmdPart(Server& server, Client& client, std::string args);
 
 static const struct s_cmd1 commands[] =
 {
@@ -84,6 +84,6 @@ static const struct s_cmd1 commands[] =
 	{"",			NULL}
 };
 
-void	processCommand(Server &server, Client &client, std::string args);
+void	processCommand(Server& server, Client& client, std::string args);
 
 #endif // HANDLE_HPP

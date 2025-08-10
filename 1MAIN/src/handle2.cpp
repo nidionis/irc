@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:44 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:55:00 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:05:29 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ Alt Params: 0
 => do not implement the MODE replies in cmdJoin(), those will be handled in cmdMode()
 */
 
-void	cmdJoin(Server &server, Client &client, std::string args)
+void	cmdJoin(Server& server, Client& client, std::string args)
 {
 	std::string	channel_str = popWd(args);
 	std::string	key = lastWord(args);
@@ -113,7 +113,7 @@ Parameters: <channel>{,<channel>} [<reason>]
 [14:00] >> :swepipe.esper.net 403 NickName #test54654 :No such channel%0A
 */
 
-void	cmdPart(Server &server, Client &client, std::string args)
+void	cmdPart(Server& server, Client& client, std::string args)
 {
 	(void)server;
 	(void)client;
@@ -127,7 +127,7 @@ Parameters: <target> [<modestring> [<mode arguments>...]]
 /!\ not tested yet /!\
 */
 
-void	cmdMode(Server &server, Client &client, std::string args)
+void	cmdMode(Server& server, Client& client, std::string args)
 {
 	std::string	item = popWd(args);
 	std::string	mode_chars = popWd(args);
@@ -164,7 +164,7 @@ void	cmdMode(Server &server, Client &client, std::string args)
 	}
 	else
 	{
-		if (server.hasUser(item))
+		if (server.clientHasUser(item))
 			{ std::cout << "[debug] do something with user here" << std::endl; }
 	}
 	return ;
@@ -215,7 +215,7 @@ Parameters: <channel> <user> *( "," <user> ) [<comment>]
 [15:19] >> :calamity.esper.net 441 NickName lahlsweh #test951 :They aren't on that channel%0A
 */
 
-void	cmdKick(Server &server, Client &client, std::string args)
+void	cmdKick(Server& server, Client& client, std::string args)
 {
 	std::string	channel_str = popWd(args);
 	Client		&kicked = server.getClient(getHead(args));
@@ -252,7 +252,7 @@ Parameters: <channel> [<topic>]
 /!\ not tested yet /!\
 */
 
-void	cmdTopic(Server &server, Client &client, std::string args)
+void	cmdTopic(Server& server, Client& client, std::string args)
 {
 	(void)server;
 	std::string	channel_str = getHead(args);
@@ -305,7 +305,7 @@ Parameters: <target>{,<target>} <text to be sent>
 [16:46] << PRIVMSG :NickName :test%0A
 [16:46] >> :anarchy.esper.net 412 NickName :No text to send%0A
 */
-void	cmdPrivmsg(Server &server, Client &client, std::string args)
+void	cmdPrivmsg(Server& server, Client& client, std::string args)
 {
 	std::string	name = getHead(args);
 	std::string	msg = getNextWds(args);
@@ -323,7 +323,7 @@ void	cmdPrivmsg(Server &server, Client &client, std::string args)
 		catch (const std::runtime_error& err)
 			{ client.send(err.what()); }
 	}
-	else if (server.hasNick(name))
+	else if (server.clientHasNick(name))
 	{
 		dest = server.getClient(name);
 		dest.send(client.getNickname() + " : " + msg + "\r\n");
@@ -364,7 +364,7 @@ Parameters: <nickname> <channel>
 [16:03] >> :calamity.esper.net 482 NickName #test456 :You're not a channel operator%0A
 */
 
-void	cmdInvite(Server &server, Client &client, std::string args)
+void	cmdInvite(Server& server, Client& client, std::string args)
 {
 	Client	dest;
 	Channel	channel;

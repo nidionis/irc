@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:43:41 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:47:19 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 14:12:52 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ std::string	trim(const std::string& str);
 std::string	trim(const std::string& str, const std::string& chars);
 std::string	getHead(const std::string& str);
 std::string	getNextWds(const std::string& str);
+bool		isValidName(const std::string& str);
 std::string	lowerCase(const std::string& str);
 std::string	upperCase(const std::string& str);
-bool		isValidName(const std::string& str);
 std::string	to_string(const ssize_t value);
 std::string	popWd(std::string& str);
 std::string	lastWord(std::string& str);

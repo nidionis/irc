@@ -6,7 +6,7 @@
 #    By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/27 13:48:14 by lahlsweh          #+#    #+#              #
-#    Updated: 2025/08/10 13:36:05 by lahlsweh         ###   ########.fr        #
+#    Updated: 2025/08/10 14:37:23 by lahlsweh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,15 +23,17 @@ DEBUG_DIR = debug
 INCLUDE_DIR = include
 
 # Source files (update these as you add more source files)
-SRCS = main.cpp \
-       utils_strings.cpp \
-       capabilities.cpp \
-       Server.cpp \
-       Server_poll.cpp \
-       handle.cpp \
-	   handle2.cpp \
-       Channel.cpp \
-       Client.cpp
+SRCS =	capabilities.cpp \
+		Channel.cpp \
+		Client.cpp \
+		handle.cpp \
+		handle2.cpp \
+		main.cpp \
+		Server_Channel.cpp \
+		Server_Client.cpp \
+		Server_poll.cpp \
+		Server.cpp \
+		utils_strings.cpp \
 
 # Object files
 OBJS = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)

@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:18 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 12:52:12 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:03:35 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 // Template implementation in header file
 template <typename T>
-bool	is_in(std::vector<T> &v, const T x)
+bool	is_in(std::vector<T>& v, const T x)
 {
 	// create an iterator
 	typename std::vector<T>::iterator	it;
@@ -30,7 +30,7 @@ bool	is_in(std::vector<T> &v, const T x)
 };
 
 template <typename T>
-void	set(std::vector<T> &v, const T x)
+void	set(std::vector<T>& v, const T x)
 {
 	v.push_back(x);
 	return ;

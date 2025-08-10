@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:02:00 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:44:54 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:07:02 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class	Channel;
 class	Client
 {
 private:
-	Server						*_server;
+	Server*						_server;
 	std::string					_nickname;
 	std::string					_username;
 	std::string					_realname;
@@ -35,15 +35,14 @@ private:
 	std::vector<std::string>	_capabilities;
 	std::vector<std::string>	_flags;
 	bool						_must_kill;
+	int							_fd_client_socket;
+	struct sockaddr_in			_IPv4_client_sock_addr;
+	socklen_t					_client_addrlen;
 
 public:
 
-	struct sockaddr_in			IPv4_client_sock_addr;
-	int							fd_client_socket;
-	socklen_t					client_addrlen;
-
 	Client(void);
-	Client(Server *server);
+	Client(Server* server);
 	// missing copy constructor
 	~Client(void);
 
@@ -51,23 +50,29 @@ public:
 	GETTER_SETTER(std::string, _username, Username)
 	GETTER_SETTER(std::string, _realname, Realname)
 	GETTER_SETTER(bool, _must_kill, must_kill)
+	GETTER_SETTER(int, _fd_client_socket, fd_client_socket)
+	GETTER_SETTER(struct sockaddr_in, _IPv4_client_sock_addr, IPv4_client_sock_addr)
+	GETTER_SETTER(socklen_t, _client_addrlen, client_addrlen)
 
-	bool		operator==(const Client &other) const;
-	void		clientCleanup(void);
+	struct sockaddr_in&		special_getIPv4_client_sock_addr(void);	// Server_poll.cpp::pollClientConnect()
+	socklen_t&				special_get_client_addrlen(void);		// Server_poll.cpp::pollClientConnect()
+	
+	bool					operator==(const Client& other) const;
+	void					clientCleanup(void);
 
-	Channel*	newChannel(std::string& name);
-	void		delChannel(Channel& channel);
-	ssize_t		send(std::string msg);
-	std::string	getIp(void);
-	ssize_t		send_banner(std::string line);
-	bool		isLogged(void);
+	Channel*				newChannel(std::string& name);
+	void					delChannel(Channel& channel);
+	ssize_t					send(std::string msg);
+	std::string				getIp(void);
+	ssize_t					send_banner(std::string line);
+	bool					isLogged(void);
 
-	void		setCap(const std::string& cap);
-	void		resetCap(const std::string& cap);
-	bool		hasCap(const std::string& cap);
-	void		setFlag(const std::string& cap);
-	void		resetFlag(const std::string& cap);
-	bool		hasFlag(const std::string& cap);
+	void					setCap(const std::string& cap);
+	void					resetCap(const std::string& cap);
+	bool					hasCap(const std::string& cap);
+	void					setFlag(const std::string& cap);
+	void					resetFlag(const std::string& cap);
+	bool					hasFlag(const std::string& cap);
 };
 
 #endif //CLIENT_HPP

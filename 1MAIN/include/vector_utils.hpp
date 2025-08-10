@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:43:43 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:40:05 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:03:29 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 
 // Template implementation in header file
 template <typename T>
-bool	is_in(std::vector<T> &v, const T x);
+bool	is_in(std::vector<T>& v, const T x);
 
 template <typename T>
-void	set(std::vector<T> &v, const T x);
+void	set(std::vector<T>& v, const T x);
 
 // Corrected version of the template function
 template <typename T>

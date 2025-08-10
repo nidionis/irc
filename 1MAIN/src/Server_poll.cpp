@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:53 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:25:44 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:06:18 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 #include "Server.hpp"
 
 volatile sig_atomic_t	exit_program = false;
-
-void	handle_signal(int sig)
-{
-	if (sig == SIGINT)
-	{
-		std::cout << "\nSIGINT caught. Terminating program ..." << std::endl;
-		exit_program = true;
-		return ;
-	}
-}
 
 void	Server::pollLoop(void)
 {
@@ -70,7 +60,7 @@ void	Server::pollFailHandler(poll_data* p_data)
 	close(bad_fd);
 	for (size_t j = 0; j < this->_vector_clients.size(); j++)
 	{
-		if (this->_vector_clients[j].fd_client_socket == bad_fd)
+		if (this->_vector_clients[j].getfd_client_socket() == bad_fd)
 		{
 			this->_vector_clients.erase(this->_vector_clients.begin() + j);
 			break;
@@ -91,7 +81,7 @@ void	Server::pollClientHandler(poll_data* p_data)
 	else
 	{
 		try { pollClientRecv(p_data); }
-		catch (const std::exception &err)
+		catch (const std::exception& err)
 			{ err.what(); }
 	}
 	return ;
@@ -102,30 +92,29 @@ void	Server::pollClientConnect(poll_data* p_data)
 	this->_vector_clients.push_back(Client(this));
 	Client&	new_client = this->_vector_clients.back();
 
-	new_client.fd_client_socket = accept(this->_fd_server_socket,
-		(struct sockaddr *)&new_client.IPv4_client_sock_addr, &new_client.client_addrlen);
-	if (new_client.fd_client_socket == -1)
+	new_client.setfd_client_socket(accept(this->_fd_server_socket, (struct sockaddr *)&new_client.special_getIPv4_client_sock_addr(), &new_client.special_get_client_addrlen()));
+	if (new_client.getfd_client_socket() == -1)
 	{
 		this->_vector_clients.pop_back();
 		if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK)
 		{ std::cerr << "error: Client connection failed." << std::endl; return ; }
 		else { pollDataCleanup(p_data); throw (std::runtime_error("accept() error")); }
 	}
-	if (fcntl(new_client.fd_client_socket, F_SETFL, O_NONBLOCK) == -1)
+	if (fcntl(new_client.getfd_client_socket(), F_SETFL, O_NONBLOCK) == -1)
 	{ pollDataCleanup(p_data); throw (std::runtime_error("fcntl() error")); }
 	if (p_data->fd_nb < MAX_CONNECTIONS)
 	{
-		p_data->fds[p_data->fd_nb].fd = new_client.fd_client_socket;
+		p_data->fds[p_data->fd_nb].fd = new_client.getfd_client_socket();
 		p_data->fds[p_data->fd_nb].events = POLLIN;
 		p_data->fd_nb++;
-		std::cout << "Client connected: " << inet_ntoa(new_client.IPv4_client_sock_addr.sin_addr)
-				  << ':' << ntohs(new_client.IPv4_client_sock_addr.sin_port) << std::endl;
+		std::cout << "Client connected: " << inet_ntoa(new_client.getIPv4_client_sock_addr().sin_addr)
+				  << ':' << ntohs(new_client.getIPv4_client_sock_addr().sin_port) << std::endl;
 	}
 	else
 	{
 		std::cerr << "Error: MAX_CONNECTIONS (" << MAX_CONNECTIONS << ") reached." << std::endl;
-		close(new_client.fd_client_socket);
-		new_client.fd_client_socket = -1;
+		close(new_client.getfd_client_socket());
+		new_client.setfd_client_socket(-1);
 	}
 	return ;
 }
@@ -155,7 +144,7 @@ void	Server::pollClientRecv(poll_data* p_data)
 	else
 	{
 		this->_buffer[recv_read] = '\0';
-		handle(this->_buffer, getClient(p_data->i));
+		handleClient(this->_buffer, getClient(p_data->i));
 		if (getClient(p_data->i).getmust_kill() == true)
 		{
 			std::cout << "TMP TEST : CLIENT KILLED" << std::endl;
@@ -171,7 +160,7 @@ void	Server::pollClientDisconnect(poll_data* p_data)
 	std::cout << "Client on fd " << p_data->fds[p_data->i].fd << " disconnected." << std::endl;
 	for (size_t i = 0; i < this->_vector_clients.size(); i++)
 	{
-		if (this->_vector_clients[i].fd_client_socket == p_data->fds[p_data->i].fd)
+		if (this->_vector_clients[i].getfd_client_socket() == p_data->fds[p_data->i].fd)
 		{
 			this->_vector_clients.erase(this->_vector_clients.begin() + i);
 			break ;
@@ -182,4 +171,14 @@ void	Server::pollClientDisconnect(poll_data* p_data)
 	p_data->fd_nb--;
 	p_data->i--;
 	return;
+}
+
+void	handle_signal(int sig)
+{
+	if (sig == SIGINT)
+	{
+		std::cout << "\nSIGINT caught. Terminating program ..." << std::endl;
+		exit_program = true;
+		return ;
+	}
 }

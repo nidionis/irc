@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:22:06 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:04:42 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ Client::Client(void)
 Client::Client(Server* server)
 {
 	this->_server = server;
-	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
-	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
-	this->fd_client_socket = -1;
+	memset(&this->_IPv4_client_sock_addr, 0, sizeof(this->_IPv4_client_sock_addr));
+	this->_client_addrlen = sizeof(this->_IPv4_client_sock_addr);
+	this->_fd_client_socket = -1;
 	this->_nickname = "";
 	this->_username = "";
 	this->_realname = "";
@@ -40,17 +40,27 @@ Client::~Client(void)
 
 bool	Client::operator==(const Client& other) const
 {
-	return (this->fd_client_socket == other.fd_client_socket);
+	return (this->_fd_client_socket == other._fd_client_socket);
+}
+
+struct sockaddr_in&	Client::special_getIPv4_client_sock_addr(void)
+{
+	return (this->_IPv4_client_sock_addr);
+}
+
+socklen_t&			Client::special_get_client_addrlen(void)
+{
+	return (this->_client_addrlen);
 }
 
 void	Client::clientCleanup(void)
 {
-	memset(&this->IPv4_client_sock_addr, 0, sizeof(this->IPv4_client_sock_addr));
-	this->client_addrlen = sizeof(this->IPv4_client_sock_addr);
-	if (this->fd_client_socket != -1)
+	memset(&this->_IPv4_client_sock_addr, 0, sizeof(this->_IPv4_client_sock_addr));
+	this->_client_addrlen = sizeof(this->_IPv4_client_sock_addr);
+	if (this->_fd_client_socket != -1)
 	{
-		close(this->fd_client_socket);
-		this->fd_client_socket = -1;
+		close(this->_fd_client_socket);
+		this->_fd_client_socket = -1;
 	}
 	return ;
 }
@@ -92,7 +102,7 @@ ssize_t	Client::send_banner(std::string line)
 	return (byte_sent);
 }
 
-void	Client::setCap(const std::string &cap)
+void	Client::setCap(const std::string& cap)
 {
 	if (isCap(cap))
 	{
@@ -101,7 +111,7 @@ void	Client::setCap(const std::string &cap)
 	}
 }
 
-void	Client::resetCap(const std::string &cap)
+void	Client::resetCap(const std::string& cap)
 {
 	std::vector<std::string>::iterator	it;
 
@@ -116,18 +126,18 @@ void	Client::resetCap(const std::string &cap)
 	}
 }
 
-bool	Client::hasCap(const std::string &cap)
+bool	Client::hasCap(const std::string& cap)
 {
 	return (is_in(this->_capabilities, cap));
 }
 
-void	Client::setFlag(const std::string &flag)
+void	Client::setFlag(const std::string& flag)
 {
 	if (!is_in(this->_flags, flag))
 		{ this->_flags.push_back(flag); }
 }
 
-void	Client::resetFlag(const std::string &flag)
+void	Client::resetFlag(const std::string& flag)
 {
 	std::vector<std::string>::iterator	it;
 
@@ -138,14 +148,14 @@ void	Client::resetFlag(const std::string &flag)
 	}
 }
 
-bool	Client::hasFlag(const std::string &flag)
+bool	Client::hasFlag(const std::string& flag)
 {
 	return is_in(this->_flags, flag);
 }
 
 std::string Client::getIp(void)
 {
-	return (inet_ntoa(this->IPv4_client_sock_addr.sin_addr));
+	return (inet_ntoa(this->_IPv4_client_sock_addr.sin_addr));
 }
 
 bool	Client::isLogged(void)

@@ -6,13 +6,13 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:57:59 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:25:09 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:07:42 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
 	Server	server;
 

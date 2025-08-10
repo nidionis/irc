@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 11:16:02 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:02:41 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,23 @@ private:
 
 public:
 	Channel(void);
-	Channel(Client &client, std::string &name);
-	Channel	&operator=(const Channel &other);
+	Channel(Client& client, std::string& name);
+	Channel	&operator=(const Channel& other);
 	~Channel(void);
 
-	bool	operator==(const Channel &other) const;
+	bool	operator==(const Channel& other) const;
 
 	GETTER_SETTER(std::string, _name, Name)
 	GETTER_SETTER(std::string, _key, Key)
 	GETTER_SETTER(std::string, _topic, Topic)
 
-	bool	isOperator(Client &client);
-	void	setOperator(Client &client);
-	void	delOperator(Client &client);
+	bool	isOperator(Client& client);
+	void	setOperator(Client& client);
+	void	delOperator(Client& client);
 
-	bool	isClient(Client &client);
-	void	setClient(Client &client);
-	void	delClient(Client &client);
+	bool	isClient(Client& client);
+	void	setClient(Client& client);
+	void	delClient(Client& client);
 
 	void	setMode(char mode);
 	void	delMode(char mode);

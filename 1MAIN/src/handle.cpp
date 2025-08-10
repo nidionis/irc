@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:53:06 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:05:02 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include "handle.hpp"
 
-void	cmdDebug(Server &server, Client &client, std::string args)
+void	cmdDebug(Server& server, Client& client, std::string args)
 {
 	(void)client;
 	(void)args;
@@ -25,7 +25,7 @@ void	cmdDebug(Server &server, Client &client, std::string args)
 	return ;
 }
 
-void	cmdCap(Server &server, Client &client, std::string args)
+void	cmdCap(Server& server, Client& client, std::string args)
 {
 	if (getHead(args) == "")
 		{ throw (std::runtime_error(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n")); }
@@ -40,7 +40,7 @@ void	cmdCap(Server &server, Client &client, std::string args)
 	return ;
 }
 
-void	cmdNick(Server &server, Client &client, std::string args)
+void	cmdNick(Server& server, Client& client, std::string args)
 {
 	std::string	nick = getHead(args);
 
@@ -48,7 +48,7 @@ void	cmdNick(Server &server, Client &client, std::string args)
 		{ client.setmust_kill(true); return ; }
 	if (nick == "")
 		{ throw (std::runtime_error(":" + server.getName() + " 431 " + client.getNickname() + " : No nickname given\r\n")); }
-	if (server.hasNick(nick))
+	if (server.clientHasNick(nick))
 		{ throw (std::runtime_error (":" + server.getName() + " 433 * " + nick + " :Nickname is already in use.\r\n")); }
 	if (client.getNickname() != "")
 		{ client.send( ":" + client.getNickname() + "!~" + client.getUsername() + "@" + client.getIp() + " NICK :" + nick + "\r\n"); }
@@ -57,7 +57,7 @@ void	cmdNick(Server &server, Client &client, std::string args)
 	return ;
 }
 
-void	cmdUser(Server &server, Client &client, std::string args)
+void	cmdUser(Server& server, Client& client, std::string args)
 {
 	(void)server;
 	std::string	user = getHead(args);
@@ -72,7 +72,7 @@ void	cmdUser(Server &server, Client &client, std::string args)
 	return ;
 }
 
-void	cmdPing(Server &server, Client &client, std::string args)
+void	cmdPing(Server& server, Client& client, std::string args)
 {
 	client.send(":" + server.getName() + " PONG :" + args + "\r\n");
 	return ;
@@ -94,7 +94,7 @@ Parameters: <mask>
 [15:43] >> :calamity.esper.net 352 NickName #test123 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
 [15:43] >> :calamity.esper.net 315 NickName #test123 :End of /WHO list.%0A
 */
-void	cmdWho(Server &server, Client &client, std::string args)
+void	cmdWho(Server& server, Client& client, std::string args)
 {
 	(void)args;
 
@@ -103,7 +103,7 @@ void	cmdWho(Server &server, Client &client, std::string args)
 	return ;
 }
 
-void	cmdUserHost(Server &server, Client &client, std::string args)
+void	cmdUserHost(Server& server, Client& client, std::string args)
 {
 	std::string	arg = getHead(args);
 
@@ -112,7 +112,7 @@ void	cmdUserHost(Server &server, Client &client, std::string args)
 	return ;
 }
 
-void	cmdPass(Server &server, Client &client, std::string args)
+void	cmdPass(Server& server, Client& client, std::string args)
 {
 	std::string	passwd = trim(args);
 
@@ -134,7 +134,7 @@ void	cmdPass(Server &server, Client &client, std::string args)
 }
 
 
-void	processCommand(Server &server, Client &client, std::string args)
+void	processCommand(Server& server, Client& client, std::string args)
 {
 	std::string	cmd_flg = upperCase(getHead(args));
 	std::string	cmd_arg = getNextWds(args);
@@ -161,7 +161,7 @@ void	processCommand(Server &server, Client &client, std::string args)
 	return ;
 }
 
-void	cmdQuit(Server &server, Client &client, std::string args)
+void	cmdQuit(Server& server, Client& client, std::string args)
 {
 	(void)server;
 	(void)args;

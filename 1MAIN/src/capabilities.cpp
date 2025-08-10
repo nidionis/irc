@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:51:20 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:03:57 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,12 @@
 
 #include "capabilities.hpp"
 
-bool	isCap(const std::string& cap)
-{
-	if (cap.empty()) { return false; }
-	for (size_t i = 0; cap_tab[i].header[0] != '\0'; ++i)
-		{ if (cap == cap_tab[i].header) { return (true); } }
-	return (false);
-}
-
-void	multiPrefix(Server& server, Client& client, std::string args)
-{
-	(void)server;
-	(void)args;
-
-	client.setCap("multi-prefix");
-	return ;
-}
+void	capLs(Server& server, Client& client, std::string args);
+void	multiPrefix(Server& server, Client& client, std::string args);
+void	capReq(Server& server, Client& client, std::string args);
+void	capEnd(Server& server, Client& client, std::string args);
+void	server_banner(Client& client, Server& server);
+bool	isCap(const std::string& cap);
 
 void	capLs(Server& server, Client& client, std::string args)
 {
@@ -46,6 +36,14 @@ void	capLs(Server& server, Client& client, std::string args)
 	return ;
 }
 
+void	multiPrefix(Server& server, Client& client, std::string args)
+{
+	(void)server;
+	(void)args;
+
+	client.setCap("multi-prefix");
+	return ;
+}
 
 void	capReq(Server& server, Client& client, std::string args)
 {
@@ -73,7 +71,16 @@ void	capReq(Server& server, Client& client, std::string args)
 	return ;
 }
 
-void	server_banner(Client &client, Server &server)
+void	capEnd(Server& server, Client& client, std::string args)
+{
+	(void)args;
+
+	client.setFlag("CAP_END");
+	if (client.isLogged()) { server_banner(client, server); }
+	return ;
+}
+
+void	server_banner(Client& client, Server& server)
 {
 	if (client.hasFlag("BANNER_SENT")) { return ; }
 	client.send(":ircSchoolProject 001 " + client.getNickname() + " :Welcome to the ircSchoolProject " + client.getNickname() + "\r\n");
@@ -86,11 +93,10 @@ void	server_banner(Client &client, Server &server)
 	return ;
 }
 
-void	capEnd(Server &server, Client &client, std::string args)
+bool	isCap(const std::string& cap)
 {
-	(void)args;
-
-	client.setFlag("CAP_END");
-	if (client.isLogged()) { server_banner(client, server); }
-	return ;
+	if (cap.empty()) { return false; }
+	for (size_t i = 0; cap_tab[i].header[0] != '\0'; ++i)
+		{ if (cap == cap_tab[i].header) { return (true); } }
+	return (false);
 }

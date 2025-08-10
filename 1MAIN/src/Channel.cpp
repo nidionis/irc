@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:09:17 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:04:22 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ Channel::~Channel(void)
 	this->operators.clear();
 }
 
-Channel::Channel(Client &client, std::string &name)
+Channel::Channel(Client& client, std::string& name)
 {
 	this->_name = name;
 	this->clients.push_back(client);
 	this->operators.push_back(client);
 }
 
-bool	Channel::operator==(const Channel &other) const
+bool	Channel::operator==(const Channel& other) const
 {
 	return (this->_name == other.getName());
 }
@@ -49,7 +49,7 @@ Channel	&Channel::operator=(const Channel& other)
 	return (*this);
 }
 
-bool Channel::isOperator(Client &client)
+bool Channel::isOperator(Client& client)
 {
 	if (std::find(this->operators.begin(), this->operators.end(), client) != this->operators.end())
 		{ return (true); }
@@ -57,7 +57,7 @@ bool Channel::isOperator(Client &client)
 		{ return (false); }
 }
 
-void Channel::setOperator(Client &client)
+void Channel::setOperator(Client& client)
 {
 	if (this->isOperator(client))
 		{ throw std::runtime_error("Client is already an operator"); }
@@ -66,7 +66,7 @@ void Channel::setOperator(Client &client)
 	return ;
 }
 
-void Channel::delOperator(Client &client)
+void Channel::delOperator(Client& client)
 {
 	if (!this->isOperator(client))
 		{ throw std::runtime_error("Client is not an operator"); }
@@ -75,7 +75,7 @@ void Channel::delOperator(Client &client)
 }
 
 
-bool Channel::isClient(Client &client)
+bool Channel::isClient(Client& client)
 {
 	if (std::find(this->clients.begin(), this->clients.end(), client) != this->clients.end())
 		{ return true; }
@@ -83,7 +83,7 @@ bool Channel::isClient(Client &client)
 		{ return false; }
 }
 
-void Channel::setClient(Client &client)
+void Channel::setClient(Client& client)
 {
 	if (this->isClient(client))
 		{ throw std::runtime_error("Client is already in the channel"); }
@@ -91,7 +91,7 @@ void Channel::setClient(Client &client)
 	return ;
 }
 
-void Channel::delClient(Client &client)
+void Channel::delClient(Client& client)
 {
 	std::vector<Client>::iterator	it;
 

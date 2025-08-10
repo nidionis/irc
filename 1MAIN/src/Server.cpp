@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:03 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:20:26 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:06:30 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,26 @@ Server::~Server(void)
 	return ;
 }
 
-std::string &Server::getName(void)
+std::string& Server::getName(void)
 {
 	return (this->_name);
 }
 in_port_t Server::getPort(void)
 {
 	return (ntohs(_IPv4_serv_sock_addr.sin_port));
+}
+
+std::string	Server::getIp(void)
+{
+	return (getLocalIPv4Address());
+}
+
+bool	Server::checkPasswd(std::string passwd)
+{
+	std::cout << "passwd: " << this->_passwd << std::endl;
+	if (passwd == this->_passwd)
+		return (true);
+	return (false);
 }
 
 void	Server::server_init(int port, std::string passwd)
@@ -107,127 +120,6 @@ void				Server::serverCleanup(void)
 	memset(&this->_IPv4_serv_sock_addr, 0, sizeof(this->_IPv4_serv_sock_addr));
 	memset(this->_buffer, 0, BUFFER_SIZE);
 	return ;
-}
-
-ssize_t 		Server::sendClient(Client &client, std::string msg)
-{
-	int	byte_sent;
-	int	flags = MSG_DONTWAIT | MSG_NOSIGNAL;
-
-	byte_sent = send(client.fd_client_socket, msg.c_str(), msg.size(), flags);
-	if (byte_sent < 0)
-		{ throw (std::runtime_error("sending client error")); }
-	std::cout << client.getNickname() << msg << std::flush;
-	return (byte_sent);
-}
-
-Client&	Server::getClient(int i)
-{
-	std::vector<Client>::iterator	it;
-	std::vector<Client>::iterator	ite;
-
-	ite = this->_vector_clients.end();
-	for (it = this->_vector_clients.begin(); it != ite; ++it)
-	{
-		//i comes from p_data->i, which start at 1 (and i'ts dangerous)
-		if (!--i) { return (*it); }
-	}
-	throw (std::runtime_error("client not found"));
-}
-
-Client	&Server::getClient(const std::string &nick)
-{
-	std::vector<Client>::iterator	it;
-	std::vector<Client>::iterator	ite;
-
-	ite = this->_vector_clients.end();
-	for (it = this->_vector_clients.begin(); it != ite; ++it)
-		{ if (it->getNickname() == nick) { return (*it); } }
-	throw (std::runtime_error("client not found"));
-}
-
-std::string	Server::getIp(void)
-{
-	return (getLocalIPv4Address());
-}
-
-void	Server::handle(char *buffer, Client &client)
-{
-	processCommand(*this, client, buffer);
-	return ;
-}
-
-bool	Server::hasNick(std::string const &nick)
-{
-	std::string	name;
-
-	for (unsigned int i = 0; i < this->_vector_clients.size(); ++i)
-	{
-		name = this->_vector_clients[i].getNickname();
-		if (name == nick) {return (true); }
-	}
-	return (false);
-}
-
-bool	Server::hasUser(std::string const &username)
-{
-	std::string	name;
-
-	for (unsigned int i = 0; i < this->_vector_clients.size(); ++i)
-	{
-		name = this->_vector_clients[i].getUsername();
-		if (name == username) { return (true); }
-	}
-	return (false);
-}
-
-bool	Server::hasChannel(std::string const &nick)
-{
-	std::string	name;
-
-	for (unsigned int i = 0; i < this->_vector_clients.size(); ++i)
-	{
-		name = this->_vector_clients[i].getUsername();
-		if (name == nick) {return (true); }
-	}
-	return (false);
-}
-
-void Server::pushChannel(Channel &channel)
-{
-	this->_channels.push_back(channel);
-	return ;
-}
-
-void Server::delChannel(Channel &channel)
-{
-	std::vector<Channel>::iterator	it;
-
-	it = std::find(this->_channels.begin(), this->_channels.end(), channel);
-	if (it != this->_channels.end())
-	{
-		delete (&(*it));
-		this->_channels.erase(it);
-	}
-	return ;
-}
-
-Channel	&Server::getChannel(std::string const &channel_str)
-{
-	for (size_t i = 0; i < this->_channels.size(); i++)
-	{
-		if (this->_channels[i].getName() == channel_str)
-			{ return this->_channels[i]; }
-	}
-	throw (std::runtime_error("channel not found"));
-}
-
-bool	Server::checkPasswd(std::string passwd)
-{
-	std::cout << "passwd: " << this->_passwd << std::endl;
-	if (passwd == this->_passwd)
-		return (true);
-	return (false);
 }
 
 std::string	getLocalIPv4Address(void)
