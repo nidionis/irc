@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:42:28 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:53:06 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,13 @@ void	cmdNick(Server &server, Client &client, std::string args)
 void	cmdUser(Server &server, Client &client, std::string args)
 {
 	(void)server;
-
 	std::string	user = getHead(args);
 	std::string	realname = lastWord(args);
 
 	if (!client.hasFlag(PASSWD_OK))
 		{ client.setmust_kill(true); return ; }
 	if (client.getUsername() != "")
-	{
-		std::string message462 = ":ircSchoolProject 462 " + client.getNickname() + " :You may not reregister\r\n";
-		throw (std::runtime_error(message462));
-	}
+		{ throw (std::runtime_error(":ircSchoolProject 462 " + client.getNickname() + " :You may not reregister\r\n")); }
 	client.setUsername(user);
 	client.setRealname(realname);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:11 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:15:46 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:51:20 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	multiPrefix(Server& server, Client& client, std::string args)
 void	capLs(Server& server, Client& client, std::string args)
 {
 	(void)args;
-	std::string	msg_cap_ls = ":" + server.getName() + " CAP * LS :";
-
+	std::string	msg_cap_ls;
+	
+	msg_cap_ls = ":" + server.getName() + " CAP * LS :";
 	for (int i = 0; cap_tab[i].f; i++)
 		{ msg_cap_ls += cap_tab[i].header; }
 	msg_cap_ls += "\r\n";
@@ -48,9 +49,10 @@ void	capLs(Server& server, Client& client, std::string args)
 
 void	capReq(Server& server, Client& client, std::string args)
 {
-	std::cout << "[capReq] caps:" << args << std::flush;
 	std::string	cap = popWd(args);
 	std::string	messageCAP_ACK;
+
+	std::cout << "[capReq] caps:" << args << std::flush;
 	if (!cap.empty())
 	{
 		for (int i = 0; cap_tab[i].f; i++)

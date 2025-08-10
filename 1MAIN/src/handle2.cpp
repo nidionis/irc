@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:44 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:44:04 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:55:00 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ void	cmdPrivmsg(Server &server, Client &client, std::string args)
 {
 	std::string	name = getHead(args);
 	std::string	msg = getNextWds(args);
+	Client		dest;
 
 	name = trim(name, OPERATOR_OP);
 	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
@@ -324,9 +325,8 @@ void	cmdPrivmsg(Server &server, Client &client, std::string args)
 	}
 	else if (server.hasNick(name))
 	{
-		Client	dest = server.getClient(name);
-		dest.send(client.getNickname() + " : " + msg);
-		dest.send("\r\n");
+		dest = server.getClient(name);
+		dest.send(client.getNickname() + " : " + msg + "\r\n");
 	}
 	else { throw std::runtime_error("PRIVMSG : channel or client not found"); }
 	throw (std::runtime_error("PRIVMSG : Failure"));
