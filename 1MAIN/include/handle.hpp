@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:30:26 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 12:53:38 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:46:39 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@
 class Server;
 class Client;
 
-// Function declarations
-void	processCommand(Server &server, Client &client, std::string args);
+typedef void(*CommandFunc1)(Server &server, Client &client, std::string args);
 
-// Command function declarations
+struct	s_cmd1
+{
+	const char		*header;
+	CommandFunc1	f;
+};
+
 void	cmdCap(Server &server, Client &client, std::string args);
 void	cmdNick(Server &server, Client &client, std::string args);
 void	cmdUser(Server &server, Client &client, std::string args);
@@ -57,14 +61,6 @@ void	cmdInvite(Server &server, Client &client, std::string args);
 void	cmdQuit(Server &server, Client &client, std::string args);
 void	cmdDebug(Server &server, Client &client, std::string args);
 void	cmdPart(Server &server, Client &client, std::string args);
-
-typedef void(*CommandFunc1)(Server &server, Client &client, std::string args);
-
-struct	s_cmd1
-{
-	const char		*header;
-	CommandFunc1	f;
-};
 
 static const struct s_cmd1 commands[] =
 {
@@ -87,5 +83,7 @@ static const struct s_cmd1 commands[] =
 	{"PART",		&cmdPart},
 	{"",			NULL}
 };
+
+void	processCommand(Server &server, Client &client, std::string args);
 
 #endif // HANDLE_HPP

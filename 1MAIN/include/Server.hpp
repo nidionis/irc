@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:47 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 12:39:14 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:40:52 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ public:
 	in_port_t		getPort(void);
 
 	void			server_init(int port, std::string passwd);
-	void			serverSetup();
+	void			serverSetup(void);
 	void			serverCleanup(void);
 	void			pollLoop(void);
 	ssize_t			sendClient(Client& cli, std::string msg);

@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:24:34 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:42:28 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void	processCommand(Server &server, Client &client, std::string args)
 {
 	std::string	cmd_flg = upperCase(getHead(args));
 	std::string	cmd_arg = getNextWds(args);
+	std::string	str_err;
 
 	std::cout << "##############################" << std::endl
 			  << "<< " << args << std::flush;
@@ -152,8 +153,8 @@ void	processCommand(Server &server, Client &client, std::string args)
 			try { commands[i].f(server, client, cmd_arg); }
 			catch (std::runtime_error& err)
 			{
-				client.send(err.what());
-				client.send("\r\n");
+				str_err = err.what();
+				client.send(str_err + "\r\n");
 				if (client.getmust_kill() == true) { return ; }
 			}
 			return ;

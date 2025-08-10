@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:44 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:24:51 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:44:04 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,6 +257,7 @@ void	cmdTopic(Server &server, Client &client, std::string args)
 	(void)server;
 	std::string	channel_str = getHead(args);
 	std::string	topic = getNextWds(args);
+	std::string	err_str;
 
 	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
 	if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
@@ -269,9 +270,7 @@ void	cmdTopic(Server &server, Client &client, std::string args)
 		}
 		catch (const std::runtime_error& err)
 		{
-			client.send("TOPIC : ");
-			client.send(err.what());
-			client.send("\r\n");
+			client.send("TOPIC : " + err_str + "\r\n");
 		}
 	}
 	return ;
