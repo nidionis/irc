@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:44 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:04:20 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:24:51 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	cmdMode(Server &server, Client &client, std::string args)
 	else
 	{
 		if (server.hasUser(item))
-			{ std::cout << "[debug] do something with user here\r\n" << std::endl; }
+			{ std::cout << "[debug] do something with user here" << std::endl; }
 	}
 	return ;
 }

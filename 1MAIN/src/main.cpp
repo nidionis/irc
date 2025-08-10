@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:57:59 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 11:46:45 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:25:09 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int main(int argc, char **argv)
 	std::string	passwd(argv[2]);
 	server.server_init(atoi(argv[1]), passwd);
 	try { server.serverSetup(); }
-	catch (const std::exception& err) { std::cout << err.what() << std::endl; }
+	catch (const std::exception& err) { std::cerr << err.what() << std::endl; }
 	try { server.pollLoop(); }
-	catch (const std::exception& err) { std::cout << err.what() << std::endl; }
+	catch (const std::exception& err) { std::cerr << err.what() << std::endl; }
 	server.serverCleanup();
 	return (0);
 }

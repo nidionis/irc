@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:53 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 12:47:57 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:25:44 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	Server::pollClientConnect(poll_data* p_data)
 	}
 	else
 	{
-		std::cout << "Error: MAX_CONNECTIONS (" << MAX_CONNECTIONS << ") reached." << std::endl;
+		std::cerr << "Error: MAX_CONNECTIONS (" << MAX_CONNECTIONS << ") reached." << std::endl;
 		close(new_client.fd_client_socket);
 		new_client.fd_client_socket = -1;
 	}

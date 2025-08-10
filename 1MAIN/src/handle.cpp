@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 13:22:35 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 13:24:34 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	cmdDebug(Server &server, Client &client, std::string args)
 {
 	(void)client;
 	(void)args;
+
 	std::cout << "serv port " << server.getPort() << std::endl;
 	return ;
 }
@@ -41,7 +42,7 @@ void	cmdCap(Server &server, Client &client, std::string args)
 
 void	cmdNick(Server &server, Client &client, std::string args)
 {
-	std::string nick = getHead(args);
+	std::string	nick = getHead(args);
 
 	if (!client.hasFlag(PASSWD_OK))
 		{ client.setmust_kill(true); return ; }
@@ -59,6 +60,7 @@ void	cmdNick(Server &server, Client &client, std::string args)
 void	cmdUser(Server &server, Client &client, std::string args)
 {
 	(void)server;
+
 	std::string	user = getHead(args);
 	std::string	realname = lastWord(args);
 
@@ -108,6 +110,7 @@ void	cmdWho(Server &server, Client &client, std::string args)
 void	cmdUserHost(Server &server, Client &client, std::string args)
 {
 	std::string	arg = getHead(args);
+
 	if (arg == client.getNickname())
 		{ client.send(":ircSchoolProject 302 " + client.getNickname() + " :" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\r\n"); }
 	return ;
@@ -140,8 +143,8 @@ void	processCommand(Server &server, Client &client, std::string args)
 	std::string	cmd_flg = upperCase(getHead(args));
 	std::string	cmd_arg = getNextWds(args);
 
-	std::cout << "##############################" << std::endl;
-	std::cout << "<< " << args << std::flush;
+	std::cout << "##############################" << std::endl
+			  << "<< " << args << std::flush;
 	for (int i = 0; commands[i].f != NULL; i++)
 	{
 		if (cmd_flg == commands[i].header)
