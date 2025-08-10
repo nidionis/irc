@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 16:06:42 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:47:04 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ Alt Params: 0
 [15:37] >> :calamity.esper.net 368 NickName #test123 :End of Channel Ban List%0A
 [15:37] >> :test2!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
 [15:37] >> :test1!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
-
 
 => do not implement the MODE replies in cmdJoin(), those will be handled in cmdMode()
 */
@@ -345,6 +344,14 @@ Parameters: <target>{,<target>} <text to be sent>
 // user does not exist
 [15:55] << PRIVMSG baduser789 :test%0A
 [15:55] >> :calamity.esper.net 401 NickName baduser789 :No such nick/channel%0A
+
+// no message
+[16:45] << PRIVMSG NickName%0A
+[16:45] >> :anarchy.esper.net 412 NickName :No text to send%0A
+
+// bad format
+[16:46] << PRIVMSG :NickName :test%0A
+[16:46] >> :anarchy.esper.net 412 NickName :No text to send%0A
 */
 void cmdPrivmsg(Server& server, Client& client, std::string input)
 {
