@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/27 13:58:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 12:41:24 by lahlsweh         ###   ########.fr       */
+/*   Created: 2025/08/10 11:02:00 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/10 15:07:02 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,56 +17,64 @@
 # include "capabilities.hpp"
 
 # define MAX_CHANNELS 2
-# define PASSWD_OK "passwd_ok"
 
 # define GETTER_SETTER(type, name, f_name) \
 type get##f_name() const { return name; } \
 void set##f_name(type value) { name = value; }
 
-class Channel;
+class	Channel;
 
-class Client
+class	Client
 {
 private:
-    Server              		*server;
-    std::string         		_nickname; // NickName
-    std::string         		_username; // Ident
-    std::string         		_realname; // RealName
-    std::vector<Channel>    	channels;
-	std::vector<std::string>    capabilities;
-    std::vector<std::string>    flags;
+	Server*						_server;
+	std::string					_nickname;
+	std::string					_username;
+	std::string					_realname;
+	std::vector<Channel>		_channels;
+	std::vector<std::string>	_capabilities;
+	std::vector<std::string>	_flags;
+	bool						_must_kill;
+	int							_fd_client_socket;
+	struct sockaddr_in			_IPv4_client_sock_addr;
+	socklen_t					_client_addrlen;
 
 public:
+
+	Client(void);
+	Client(Server* server);
+	// missing copy constructor
+	~Client(void);
+
 	GETTER_SETTER(std::string, _nickname, Nickname)
 	GETTER_SETTER(std::string, _username, Username)
 	GETTER_SETTER(std::string, _realname, Realname)
+	GETTER_SETTER(bool, _must_kill, must_kill)
+	GETTER_SETTER(int, _fd_client_socket, fd_client_socket)
+	GETTER_SETTER(struct sockaddr_in, _IPv4_client_sock_addr, IPv4_client_sock_addr)
+	GETTER_SETTER(socklen_t, _client_addrlen, client_addrlen)
 
-	struct sockaddr_in	IPv4_client_sock_addr;
-	int					fd_client_socket;
-	socklen_t			client_addrlen;
-    bool                must_kill;
+	struct sockaddr_in&		special_getIPv4_client_sock_addr(void);	// Server_poll.cpp::pollClientConnect()
+	socklen_t&				special_get_client_addrlen(void);		// Server_poll.cpp::pollClientConnect()
 
-	Client(void);
-    Client(Server *server);
-	~Client(void);
-    bool operator==(const Client &other) const;
-	void clientCleanup(void);
+	bool					operator==(const Client& other) const;
+	void					clientCleanup(void);
 
-    Channel* newChannel(std::string& name);
-    void delChannel(Channel& channel);
-    ssize_t send(std::string msg);
-    void setCap(const std::string& cap);
-    void resetCap(const std::string& cap);
-    bool hasCap(const std::string& cap);
-    void setFlag(const std::string& cap);
-    void resetFlag(const std::string& cap);
-    bool hasFlag(const std::string& cap);
-    std::string getIp();
-    ssize_t send_banner(std::string line);
-    bool isLogged();
+	Channel*				newChannel(std::string& name);
+	void					delChannel(Channel& channel);
+	bool					hasChannel(Channel& channel);
 	Channel &getChannel(void);
-};
+	ssize_t					send(std::string msg);
+	std::string				getIp(void);
+	ssize_t					send_banner(std::string line);
+	bool					isLogged(void);
 
-//std::ostream& operator<<(std::ostream& os, const Client& client);
+	void					setCap(const std::string& cap);
+	void					resetCap(const std::string& cap);
+	bool					hasCap(const std::string& cap);
+	void					setFlag(const std::string& cap);
+	void					resetFlag(const std::string& cap);
+	bool					hasFlag(const std::string& cap);
+};
 
 #endif //CLIENT_HPP

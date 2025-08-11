@@ -22,18 +22,18 @@
 # include <stdint.h> // uint16_t
 
 # define TRIMMED_CHARS ":, \t\r\n"
-# define LEN_MAX_NAME 50
+# define LEN_MAX_NAME	16
 
-std::string trim(const std::string& str);
-std::string trim(const std::string& str, const std::string& chars);
-std::string getHead(const std::string& str);
-std::string getNextWds(const std::string& str);
-std::string lowerCase(const std::string& str);
-std::string upperCase(const std::string& str);
-bool    	isValidName(const std::string& str);
-std::string to_string(const ssize_t value);
-std::string popWd(std::string& str);
-std::string lastWord(std::string& str);
-std::string ft_put_uint16(uint16_t num);
+std::string	trim(const std::string& str);
+std::string	trim(const std::string& str, const std::string& chars);
+std::string	getHead(const std::string& str);
+std::string	getNextWds(const std::string& str);
+bool		isValidName(const std::string& str);
+std::string	lowerCase(const std::string& str);
+std::string	upperCase(const std::string& str);
+std::string	to_string(const ssize_t value);
+std::string	popWd(std::string& str);
+std::string	lastWord(std::string& str);
+std::string	ft_put_uint16(uint16_t num);
 
 #endif //UTILS_STRINGS_HPP
