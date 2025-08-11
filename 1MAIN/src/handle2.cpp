@@ -135,6 +135,9 @@ void cmdPart(Server& server, Client& client, std::string args)
     (void)server;
     (void)client;
     (void)args;
+    Channel channel;
+    std::string reason = lastWord(args);
+
     return ;
 }
 
