@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 15:04:22 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 16:13:19 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ Channel::~Channel(void)
 {
 	this->clients.clear();
 	this->operators.clear();
+	return ;
 }
 
 Channel::Channel(Client& client, std::string& name)

@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:03 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 15:06:30 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/10 16:20:21 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ Server::Server(void)
 
 Server::~Server(void)
 {
+	std::vector<Channel>::iterator	it;
+	std::vector<Channel>::iterator	ite = this->_channels.end();
+
+	for (it = this->_channels.begin(); it != ite; it++)
+	{
+		delete (&(*it));
+	}
 	return ;
 }
 
@@ -109,6 +116,14 @@ void				Server::listenServerSocket(void)
 
 void				Server::serverCleanup(void)
 {
+	std::vector<Channel>::iterator	it;
+	std::vector<Channel>::iterator	ite = this->_channels.end();
+
+	for (it = this->_channels.begin(); it != ite; it++)
+	{
+		delete (&(*it));
+	}
+/**/
 	for (size_t i = 0; i < this->_vector_clients.size(); i++)
 		{ this->_vector_clients[i].clientCleanup(); }
 	this->_vector_clients.empty();
