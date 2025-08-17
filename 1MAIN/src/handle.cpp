@@ -118,9 +118,12 @@ void cmdWho(Server& server, Client& client, std::string input)
     Channel channel;
     if (server.clientHasNick(name)) {
         Client target = server.getClient(name);
-        channel = server.getChannel(target.getChannel().getName());
+		std::string target_name = target.getChannel().getName();
+        channel = server.getChannel();
     } else if (server.hasChannel(name)) {
         channel = server.getChannel(name);
+    } else {
+		throw
     }
     client.send(channel.getName());
     client.send(" ");
