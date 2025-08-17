@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/17 11:38:11 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/17 13:03:36 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,29 +63,21 @@ void	cmdUser(Server& server, Client& client, std::string args)
 	std::string	user = getHead(args);
 	std::string	realname = lastWord(args);
 
-//    if (!client.hasFlag(PASSWD_OK))
-//    {
-//        client.setmust_kill(true);
-//        return ;
-//    }
-//    if (client.getUsername() != "")
-//    {
-//        std::string message462 = client.getNickname() + " :You may not reregister\r\n";
-//        server.sendHead(client, "462");
-//        client.send(message462);
-//        throw std::runtime_error("");
-//    }
-//    client.setUsername(user);
-//    client.setRealname(realname);
-//    std::cout << "TEST USER : [" << client.getUsername() << "]" << std::endl;
-//}
 	if (!client.hasFlag(PASSWD_OK))
-		{ client.setmust_kill(true); return ; }
+	{
+		client.setmust_kill(true);
+		return ;
+	}
 	if (client.getUsername() != "")
-		{ throw (std::runtime_error(":ircSchoolProject 462 " + client.getNickname() + " :You may not reregister\r\n")); }
+	{
+		std::string message462 = " :You may not reregister\r\n";
+		server.sendHead(client, "462");
+		client.send(message462);
+		throw std::runtime_error("");
+	}
 	client.setUsername(user);
 	client.setRealname(realname);
-	return ;
+	std::cout << "TEST USER : [" << client.getUsername() << "]" << std::endl;
 }
 
 void	cmdPing(Server& server, Client& client, std::string args)
@@ -117,13 +109,10 @@ void cmdWho(Server& server, Client& client, std::string input)
     server.sendHead(client, "352");
     Channel channel;
     if (server.clientHasNick(name)) {
-        Client target = server.getClient(name);
-		std::string target_name = target.getChannel().getName();
-        channel = server.getChannel();
+        /*Client target = server.getClient(name);
+        channel = server.getChannel(target.getChannel().getName());*/
     } else if (server.hasChannel(name)) {
         channel = server.getChannel(name);
-    } else {
-		throw
     }
     client.send(channel.getName());
     client.send(" ");
