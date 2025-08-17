@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/17 13:19:53 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/17 14:22:25 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,30 @@ void	cmdPing(Server& server, Client& client, std::string args)
 Command: WHO
 Parameters: <mask>
 
-// if user is requested and present in several channels, only first channel found is displayed
-[15:40] << WHO NickName%0A
-[15:40] >> :calamity.esper.net 352 NickName #test789 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
-[15:40] >> :calamity.esper.net 315 NickName NickName :End of /WHO list.%0A
+// user requested but does not exist
+[14:16] << WHO NotAName%0A
+[14:16] >> :anarchy.esper.net 315 NickName NotAName :End of /WHO list.%0A
 
-// if user is not present in any channel
+// user requested, exists, and is not part of any channel
+[14:17] << WHO NickName%0A
+[14:17] >> :anarchy.esper.net 352 NickName * ~UserName 45.148.156.203 anarchy.esper.net NickName H :0 RealName%0A
+[14:17] >> :anarchy.esper.net 315 NickName NickName :End of /WHO list.%0A
+
+// user requested but not present in any channel
 [13:18] << WHO NickName%0A
 [13:18] >> :calamity.esper.net 352 NickName * ~UserName 45.148.156.203 calamity.esper.net NickName H :0 RealName%0A
 [13:18] >> :calamity.esper.net 315 NickName NickName :End of /WHO list.%0A
 
-// if channel is requested, list all users inside
+// user requested and is present in at least one channel (display first channel found)
+[14:18] << WHO NickName%0A
+[14:18] >> :anarchy.esper.net 352 NickName #test984 ~UserName 45.148.156.203 anarchy.esper.net NickName H@ :0 RealName%0A
+[14:18] >> :anarchy.esper.net 315 NickName NickName :End of /WHO list.%0A
+
+// channel requested but does not exist OR user not part of it
+[14:20] << WHO #nochannel%0A
+[14:20] >> :anarchy.esper.net 315 NickName #nochannel :End of /WHO list.%0A
+
+// channel requested, exists AND user is part of it, list all users inside
 [15:43] << WHO #test123%0A
 [15:43] >> :calamity.esper.net 352 NickName #test123 ~lahlsweh 45.148.156.203 calamity.esper.net test1 H :0 Lucas Ahlsweh%0A
 [15:43] >> :calamity.esper.net 352 NickName #test123 ~lahlsweh 45.148.156.203 calamity.esper.net test2 H :0 Lucas Ahlsweh%0A
