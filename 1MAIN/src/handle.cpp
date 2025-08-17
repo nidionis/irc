@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/17 13:03:36 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/17 13:19:53 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ Parameters: <mask>
 [15:40] >> :calamity.esper.net 352 NickName #test789 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
 [15:40] >> :calamity.esper.net 315 NickName NickName :End of /WHO list.%0A
 
+// if user is not present in any channel
+[13:18] << WHO NickName%0A
+[13:18] >> :calamity.esper.net 352 NickName * ~UserName 45.148.156.203 calamity.esper.net NickName H :0 RealName%0A
+[13:18] >> :calamity.esper.net 315 NickName NickName :End of /WHO list.%0A
+
 // if channel is requested, list all users inside
 [15:43] << WHO #test123%0A
 [15:43] >> :calamity.esper.net 352 NickName #test123 ~lahlsweh 45.148.156.203 calamity.esper.net test1 H :0 Lucas Ahlsweh%0A
@@ -109,6 +114,7 @@ void cmdWho(Server& server, Client& client, std::string input)
     server.sendHead(client, "352");
     Channel channel;
     if (server.clientHasNick(name)) {
+		// check if client has any channel first
         /*Client target = server.getClient(name);
         channel = server.getChannel(target.getChannel().getName());*/
     } else if (server.hasChannel(name)) {
