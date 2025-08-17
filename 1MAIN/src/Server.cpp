@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:03 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 16:20:21 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:47:18 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,6 @@ in_port_t Server::getPort(void)
 std::string	Server::getIp(void)
 {
 	return (getLocalIPv4Address());
-}
-
-bool	Server::checkPasswd(std::string passwd)
-{
-	std::cout << "passwd: " << this->_passwd << std::endl;
-	if (passwd == this->_passwd)
-		return (true);
-	return (false);
 }
 
 void	Server::server_init(int port, std::string passwd)
@@ -135,6 +127,22 @@ void				Server::serverCleanup(void)
 	memset(&this->_IPv4_serv_sock_addr, 0, sizeof(this->_IPv4_serv_sock_addr));
 	memset(this->_buffer, 0, BUFFER_SIZE);
 	return ;
+}
+
+ssize_t	Server::sendHead(Client& cli, std::string nb) {
+	return cli.send(":" + getName() + " " + nb + " " + cli.getNickname() + " ");
+}
+
+void	Server::handle(char *buffer, Client &client) {
+    processCommand(*this, client, buffer);
+}
+
+bool	Server::checkPasswd(std::string passwd)
+{
+	std::cout << "passwd: " << this->_passwd << std::endl;
+	if (passwd == this->_passwd)
+		return (true);
+	return (false);
 }
 
 std::string	getLocalIPv4Address(void)

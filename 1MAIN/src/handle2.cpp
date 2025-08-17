@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/10 11:20:44 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 15:05:29 by lahlsweh         ###   ########.fr       */
+/*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/07 16:06:42 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,42 +54,59 @@ Alt Params: 0
 [15:37] >> :test2!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
 [15:37] >> :test1!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
 
+
 => do not implement the MODE replies in cmdJoin(), those will be handled in cmdMode()
 */
 
 void	cmdJoin(Server& server, Client& client, std::string args)
 {
-	std::string	channel_str = popWd(args);
-	std::string	key = lastWord(args);
-	Channel		channel;
+    std::string channel_str = popWd(args);
+    std::string key = lastWord(args);
+    Channel channel;
+    std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
+        + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
 
-	if (client.isLogged() == false)
-		{ client.setmust_kill(true); return ; }
-	if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
-	{
-		try
-		{
-			channel = server.getChannel(channel_str);
-			try
-			{
-				if (channel.getKey() != "" && channel.getKey() != key)
-					{ throw (std::runtime_error("JOIN :Invalid channel key\r\n")); }
-				channel.setClient(client);
-				client.send(":" + client.getNickname() + "!~" + client.getUsername() + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n");
-			}
-			catch (std::runtime_error& err)
-				{ client.send("JOIN :You are already in the channel\r\n"); }
-		}
-		catch (const std::runtime_error& err)
-		{
-			client.send("JOIN :Channel does not exist\r\n");
-			try { client.newChannel(channel_str); }
-			catch (std::runtime_error& err)
-				{ client.send("JOIN : failed :Too many channels\r\n"); }
-		}
-	}
-	else { client.send("JOIN :Invalid channel name\r\n"); }
-	return ;
+    if (client.isLogged() == false)
+    {
+        client.setmust_kill(true);
+        return ;
+    }
+    if (channel_str[0] == '#' && channel_str.length() < LEN_MAX_NAME)// && isValidName(channel_str.substr(1)))
+    {
+        try
+        {
+            channel = server.getChannel(channel_str);
+            try
+            {
+                if (channel.getKey() != "" && channel.getKey() != key) {
+                    throw std::runtime_error("JOIN :Invalid channel key\r\n");
+                }
+                channel.setClient(client);
+                client.send(reply_success);
+            }
+            catch (std::runtime_error& err)
+            {
+                client.send("JOIN :You are already in the channel\r\n");
+            }
+        }
+        catch (const std::runtime_error& err)
+        {
+            client.send("JOIN :Channel does not exist\r\n");
+            try
+            {
+                client.newChannel(channel_str);
+                client.send(reply_success);
+            }
+            catch (std::runtime_error& err)
+            {
+                client.send("JOIN : failed :Too many channels\r\n");
+            }
+        }
+    }
+    else
+    {
+        client.send("JOIN :Invalid channel name\r\n");
+    }
 }
 
 /*
@@ -115,15 +132,19 @@ Parameters: <channel>{,<channel>} [<reason>]
 
 void	cmdPart(Server& server, Client& client, std::string args)
 {
-	(void)server;
-	(void)client;
-	(void)args;
-	return ;
+    (void)server;
+    (void)client;
+    (void)args;
+    Channel channel;
+    std::string reason = lastWord(args);
+
+    return ;
 }
 
 /*
 Command: MODE
 Parameters: <target> [<modestring> [<mode arguments>...]]
+  
 /!\ not tested yet /!\
 */
 

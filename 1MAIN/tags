@@ -1,0 +1,205 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/n/irc/1MAIN/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+$(DEBUG_DIR)/%.o	Makefile	/^$(DEBUG_DIR)\/%.o: $(SRC_DIR)\/%.cpp$/;"	t
+$(NAME)	Makefile	/^$(NAME): $(OBJS)$/;"	t
+$(NAME)_debug	Makefile	/^$(NAME)_debug: $(DEBUG_OBJS)$/;"	t
+$(OBJ_DIR)/%.o	Makefile	/^$(OBJ_DIR)\/%.o: $(SRC_DIR)\/%.cpp$/;"	t
+AVAILABLE_MODE	include/handle.hpp	/^# define AVAILABLE_MODE	/;"	d
+BUFFER_SIZE	include/Server.hpp	/^# define BUFFER_SIZE	/;"	d
+CAPABILITIES_HPP	include/capabilities.hpp	/^# define CAPABILITIES_HPP$/;"	d
+CHANNEL_HPP	include/Channel.hpp	/^# define CHANNEL_HPP$/;"	d
+CLIENT_HPP	include/Client.hpp	/^# define CLIENT_HPP$/;"	d
+CXX	Makefile	/^CXX = c++$/;"	m
+Channel	include/Channel.hpp	/^class Channel$/;"	c
+Channel	src/Channel.cpp	/^Channel::Channel(Client& client, std::string& name)$/;"	f	class:Channel
+Channel	src/Channel.cpp	/^Channel::Channel(void)$/;"	f	class:Channel
+Client	include/Client.hpp	/^class	Client$/;"	c
+Client	src/Client.cpp	/^Client::Client(Server* server)$/;"	f	class:Client
+Client	src/Client.cpp	/^Client::Client(void)$/;"	f	class:Client
+CommandFunc1	include/handle.hpp	/^typedef void(*CommandFunc1)(Server& server, Client& client, std::string args);$/;"	t	typeref:typename:void (*)(Server & server,Client & client,std::string args)
+CommandFunc2	include/capabilities.hpp	/^typedef void(*CommandFunc2)(Server& server, Client& client, std::string args);$/;"	t	typeref:typename:void (*)(Server & server,Client & client,std::string args)
+DEBUG_DIR	Makefile	/^DEBUG_DIR = debug$/;"	m
+DEBUG_FLAGS	Makefile	/^DEBUG_FLAGS = -g3 -O0 -DDEBUG$/;"	m
+DEBUG_OBJS	Makefile	/^DEBUG_OBJS = $(SRCS:%.cpp=$(DEBUG_DIR)\/%.o)$/;"	m
+GETTER_SETTER	include/Channel.hpp	/^# define GETTER_SETTER(/;"	d
+GETTER_SETTER	include/Client.hpp	/^# define GETTER_SETTER(/;"	d
+HANDLE_HPP	include/handle.hpp	/^# define HANDLE_HPP$/;"	d
+INCLUDE_DIR	Makefile	/^INCLUDE_DIR = include$/;"	m
+LEN_MAX_NAME	include/utils_strings.hpp	/^# define LEN_MAX_NAME	/;"	d
+MAIN_HPP	include/main.hpp	/^# define MAIN_HPP$/;"	d
+MAX_CHANNELS	include/Client.hpp	/^# define MAX_CHANNELS /;"	d
+MAX_CLIENTS	include/Server.hpp	/^# define MAX_CLIENTS	/;"	d
+MAX_CLIENTS	include/main.hpp	/^# define MAX_CLIENTS /;"	d
+MAX_CONNECTIONS	include/Server.hpp	/^# define MAX_CONNECTIONS	/;"	d
+MAX_CONNECTIONS	include/main.hpp	/^# define MAX_CONNECTIONS /;"	d
+NAME	Makefile	/^NAME = ircserv$/;"	m
+OBJS	Makefile	/^OBJS = $(SRCS:%.cpp=$(OBJ_DIR)\/%.o)$/;"	m
+OBJ_DIR	Makefile	/^OBJ_DIR = obj$/;"	m
+OPERATOR_OP	include/handle.hpp	/^# define OPERATOR_OP	/;"	d
+PASSWD_OK	include/handle.hpp	/^# define PASSWD_OK	/;"	d
+QUEUE_SIZE	include/Server.hpp	/^# define QUEUE_SIZE	/;"	d
+SERVER_HPP	include/Server.hpp	/^# define SERVER_HPP$/;"	d
+SERV_NAME	include/Server.hpp	/^# define SERV_NAME	/;"	d
+SRCS	Makefile	/^SRCS =	capabilities.cpp \\$/;"	m
+SRC_DIR	Makefile	/^SRC_DIR = src$/;"	m
+Server	include/Server.hpp	/^class	Server$/;"	c
+Server	src/Server.cpp	/^Server::Server(void)$/;"	f	class:Server
+TRIMMED_CHARS	include/utils_strings.hpp	/^# define TRIMMED_CHARS /;"	d
+UTILS_STRINGS_HPP	include/utils_strings.hpp	/^# define UTILS_STRINGS_HPP$/;"	d
+VECTOR_UTILS_HPP	include/vector_utils.hpp	/^# define VECTOR_UTILS_HPP$/;"	d
+_IPv4_client_sock_addr	include/Client.hpp	/^	struct sockaddr_in			_IPv4_client_sock_addr;$/;"	m	class:Client	typeref:struct:sockaddr_in
+_IPv4_serv_sock_addr	include/Server.hpp	/^	struct sockaddr_in		_IPv4_serv_sock_addr;$/;"	m	class:Server	typeref:struct:sockaddr_in
+_buffer	include/Server.hpp	/^	char					_buffer[BUFFER_SIZE];$/;"	m	class:Server	typeref:typename:char[]
+_capabilities	include/Client.hpp	/^	std::vector<std::string>	_capabilities;$/;"	m	class:Client	typeref:typename:std::vector<std::string>
+_channels	include/Client.hpp	/^	std::vector<Channel>		_channels;$/;"	m	class:Client	typeref:typename:std::vector<Channel>
+_channels	include/Server.hpp	/^	std::vector<Channel>	_channels;$/;"	m	class:Server	typeref:typename:std::vector<Channel>
+_client_addrlen	include/Client.hpp	/^	socklen_t					_client_addrlen;$/;"	m	class:Client	typeref:typename:socklen_t
+_fd_client_socket	include/Client.hpp	/^	int							_fd_client_socket;$/;"	m	class:Client	typeref:typename:int
+_fd_server_socket	include/Server.hpp	/^	int						_fd_server_socket;$/;"	m	class:Server	typeref:typename:int
+_flags	include/Client.hpp	/^	std::vector<std::string>	_flags;$/;"	m	class:Client	typeref:typename:std::vector<std::string>
+_key	include/Channel.hpp	/^	std::string			_key;$/;"	m	class:Channel	typeref:typename:std::string
+_must_kill	include/Client.hpp	/^	bool						_must_kill;$/;"	m	class:Client	typeref:typename:bool
+_name	include/Channel.hpp	/^	std::string			_name;$/;"	m	class:Channel	typeref:typename:std::string
+_name	include/Server.hpp	/^	std::string				_name;$/;"	m	class:Server	typeref:typename:std::string
+_nickname	include/Client.hpp	/^	std::string					_nickname;$/;"	m	class:Client	typeref:typename:std::string
+_passwd	include/Server.hpp	/^	std::string				_passwd;$/;"	m	class:Server	typeref:typename:std::string
+_realname	include/Client.hpp	/^	std::string					_realname;$/;"	m	class:Client	typeref:typename:std::string
+_server	include/Client.hpp	/^	Server*						_server;$/;"	m	class:Client	typeref:typename:Server *
+_topic	include/Channel.hpp	/^	std::string			_topic;$/;"	m	class:Channel	typeref:typename:std::string
+_username	include/Client.hpp	/^	std::string					_username;$/;"	m	class:Client	typeref:typename:std::string
+_vector_clients	include/Server.hpp	/^	std::vector<Client>		_vector_clients;$/;"	m	class:Server	typeref:typename:std::vector<Client>
+all	Makefile	/^all: $(NAME)$/;"	t
+bindServerSocket	src/Server.cpp	/^void				Server::bindServerSocket(void)$/;"	f	class:Server	typeref:typename:void
+capEnd	src/capabilities.cpp	/^void	capEnd(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+capLs	src/capabilities.cpp	/^void	capLs(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+capReq	src/capabilities.cpp	/^void	capReq(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cap_tab	include/capabilities.hpp	/^static const struct s_cmd2	cap_tab[] =$/;"	v	typeref:typename:const struct s_cmd2[]
+checkPasswd	src/Server.cpp	/^bool	Server::checkPasswd(std::string passwd)$/;"	f	class:Server	typeref:typename:bool
+clean	Makefile	/^clean:$/;"	t
+clientCleanup	src/Client.cpp	/^void	Client::clientCleanup(void)$/;"	f	class:Client	typeref:typename:void
+clientHasNick	src/Server_Client.cpp	/^bool	Server::clientHasNick(std::string const& nick)$/;"	f	class:Server	typeref:typename:bool
+clientHasUser	src/Server_Client.cpp	/^bool	Server::clientHasUser(std::string const& username)$/;"	f	class:Server	typeref:typename:bool
+clients	include/Channel.hpp	/^	std::vector<Client>	clients;$/;"	m	class:Channel	typeref:typename:std::vector<Client>
+cmdCap	src/handle.cpp	/^void	cmdCap(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdDebug	src/handle.cpp	/^void	cmdDebug(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdInvite	src/handle2.cpp	/^void	cmdInvite(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdJoin	src/handle2.cpp	/^void	cmdJoin(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdKick	src/handle2.cpp	/^void	cmdKick(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdMode	src/handle2.cpp	/^void	cmdMode(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdNick	src/handle.cpp	/^void	cmdNick(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdPart	src/handle2.cpp	/^void	cmdPart(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdPrivmsg	src/handle2.cpp	/^void	cmdPrivmsg(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdTopic	src/handle2.cpp	/^void	cmdTopic(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+cmdUser	src/handle.cpp	/^void	cmdUser(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+commands	include/handle.hpp	/^static const struct s_cmd1 commands[] =$/;"	v	typeref:typename:const struct s_cmd1[]
+debug	Makefile	/^debug: $(NAME)_debug$/;"	t
+debug	Makefile	/^debug: CXXFLAGS += $(DEBUG_FLAGS)$/;"	t
+debug_re	Makefile	/^debug_re: fclean debug$/;"	t
+delChannel	src/Client.cpp	/^void	Client::delChannel(Channel& channel)$/;"	f	class:Client	typeref:typename:void
+delChannel	src/Server.cpp	/^void Server::delChannel(Channel &channel) {$/;"	f	class:Server	typeref:typename:void
+delChannel	src/Server_Channel.cpp	/^void	Server::delChannel(Channel& channel)$/;"	f	class:Server	typeref:typename:void
+delClient	src/Channel.cpp	/^void Channel::delClient(Client& client)$/;"	f	class:Channel	typeref:typename:void
+delMode	src/Channel.cpp	/^void	Channel::delMode(char mode)$/;"	f	class:Channel	typeref:typename:void
+delOperator	src/Channel.cpp	/^void Channel::delOperator(Client& client)$/;"	f	class:Channel	typeref:typename:void
+err_check	include/main.hpp	/^	int				err_check;$/;"	m	struct:poll_data	typeref:typename:int
+exit_program	src/Server_poll.cpp	/^volatile sig_atomic_t	exit_program = false;$/;"	v	typeref:typename:volatile sig_atomic_t
+f	include/capabilities.hpp	/^	CommandFunc2	f;$/;"	m	struct:s_cmd2	typeref:typename:CommandFunc2
+f	include/handle.hpp	/^	CommandFunc1	f;$/;"	m	struct:s_cmd1	typeref:typename:CommandFunc1
+fclean	Makefile	/^fclean: clean$/;"	t
+fd_nb	include/main.hpp	/^	int				fd_nb;$/;"	m	struct:poll_data	typeref:typename:int
+fds	include/main.hpp	/^	struct pollfd	fds[MAX_CONNECTIONS];$/;"	m	struct:poll_data	typeref:struct:pollfd[]
+ft_put_uint16	src/utils_strings.cpp	/^std::string	ft_put_uint16(uint16_t num)$/;"	f	typeref:typename:std::string
+getChannel	src/Client.cpp	/^Channel &Client::getChannel(void) {$/;"	f	class:Client	typeref:typename:Channel &
+getChannel	src/Server.cpp	/^Channel	&Server::getChannel(std::string const &channel_str)$/;"	f	class:Server	typeref:typename:Channel &
+getChannel	src/Server_Channel.cpp	/^Channel	&Server::getChannel(std::string const& channel_str)$/;"	f	class:Server	typeref:typename:Channel &
+getClient	src/Server.cpp	/^Client &Server::getClient(const std::string &nick)$/;"	f	class:Server	typeref:typename:Client &
+getClient	src/Server.cpp	/^Client&	Server::getClient(int i) {$/;"	f	class:Server	typeref:typename:Client &
+getClient	src/Server_Client.cpp	/^Client&	Server::getClient(const std::string& nick)$/;"	f	class:Server	typeref:typename:Client &
+getClient	src/Server_Client.cpp	/^Client&	Server::getClient(int i)$/;"	f	class:Server	typeref:typename:Client &
+getHead	src/utils_strings.cpp	/^std::string	getHead(const std::string& str)$/;"	f	typeref:typename:std::string
+getIp	src/Client.cpp	/^std::string Client::getIp(void)$/;"	f	class:Client	typeref:typename:std::string
+getIp	src/Server.cpp	/^std::string	Server::getIp(void)$/;"	f	class:Server	typeref:typename:std::string
+getLocalIPv4Address	src/Server.cpp	/^std::string	getLocalIPv4Address(void)$/;"	f	typeref:typename:std::string
+getName	src/Server.cpp	/^std::string& Server::getName(void)$/;"	f	class:Server	typeref:typename:std::string &
+getNextWds	src/utils_strings.cpp	/^std::string	getNextWds(const std::string& str)$/;"	f	typeref:typename:std::string
+getPort	src/Server.cpp	/^in_port_t Server::getPort(void)$/;"	f	class:Server	typeref:typename:in_port_t
+handle	src/Server.cpp	/^void	Server::handle(char *buffer, Client &client) {$/;"	f	class:Server	typeref:typename:void
+handleClient	src/Server_Client.cpp	/^void	Server::handleClient(char* buffer, Client& client)$/;"	f	class:Server	typeref:typename:void
+handle_signal	src/Server_poll.cpp	/^void	handle_signal(int sig)$/;"	f	typeref:typename:void
+hasCap	src/Client.cpp	/^bool	Client::hasCap(const std::string& cap)$/;"	f	class:Client	typeref:typename:bool
+hasChannel	src/Server.cpp	/^bool	Server::hasChannel(std::string const &nick)$/;"	f	class:Server	typeref:typename:bool
+hasChannel	src/Server_Channel.cpp	/^bool	Server::hasChannel(std::string const& nick)$/;"	f	class:Server	typeref:typename:bool
+hasFlag	src/Client.cpp	/^bool	Client::hasFlag(const std::string& flag)$/;"	f	class:Client	typeref:typename:bool
+hasMode	src/Channel.cpp	/^bool	Channel::hasMode(char mode)$/;"	f	class:Channel	typeref:typename:bool
+hasNick	src/Server.cpp	/^bool	Server::hasNick(std::string const &nick)$/;"	f	class:Server	typeref:typename:bool
+hasUser	src/Server.cpp	/^bool	Server::hasUser(std::string const &username)$/;"	f	class:Server	typeref:typename:bool
+header	include/capabilities.hpp	/^	const char		*header;$/;"	m	struct:s_cmd2	typeref:typename:const char *
+header	include/handle.hpp	/^	const char		*header;$/;"	m	struct:s_cmd1	typeref:typename:const char *
+i	include/main.hpp	/^	int				i;$/;"	m	struct:poll_data	typeref:typename:int
+initServerSocket	src/Server.cpp	/^void				Server::initServerSocket(void)$/;"	f	class:Server	typeref:typename:void
+isCap	src/capabilities.cpp	/^bool	isCap(const std::string& cap)$/;"	f	typeref:typename:bool
+isClient	src/Channel.cpp	/^bool Channel::isClient(Client& client)$/;"	f	class:Channel	typeref:typename:bool
+isLogged	src/Client.cpp	/^bool	Client::isLogged(void)$/;"	f	class:Client	typeref:typename:bool
+isOperator	src/Channel.cpp	/^bool Channel::isOperator(Client& client)$/;"	f	class:Channel	typeref:typename:bool
+isValidName	src/utils_strings.cpp	/^bool	isValidName(const std::string& str)$/;"	f	typeref:typename:bool
+lastWord	src/utils_strings.cpp	/^std::string	lastWord(std::string& str)$/;"	f	typeref:typename:std::string
+listenServerSocket	src/Server.cpp	/^void				Server::listenServerSocket(void)$/;"	f	class:Server	typeref:typename:void
+lowerCase	src/utils_strings.cpp	/^std::string	lowerCase(const std::string& str)$/;"	f	typeref:typename:std::string
+main	src/main.cpp	/^int main(int argc, char** argv)$/;"	f	typeref:typename:int
+modes	include/Channel.hpp	/^	std::vector<char>	modes;$/;"	m	class:Channel	typeref:typename:std::vector<char>
+multiPrefix	src/capabilities.cpp	/^void	multiPrefix(Server& server, Client& client, std::string args)$/;"	f	typeref:typename:void
+newChannel	src/Client.cpp	/^Channel	*Client::newChannel(std::string& name)$/;"	f	class:Client	typeref:typename:Channel *
+operator =	src/Channel.cpp	/^Channel	&Channel::operator=(const Channel& other)$/;"	f	class:Channel	typeref:typename:Channel &
+operator ==	src/Channel.cpp	/^bool	Channel::operator==(const Channel& other) const$/;"	f	class:Channel	typeref:typename:bool
+operator ==	src/Client.cpp	/^bool	Client::operator==(const Client& other) const$/;"	f	class:Client	typeref:typename:bool
+operators	include/Channel.hpp	/^	std::vector<Client>	operators;$/;"	m	class:Channel	typeref:typename:std::vector<Client>
+pollClientConnect	src/Server_poll.cpp	/^void	Server::pollClientConnect(poll_data* p_data)$/;"	f	class:Server	typeref:typename:void
+pollClientDisconnect	src/Server_poll.cpp	/^void	Server::pollClientDisconnect(poll_data* p_data)$/;"	f	class:Server	typeref:typename:void
+pollClientHandler	src/Server_poll.cpp	/^void	Server::pollClientHandler(poll_data* p_data)$/;"	f	class:Server	typeref:typename:void
+pollClientRecv	src/Server_poll.cpp	/^void	Server::pollClientRecv(poll_data* p_data)$/;"	f	class:Server	typeref:typename:void
+pollDataCleanup	src/main.cpp	/^void	pollDataCleanup(poll_data* poll_data)$/;"	f	typeref:typename:void
+pollFailHandler	src/Server_poll.cpp	/^void	Server::pollFailHandler(poll_data* p_data)$/;"	f	class:Server	typeref:typename:void
+pollLoop	src/Server_poll.cpp	/^void	Server::pollLoop(void)$/;"	f	class:Server	typeref:typename:void
+poll_data	include/main.hpp	/^struct	poll_data$/;"	s
+popWd	src/utils_strings.cpp	/^std::string	popWd(std::string& str)$/;"	f	typeref:typename:std::string
+pushChannel	src/Server.cpp	/^void Server::pushChannel(Channel &channel) {$/;"	f	class:Server	typeref:typename:void
+pushChannel	src/Server_Channel.cpp	/^void	Server::pushChannel(Channel& channel)$/;"	f	class:Server	typeref:typename:void
+re	Makefile	/^re: fclean all$/;"	t
+resetCap	src/Client.cpp	/^void	Client::resetCap(const std::string& cap)$/;"	f	class:Client	typeref:typename:void
+resetFlag	src/Client.cpp	/^void	Client::resetFlag(const std::string& flag)$/;"	f	class:Client	typeref:typename:void
+s_cmd1	include/handle.hpp	/^struct	s_cmd1$/;"	s
+s_cmd2	include/capabilities.hpp	/^struct	s_cmd2$/;"	s
+send	src/Client.cpp	/^ssize_t	Client::send(std::string msg)$/;"	f	class:Client	typeref:typename:ssize_t
+sendClient	src/Server.cpp	/^ssize_t 		Server::sendClient(Client &cli, std::string msg) {$/;"	f	class:Server	typeref:typename:ssize_t
+sendClient	src/Server_Client.cpp	/^ssize_t			Server::sendClient(Client& client, std::string msg)$/;"	f	class:Server	typeref:typename:ssize_t
+sendHead	src/Server.cpp	/^ssize_t	Server::sendHead(Client& cli, std::string nb) {$/;"	f	class:Server	typeref:typename:ssize_t
+send_banner	src/Client.cpp	/^ssize_t	Client::send_banner(std::string line)$/;"	f	class:Client	typeref:typename:ssize_t
+serverCleanup	src/Server.cpp	/^void				Server::serverCleanup(void)$/;"	f	class:Server	typeref:typename:void
+serverSetup	src/Server.cpp	/^void	Server::serverSetup(void)$/;"	f	class:Server	typeref:typename:void
+server_banner	src/capabilities.cpp	/^void	server_banner(Client& client, Server& server)$/;"	f	typeref:typename:void
+server_init	src/Server.cpp	/^void	Server::server_init(int port, std::string passwd)$/;"	f	class:Server	typeref:typename:void
+setCap	src/Client.cpp	/^void	Client::setCap(const std::string& cap)$/;"	f	class:Client	typeref:typename:void
+setClient	src/Channel.cpp	/^void Channel::setClient(Client& client)$/;"	f	class:Channel	typeref:typename:void
+setFlag	src/Client.cpp	/^void	Client::setFlag(const std::string& flag)$/;"	f	class:Client	typeref:typename:void
+setMode	src/Channel.cpp	/^void	Channel::setMode(char mode)$/;"	f	class:Channel	typeref:typename:void
+setOperator	src/Channel.cpp	/^void Channel::setOperator(Client& client)$/;"	f	class:Channel	typeref:typename:void
+setServerSockopt	src/Server.cpp	/^void				Server::setServerSockopt(void)$/;"	f	class:Server	typeref:typename:void
+spawn	src/Channel.cpp	/^void Channel::spawn(std::string msg)$/;"	f	class:Channel	typeref:typename:void
+special_getIPv4_client_sock_addr	src/Client.cpp	/^struct sockaddr_in&	Client::special_getIPv4_client_sock_addr(void)$/;"	f	class:Client	typeref:struct:sockaddr_in &
+special_get_client_addrlen	src/Client.cpp	/^socklen_t&			Client::special_get_client_addrlen(void)$/;"	f	class:Client	typeref:typename:socklen_t &
+to_string	src/utils_strings.cpp	/^std::string	to_string(const ssize_t value)$/;"	f	typeref:typename:std::string
+trim	src/utils_strings.cpp	/^std::string	trim(const std::string& str)$/;"	f	typeref:typename:std::string
+trim	src/utils_strings.cpp	/^std::string	trim(const std::string& str, const std::string& chars)$/;"	f	typeref:typename:std::string
+upperCase	src/utils_strings.cpp	/^std::string	upperCase(const std::string& str)$/;"	f	typeref:typename:std::string
+~Channel	src/Channel.cpp	/^Channel::~Channel(void)$/;"	f	class:Channel
+~Client	src/Client.cpp	/^Client::~Client(void)$/;"	f	class:Client
+~Server	src/Server.cpp	/^Server::~Server(void)$/;"	f	class:Server

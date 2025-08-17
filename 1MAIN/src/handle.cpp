@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 15:05:02 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:38:11 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,22 @@ void	cmdUser(Server& server, Client& client, std::string args)
 	std::string	user = getHead(args);
 	std::string	realname = lastWord(args);
 
+//    if (!client.hasFlag(PASSWD_OK))
+//    {
+//        client.setmust_kill(true);
+//        return ;
+//    }
+//    if (client.getUsername() != "")
+//    {
+//        std::string message462 = client.getNickname() + " :You may not reregister\r\n";
+//        server.sendHead(client, "462");
+//        client.send(message462);
+//        throw std::runtime_error("");
+//    }
+//    client.setUsername(user);
+//    client.setRealname(realname);
+//    std::cout << "TEST USER : [" << client.getUsername() << "]" << std::endl;
+//}
 	if (!client.hasFlag(PASSWD_OK))
 		{ client.setmust_kill(true); return ; }
 	if (client.getUsername() != "")
@@ -94,22 +110,35 @@ Parameters: <mask>
 [15:43] >> :calamity.esper.net 352 NickName #test123 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
 [15:43] >> :calamity.esper.net 315 NickName #test123 :End of /WHO list.%0A
 */
-void	cmdWho(Server& server, Client& client, std::string args)
+void cmdWho(Server& server, Client& client, std::string input)
 {
-	(void)args;
-
-	client.send(":ircSchoolProject 352 " + client.getNickname() + " * ~" + client.getUsername() + " " + server.getIp() + " ircSchoolProject " + client.getNickname() + " " + client.getRealname() + "\r\n");
-	client.send(":ircSchoolProject 315 " + client.getNickname() + " " +	client.getNickname() + " :End of /WHO list.\r\n");
-	return ;
+    (void)input;
+    std::string name = getHead(input);
+    server.sendHead(client, "352");
+    Channel channel;
+    if (server.clientHasNick(name)) {
+        Client target = server.getClient(name);
+        channel = server.getChannel(target.getChannel().getName());
+    } else if (server.hasChannel(name)) {
+        channel = server.getChannel(name);
+    }
+    client.send(channel.getName());
+    client.send(" ");
+    client.send(getLocalIPv4Address());
+    client.send(server.getName() + " H@ :0 " + client.getRealname() + "\r\n");
+    server.sendHead(client, "312");
+    client.send(client.getNickname() + ":End of /WHO list.\r\n");
 }
 
 void	cmdUserHost(Server& server, Client& client, std::string args)
 {
-	std::string	arg = getHead(args);
-
-	if (arg == client.getNickname())
-		{ client.send(":ircSchoolProject 302 " + client.getNickname() + " :" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\r\n"); }
-	return ;
+    std::string arg = getHead(args);
+    if (arg == client.getNickname())
+    {
+        std::string message302 = ":" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
+        server.sendHead(client, "302");
+        client.send(message302);
+    }
 }
 
 void	cmdPass(Server& server, Client& client, std::string args)

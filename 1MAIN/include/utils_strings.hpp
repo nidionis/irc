@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 11:43:41 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 14:12:52 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:46:35 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sstream>
 # include <stdint.h> // uint16_t
 
-# define TRIMMED_CHARS	": \t\r\n"
+# define TRIMMED_CHARS ":, \t\r\n"
 # define LEN_MAX_NAME	16
 
 std::string	trim(const std::string& str);

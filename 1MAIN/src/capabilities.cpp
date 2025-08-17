@@ -27,7 +27,7 @@ void	capLs(Server& server, Client& client, std::string args)
 {
 	(void)args;
 	std::string	msg_cap_ls;
-	
+
 	msg_cap_ls = ":" + server.getName() + " CAP * LS :";
 	for (int i = 0; cap_tab[i].f; i++)
 		{ msg_cap_ls += cap_tab[i].header; }
@@ -60,11 +60,11 @@ void	capReq(Server& server, Client& client, std::string args)
 				cap_tab[i].f(server, client, "");
 				if (client.getNickname() != "")
 					{ messageCAP_ACK = ":" + server.getName() + " CAP " + client.getNickname() + " ACK :" + cap + "\r\n"; }
-				else 
+				else
 					{ messageCAP_ACK = ":" + server.getName() + " CAP " + "*" + " ACK :" + cap + "\r\n"; }
 				client.send(messageCAP_ACK);
 			}
-			else 
+			else
 				{ client.send(":" + server.getName() + " CAP " + client.getNickname() + " NAK :" + cap + "\r\n"); }
 		}
 	}

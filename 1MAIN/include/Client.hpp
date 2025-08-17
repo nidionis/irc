@@ -56,12 +56,14 @@ public:
 
 	struct sockaddr_in&		special_getIPv4_client_sock_addr(void);	// Server_poll.cpp::pollClientConnect()
 	socklen_t&				special_get_client_addrlen(void);		// Server_poll.cpp::pollClientConnect()
-	
+
 	bool					operator==(const Client& other) const;
 	void					clientCleanup(void);
 
 	Channel*				newChannel(std::string& name);
 	void					delChannel(Channel& channel);
+	bool					hasChannel(Channel& channel);
+	Channel &getChannel(void);
 	ssize_t					send(std::string msg);
 	std::string				getIp(void);
 	ssize_t					send_banner(std::string line);

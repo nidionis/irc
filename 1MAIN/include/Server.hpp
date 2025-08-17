@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:47 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 14:40:50 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/17 11:43:17 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ public:
 	// missing copy constructor									// Server.cpp
 	~Server(void);												// Server.cpp
 
+    void        handle(char* buffer, Client& client);
 	std::string&	getName(void);								// Server.cpp
 	std::string		getIp(void);								// Server.cpp
 	in_port_t		getPort(void);								// Server.cpp
@@ -82,13 +83,14 @@ public:
 
 	void			pollLoop(void);								// Server_poll.cpp
 
+	ssize_t			sendHead(Client& cli, std::string nb);
 	ssize_t			sendClient(Client& cli, std::string msg);	// Server_Client.cpp
 	Client&			getClient(int i);							// Server_Client.cpp
 	Client&			getClient(const std::string& nick);			// Server_Client.cpp
 	void			handleClient(char* buffer, Client& client);	// Server_Client.cpp
 	bool			clientHasNick(std::string const& nick);		// Server_Client.cpp
 	bool			clientHasUser(std::string const& user);		// Server_Client.cpp
-	
+
 	bool			hasChannel(std::string const& channel);		// Server_Channel.cpp
 	void			pushChannel(Channel& channel);				// Server_Channel.cpp
 	void			delChannel(Channel& channel);				// Server_Channel.cpp
