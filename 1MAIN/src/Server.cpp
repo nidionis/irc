@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:03 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 13:51:19 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 16:45:49 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,23 @@ Server::Server(void)
 
 Server::~Server(void)
 {
+	std::vector<Channel>::iterator	it;
+	std::vector<Channel>::iterator	ite = this->_channels.end();
+
+	for (it = this->_channels.begin(); it != ite; it++)
+	{
+		delete (&(*it));
+	}
+	for (size_t i = 0; i < this->_vector_clients.size(); i++)
+		{ this->_vector_clients[i].clientCleanup(); }
+	this->_vector_clients.empty();
+	if (this->_fd_server_socket != -1)
+	{
+		close(this->_fd_server_socket);
+		this->_fd_server_socket = -1;
+	}
+	memset(&this->_IPv4_serv_sock_addr, 0, sizeof(this->_IPv4_serv_sock_addr));
+	memset(this->_buffer, 0, BUFFER_SIZE);
 	return ;
 }
 
@@ -99,27 +116,10 @@ void				Server::listenServerSocket(void)
 	return ;
 }
 
-void				Server::serverCleanup(void)
-{
-	std::vector<Channel>::iterator	it;
-	std::vector<Channel>::iterator	ite = this->_channels.end();
-
-	for (it = this->_channels.begin(); it != ite; it++)
-	{
-		delete (&(*it));
-	}
-	for (size_t i = 0; i < this->_vector_clients.size(); i++)
-		{ this->_vector_clients[i].clientCleanup(); }
-	this->_vector_clients.empty();
-	if (this->_fd_server_socket != -1)
-	{
-		close(this->_fd_server_socket);
-		this->_fd_server_socket = -1;
-	}
-	memset(&this->_IPv4_serv_sock_addr, 0, sizeof(this->_IPv4_serv_sock_addr));
-	memset(this->_buffer, 0, BUFFER_SIZE);
-	return ;
-}
+//void				Server::serverCleanup(void)
+//{
+//	return ;
+//}
 
 ssize_t	Server::sendHead(Client& cli, std::string nb) {
 	return cli.send(":" + getName() + " " + nb + " " + cli.getNickname() + " ");

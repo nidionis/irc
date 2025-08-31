@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 15:01:53 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 16:39:11 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,6 @@ void	cmdJoin(Server& server, Client& client, std::string args)
     std::string channel_str = popWd(args);
     std::string key = popWd(args);
     Channel channel;
-    std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
-        + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
-    std::string	channel_str = popWd(args);
-    std::string	key = lastWord(args);
-    Channel		channel;
 	std::string	reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
 		+ "@" + getLocalIPv4Address() + " JOIN " + channel_str + " * :" + client.getRealname() + "\r\n";
 
@@ -121,9 +116,29 @@ void	cmdPart(Server& server, Client& client, std::string args)
     (void)server;
     (void)client;
     (void)args;
+	//client.send("coucou");
     Channel channel;
-    std::string reason = lastWord(args);
-
+	std::string str_channel = popWd(args);
+	if (str_channel == "") {
+		server.sendHead(client, "461");
+		client.send(client.getNickname());
+		client.send(" PART :");
+		client.send("not enough parameters\r\n");
+	}
+	//client.send("str_channel:");
+	//client.send(str_channel);
+	try {
+		channel = server.getChannel(str_channel);
+		std::string msg = client.getNickname() + " is leaving " + channel.getName();
+		channel.spawn(msg);
+		server.delChannel(channel);
+		client.delChannel(channel);
+	} catch (std::runtime_error &err) {
+		client.send(client.getNickname());
+		client.send(" ");
+		client.send(str_channel);
+		client.send(" :No such channel");
+	}
     return ;
 }
 
@@ -139,7 +154,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
 	(void)server;
 	(void)client;
 	(void)args;
-	/*std::string	item = popWd(args);
+	std::string	item = popWd(args);
 	std::string	mode_chars = popWd(args);
 	Channel		channel;
 
@@ -176,7 +191,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
 	{
 		if (server.clientHasUser(item))
 			{ std::cout << "[debug] do something with user here" << std::endl; }
-	}*/
+	}
 	return ;
 }
 
@@ -258,7 +273,6 @@ void	cmdKick(Server& server, Client& client, std::string args)
 /*
 Command: TOPIC
 Parameters: <channel> [<topic>]
-  
 /!\ not tested yet /!\
 */
 
