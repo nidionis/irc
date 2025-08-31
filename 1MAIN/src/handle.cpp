@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/10 11:20:36 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/17 14:22:25 by lahlsweh         ###   ########.fr       */
+/*   Created: 2025/08/31 12:24:25 by lahlsweh          #+#    #+#             */
+/*   Updated: 2025/08/31 12:40:09 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,36 +120,34 @@ Parameters: <mask>
 [15:43] >> :calamity.esper.net 352 NickName #test123 ~UserName 45.148.156.203 calamity.esper.net NickName H@ :0 RealName%0A
 [15:43] >> :calamity.esper.net 315 NickName #test123 :End of /WHO list.%0A
 */
-void cmdWho(Server& server, Client& client, std::string input)
+
+void cmdWho(Server& server, Client& client, std::string args)
 {
-    (void)input;
-    std::string name = getHead(input);
-    server.sendHead(client, "352");
-    Channel channel;
-    if (server.clientHasNick(name)) {
-		// check if client has any channel first
-        /*Client target = server.getClient(name);
-        channel = server.getChannel(target.getChannel().getName());*/
-    } else if (server.hasChannel(name)) {
-        channel = server.getChannel(name);
-    }
-    client.send(channel.getName());
-    client.send(" ");
-    client.send(getLocalIPv4Address());
-    client.send(server.getName() + " H@ :0 " + client.getRealname() + "\r\n");
-    server.sendHead(client, "312");
-    client.send(client.getNickname() + ":End of /WHO list.\r\n");
+	std::string	name = getHead(args);
+	std::string	message352 = ":" + server.getName() + " 352 " + client.getNickname() + " * ~" + client.getUsername() + " "
+		+ getLocalIPv4Address() + " " + server.getName() + " " + client.getNickname() + " H :0 " + client.getRealname() + "\r\n";
+	std::string	message315 = ":" + server.getName() + " 315 " + client.getNickname() + " " + client.getNickname() + " :End of /WHO list.\r\n";
+	
+	if (name != client.getNickname())
+	{
+		std::cerr << "/WHO Warning : Feature not implemented" << std::endl;
+		return ;
+	}
+	std::cerr << "/WHO Warning : Only default behaviour has been implemented" << std::endl;
+	client.send(message352);
+	client.send(message315);
+	return ;
 }
 
 void	cmdUserHost(Server& server, Client& client, std::string args)
 {
-    std::string arg = getHead(args);
-    if (arg == client.getNickname())
-    {
-        std::string message302 = ":" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
-        server.sendHead(client, "302");
-        client.send(message302);
-    }
+	std::string arg = getHead(args);
+	if (arg == client.getNickname())
+	{
+		std::string message302 = ":" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
+		server.sendHead(client, "302");
+		client.send(message302);
+	}
 }
 
 void	cmdPass(Server& server, Client& client, std::string args)
