@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:32:31 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:34:57 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ Alt Params: 0
 << MODE #test654 +b%0A
 
 << JOIN #test654%0A
->> :NickName!~UserName@45.148.156.203 JOIN #test654 * :RealName%0A
+>> :NickName!~UserName@123.456.789.123  JOIN #test654 * :RealName%0A
 << MODE #test654%0A
 >> :swepipe.esper.net MODE #test654 +nt%0A
->> :swepipe.esper.net 353 NickName = #test654 :@NickName!~UserName@45.148.156.203%0A
+>> :swepipe.esper.net 353 NickName = #test654 :@NickName!~UserName@123.456.789.123 %0A
 >> :swepipe.esper.net 366 NickName #test654 :End of /NAMES list.%0A
 >> :swepipe.esper.net 324 NickName #test654 +nt%0A
 >> :swepipe.esper.net 329 NickName #test654 1756638341%0A
@@ -37,8 +37,25 @@ Alt Params: 0
 >> :swepipe.esper.net 368 NickName #test654 :End of Channel Ban List%0A
 
 => do not implement the MODE replies in cmdJoin(), those will be handled in cmdMode()
-*/
 
+<< JOIN #test3 a%0A
+>> JOIN :Channel does not exist%0A
+>> JOIN : Successfully created%0A
+>> :NickName!~UserName@10.12.4.1 JOIN #test3 * :RealName%0A
+<< MODE #test3%0A
+<< MODE #test3 +b%0A
+
+<< JOIN #test3 a%0A
+>> :NickName!~UserName@123.456.789.123  JOIN #test3 * :RealName%0A
+<< MODE #test3%0A
+>> :ircSchoolProject MODE #test3 +nt%0A
+>> :ircSchoolProject 353 NickName = #test3 :@NickName!~UserName@123.456.789.123 %0A
+>> :ircSchoolProject 366 NickName #test3 :End of /NAMES list.%0A
+>> :ircSchoolProject 324 NickName #test3 +nt%0A
+>> :ircSchoolProject 329 NickName #test3 1756643640%0A
+<< MODE #test3 +b%0A
+>> :ircSchoolProject 368 NickName #test3 :End of Channel Ban List%0A
+*/
 void	cmdJoin(Server& server, Client& client, std::string args)
 {
     std::string channel_str = popWd(args);
@@ -96,11 +113,11 @@ Parameters: <channel>{,<channel>} [<reason>]
 
 // SUCCESS MESSAGE with no reason
 [13:57] << PART #TestChannel :%0A
-[13:57] >> :NickName!~UserName@45.148.156.203 PART #TestChannel%0A
+[13:57] >> :NickName!~UserName@123.456.789.123  PART #TestChannel%0A
 
 // SUCCESS MESSAGE with reason
 [14:05] << PART #test654 :hello%0A
-[14:05] >> :NickName!~UserName@45.148.156.203 PART #test654 :hello%0A
+[14:05] >> :NickName!~UserName@123.456.789.123  PART #test654 :hello%0A
 
 // error : channel exist but user is not part of it
 [14:00] << PART #test :%0A
@@ -109,8 +126,11 @@ Parameters: <channel>{,<channel>} [<reason>]
 // error : channel does not exist
 [14:00] << PART #test54654 :%0A
 [14:00] >> :swepipe.esper.net 403 NickName #test54654 :No such channel%0A
-*/
 
+
+[16:09] << PART #test654 :%0A
+[16:09] >> :Nick2Name!~UserName@45.148.156.203 PART #test654%0A
+*/
 void	cmdPart(Server& server, Client& client, std::string args)
 {
     (void)server;
@@ -147,10 +167,99 @@ void	cmdPart(Server& server, Client& client, std::string args)
 /*
 Command: MODE
 Parameters: <target> [<modestring> [<mode arguments>...]]
-  
-/!\ not tested yet /!\
-*/
 
+· i: Set/remove Invite-only channel
+· t: Set/remove the restrictions of the TOPIC command to channel
+operators
+· k: Set/remove the channel key (password)
+· o: Give/take channel operator privilege
+· l: Set/remove the user limit to channel
+
+// reference server : joins a channel with no other users inside
+<< MODE #test654%0A
+>> :ircSchoolProject MODE #test654 +nt%0A
+>> :ircSchoolProject 353 Nick2Name = #test654 :@Nick2Name%0A
+>> :ircSchoolProject 366 Nick2Name #test654 :End of /NAMES list.%0A
+>> :ircSchoolProject 324 Nick2Name #test654 +tn%0A
+>> :ircSchoolProject 329 Nick2Name #test654 1756647278%0A
+<< MODE #test654 +b%0A
+>> :ircSchoolProject 368 Nick2Name #test654 :End of Channel Ban List%0A
+
+// translated expected : joins a channel with no other users inside
+<< MODE #test654%0A
+>> :ircSchoolProject MODE #test654 +it%0A
+>> :ircSchoolProject 353 Nick2Name = #test654 :@Nick2Name%0A
+>> :ircSchoolProject 366 Nick2Name #test654 :End of /NAMES list.%0A
+>> :ircSchoolProject 324 Nick2Name #test654 +it%0A
+>> :ircSchoolProject 329 Nick2Name #test654 1756647278%0A
+<< MODE #test654 +b%0A
+>> :ircSchoolProject 472 Nick2Name b :is unknown mode char to me%0A
+
+----------------------------------------------------------------------
+
+// reference server : joins a channel with one other user inside
+<< MODE #test654%0A
+>> :ircSchoolProject 353 Nick2Name = #test654 :Nick2Name @Nick3Name%0A
+>> :ircSchoolProject 366 Nick2Name #test654 :End of /NAMES list.%0A
+>> :ircSchoolProject 324 Nick2Name #test654 +tn%0A
+>> :ircSchoolProject 329 Nick2Name #test654 1756649890%0A
+<< MODE #test654 +b%0A
+>> :ircSchoolProject 368 Nick2Name #test654 :End of Channel Ban List%0A
+
+----------------------------------------------------------------------
+
+NO RESPONSES FOR :
++i if already set
+-i if already unset
++t if already set
+-t if already unset
++k if no argument
+-k if already unset
++o if no argument
+-o if no argument
++l if no argument OR bad argument (number parsed atoi() way)
+-l if no argument
+
++i success :
+<< MODE #test123 +i%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +i %0A
+
+-i success :
+<< MODE #test123 -i%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -i %0A
+
++t success : 
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +t %0A
+<< MODE #test123 +t%0A
+
+-t success :
+<< MODE #test123 -t%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -t %0A
+
++k always when valid argument :
+<< MODE #test123 +k key%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +k key%0A
+
+-k success :
+<< MODE #test123 -k%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -k *%0A
+
++o always when valid argument :
+<< MODE #test123 +o lahlsweh%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +o lahlsweh%0A
+
+-o always when valid argument :
+<< MODE #test123 -o lahlsweh%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -o lahlsweh%0A
+
++l always when valid argument :
+<< MODE #test123 +l 25%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +l 25%0A
+
+-l success :
+<< MODE #test123 -l%0A
+>> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -l %0A
+*/
 void	cmdMode(Server& server, Client& client, std::string args)
 {
 	(void)server;
@@ -203,45 +312,44 @@ Parameters: <channel> <user> *( "," <user> ) [<comment>]
 
 // kick self (no comment)
 [15:09] << KICK #test321 NickName :%0A
-[15:09] >> :NickName!~UserName@45.148.156.203 KICK #test321 NickName :NickName%0A
+[15:09] >> :NickName!~UserName@123.456.789.123  KICK #test321 NickName :NickName%0A
 
 // kick other (no comment)
 [15:14] << KICK #test456 lahlsweh :%0A
-[15:14] >> :NickName!~UserName@45.148.156.203 KICK #test456 lahlsweh :lahlsweh%0A
+[15:14] >> :NickName!~UserName@123.456.789.123  KICK #test456 lahlsweh :lahlsweh%0A
 
 // kick self (comment)
 [15:11] << KICK #test456 NickName :somecomment%0A
-[15:11] >> :NickName!~UserName@45.148.156.203 KICK #test456 NickName :somecomment%0A
+[15:11] >> :NickName!~UserName@123.456.789.123  KICK #test456 NickName :somecomment%0A
 
 // kick other (comment)
 [15:15] << KICK #test456 lahlsweh :somecomment%0A
-[15:15] >> :NickName!~UserName@45.148.156.203 KICK #test456 lahlsweh :somecomment%0A
+[15:15] >> :NickName!~UserName@123.456.789.123  KICK #test456 lahlsweh :somecomment%0A
 
 // not operator (no comment)
 [15:10] << KICK #test123 lahlsweh :%0A
-[15:10] >> :calamity.esper.net 482 NickName #test123 :You're not a channel operator%0A
+[15:10] >> :ircSchoolProject 482 NickName #test123 :You're not a channel operator%0A
 
 // not operator (comment)
 [15:12] << KICK #test123 lahlsweh :somecomment%0A
-[15:12] >> :calamity.esper.net 482 NickName #test123 :You're not a channel operator%0A
+[15:12] >> :ircSchoolProject 482 NickName #test123 :You're not a channel operator%0A
 
 // bad format
 [15:13] << KICK #test456 NickName:somecomment%0A
-[15:13] >> :calamity.esper.net 401 NickName NickName:somecomment :No such nick/channel%0A
+[15:13] >> :ircSchoolProject 401 NickName NickName:somecomment :No such nick/channel%0A
 
 // bad format
 [15:13] << KICK #test456 NickName: somecomment%0A
-[15:13] >> :calamity.esper.net 401 NickName NickName: :No such nick/channel%0A
+[15:13] >> :ircSchoolProject 401 NickName NickName: :No such nick/channel%0A
 
 // wrong channel
 [15:19] << KICK #test456 lahlsweh :somereason%0A
-[15:19] >> :calamity.esper.net 403 NickName #test456 :No such channel%0A
+[15:19] >> :ircSchoolProject 403 NickName #test456 :No such channel%0A
 
 // user not in channel
 [15:19] << KICK #test951 lahlsweh :somereason%0A
-[15:19] >> :calamity.esper.net 441 NickName lahlsweh #test951 :They aren't on that channel%0A
+[15:19] >> :ircSchoolProject 441 NickName lahlsweh #test951 :They aren't on that channel%0A
 */
-
 void	cmdKick(Server& server, Client& client, std::string args)
 {
 	std::string	channel_str = popWd(args);
@@ -277,7 +385,6 @@ Command: TOPIC
 Parameters: <channel> [<topic>]
 /!\ not tested yet /!\
 */
-
 void	cmdTopic(Server& server, Client& client, std::string args)
 {
 	(void)server;
@@ -313,15 +420,15 @@ Parameters: <target>{,<target>} <text to be sent>
 [15:52] << PRIVMSG #test123 :testchannel%0A
 
 // message received, server must process it but not respond
-[15:51] >> :test2!~lahlsweh@45.148.156.203 PRIVMSG NickName :trert%0A
+[15:51] >> :test2!~lahlsweh@123.456.789.123  PRIVMSG NickName :trert%0A
 
 // channel does not exist
 [15:54] << PRIVMSG #badchan :test%0A
-[15:54] >> :calamity.esper.net 401 NickName #badchan :No such nick/channel%0A
+[15:54] >> :ircSchoolProject 401 NickName #badchan :No such nick/channel%0A
 
 // user does not exist
 [15:55] << PRIVMSG baduser789 :test%0A
-[15:55] >> :calamity.esper.net 401 NickName baduser789 :No such nick/channel%0A
+[15:55] >> :ircSchoolProject 401 NickName baduser789 :No such nick/channel%0A
 
 // no message
 [16:45] << PRIVMSG NickName%0A
@@ -364,32 +471,31 @@ Parameters: <nickname> <channel>
 
 // success
 [15:56] << INVITE test1 #test123%0A
-[15:56] >> :calamity.esper.net 341 NickName test1 #test123%0A
+[15:56] >> :ircSchoolProject 341 NickName test1 #test123%0A
 
 // invite received
-[15:57] >> :test2!~lahlsweh@45.148.156.203 INVITE NickName :#test456%0A
+[15:57] >> :test2!~lahlsweh@123.456.789.123  INVITE NickName :#test456%0A
 
 // user exist, channel does not exist
-[15:58] << INVITE test2 #test987%0A
-[15:58] >> :calamity.esper.net 403 NickName #test987 :No such channel%0A
+[15:58] << INVITE test2 #test654%0A
+[15:58] >> :ircSchoolProject 403 NickName #test654 :No such channel%0A
 
 // user already on channel
 [15:58] << INVITE test2 #test456%0A
-[15:58] >> :calamity.esper.net 443 NickName test2 #test456 :is already on channel%0A
+[15:58] >> :ircSchoolProject 443 NickName test2 #test456 :is already on channel%0A
 
 // user does not exist, channel exist
 [15:58] << INVITE test46542 #test456%0A
-[15:58] >> :calamity.esper.net 401 NickName test46542 :No such nick/channel%0A
+[15:58] >> :ircSchoolProject 401 NickName test46542 :No such nick/channel%0A
 
 // user not on channel
 [16:00] << INVITE test2 #test789%0A
-[16:00] >> :calamity.esper.net 442 NickName #test789 :You're not on that channel%0A
+[16:00] >> :ircSchoolProject 442 NickName #test789 :You're not on that channel%0A
 
 // not operator
 [16:03] << INVITE test1 #test456%0A
-[16:03] >> :calamity.esper.net 482 NickName #test456 :You're not a channel operator%0A
+[16:03] >> :ircSchoolProject 482 NickName #test456 :You're not a channel operator%0A
 */
-
 void	cmdInvite(Server& server, Client& client, std::string args)
 {
 	Client	dest;

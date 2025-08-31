@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:47 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 15:54:05 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:36:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ public:
 	bool			clientHasNick(std::string const& nick);		// Server_Client.cpp
 	bool			clientHasUser(std::string const& user);		// Server_Client.cpp
 
-	bool			hasChannel(std::string const& channel);		// Server_Channel.cpp
+	//bool			hasChannel(std::string const& channel);		// Server_Channel.cpp
 	//void			pushChannel(Channel& channel);				// Server_Channel.cpp
 	void			pushChannel(Channel const &channel);
 	void			delChannel(Channel& channel);				// Server_Channel.cpp
