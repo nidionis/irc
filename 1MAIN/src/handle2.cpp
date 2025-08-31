@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 16:39:11 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:32:31 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,17 @@ void	cmdPart(Server& server, Client& client, std::string args)
 		client.send(client.getNickname());
 		client.send(" PART :");
 		client.send("not enough parameters\r\n");
+		return ;
 	}
-	//client.send("str_channel:");
-	//client.send(str_channel);
 	try {
 		channel = server.getChannel(str_channel);
 		std::string msg = client.getNickname() + " is leaving " + channel.getName();
 		channel.spawn(msg);
-		server.delChannel(channel);
 		client.delChannel(channel);
+		channel.delClient(client);
+		if (channel.isEmpty()) {
+			server.delChannel(channel);
+		}
 	} catch (std::runtime_error &err) {
 		client.send(client.getNickname());
 		client.send(" ");

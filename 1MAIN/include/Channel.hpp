@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 13:19:53 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:21:13 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ public:
 	bool	hasMode(char mode);
 
 	void	spawn(std::string msg);
+	bool	isEmpty();
 };
 
 #endif //CHANNEL_HPP

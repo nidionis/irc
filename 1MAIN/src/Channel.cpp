@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 15:01:25 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:26:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,9 @@ void Channel::spawn(std::string msg)
 
 	for (it = this->_clients.begin(); it != ite; ++it) { (*it).send(msg); }
 	return ;
+}
+
+bool	Channel::isEmpty()
+{
+	return _clients.empty();
 }

@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:19:00 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 15:58:57 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:15:28 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	Server::delChannel(Channel& channel)
 	it = std::find(this->_channels.begin(), this->_channels.end(), channel);
 	if (it != this->_channels.end())
 	{
-		delete (&(*it));
 		this->_channels.erase(it);
 	}
 	return ;
