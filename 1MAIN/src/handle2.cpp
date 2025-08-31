@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle2.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/07 16:06:42 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:44:23 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ Alt Params: 0
 void	cmdJoin(Server& server, Client& client, std::string args)
 {
     std::string channel_str = popWd(args);
-    std::string key = lastWord(args);
+    std::string key = popWd(args);
     Channel channel;
     std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
         + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
