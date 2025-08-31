@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:19:00 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 13:55:43 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:27:29 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void Server::pushChannel(Channel const &channel)
 	this->_channels.push_back(channel); // copy by value
 }
 
-void	Server::delChannel(Channel& channel)
+/*void	Server::delChannel(Channel& channel)
 {
 	std::vector<Channel>::iterator	it;
 
@@ -46,7 +46,7 @@ void	Server::delChannel(Channel& channel)
 		this->_channels.erase(it);
 	}
 	return ;
-}
+}*/
 
 Channel	&Server::getChannel(std::string const& channel_str)
 {

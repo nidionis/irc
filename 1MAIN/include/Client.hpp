@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:02:00 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 13:47:23 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:28:18 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ public:
 	void					clientCleanup(void);
 
 	void					newChannel(std::string& name);
-	void					delChannel(Channel& channel);
+	//void					delChannel(Channel& channel);
 	bool					hasChannel(Channel& channel);
 	Channel &getChannel(void);
 	ssize_t					send(std::string msg);

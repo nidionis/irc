@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 13:55:27 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:28:03 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,14 @@ void Client::newChannel(std::string& name)
 	return ;
 }
 
-void	Client::delChannel(Channel& channel)
+/*void	Client::delChannel(Channel& channel)
 {
 	std::vector<Channel>::iterator	it;
 	
 	it = std::find(this->_channels.begin(), this->_channels.end(), channel);
 	this->_channels.erase(it);
 	this->_server->delChannel(channel);
-}
+}*/
 
 ssize_t	Client::send(std::string msg)
 {
