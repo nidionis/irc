@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:03 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 13:51:19 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 16:45:32 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void				Server::listenServerSocket(void)
 	return ;
 }
 
-void				Server::serverCleanup(void)
+/*void				Server::serverCleanup(void)
 {
 	std::vector<Channel>::iterator	it;
 	std::vector<Channel>::iterator	ite = this->_channels.end();
@@ -119,7 +119,7 @@ void				Server::serverCleanup(void)
 	memset(&this->_IPv4_serv_sock_addr, 0, sizeof(this->_IPv4_serv_sock_addr));
 	memset(this->_buffer, 0, BUFFER_SIZE);
 	return ;
-}
+}*/
 
 ssize_t	Server::sendHead(Client& cli, std::string nb) {
 	return cli.send(":" + getName() + " " + nb + " " + cli.getNickname() + " ");

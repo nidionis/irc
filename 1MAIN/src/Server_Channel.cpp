@@ -6,13 +6,13 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:19:00 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 14:27:29 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 16:14:08 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-bool	Server::hasChannel(std::string const& nick)
+/*bool	Server::hasChannel(std::string const& nick)
 {
 	std::string	name;
 
@@ -22,7 +22,7 @@ bool	Server::hasChannel(std::string const& nick)
 		if (name == nick) {return (true); }
 	}
 	return (false);
-}
+}*/
 
 /*void	Server::pushChannel(Channel& channel)
 {
