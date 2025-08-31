@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 16:17:38 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:28:03 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	Client::clientCleanup(void)
 	return ;
 }
 
-Channel	*Client::newChannel(std::string& name)
+/*void	Client::newChannel(std::string& name)
 {
 	Channel	*channel;
 	
@@ -74,17 +74,31 @@ Channel	*Client::newChannel(std::string& name)
 	this->_server->pushChannel(*channel);
 	this->_channels.push_back(*channel);
 	this->send("JOIN : Succefully created\r\n");
-	return (channel);
+	delete (channel);
+	return ;
+}*/
+
+void Client::newChannel(std::string& name)
+{
+	if (this->_channels.size() >= MAX_CHANNELS)
+		throw std::runtime_error("too many channels");
+	
+	Channel channel(*this, name);
+
+	this->_server->pushChannel(channel);
+	this->_channels.push_back(channel);
+	this->send("JOIN : Successfully created\r\n");
+	return ;
 }
 
-void	Client::delChannel(Channel& channel)
+/*void	Client::delChannel(Channel& channel)
 {
 	std::vector<Channel>::iterator	it;
 	
 	it = std::find(this->_channels.begin(), this->_channels.end(), channel);
 	this->_channels.erase(it);
 	this->_server->delChannel(channel);
-}
+}*/
 
 ssize_t	Client::send(std::string msg)
 {

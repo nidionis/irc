@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 14:40:42 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:01:25 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ Channel::Channel(void)
 
 Channel::~Channel(void)
 {
-	this->clients.clear();
-	this->operators.clear();
+	this->_clients.clear();
+	this->_operators.clear();
 	return ;
 }
 
 Channel::Channel(Client& client, std::string& name)
 {
 	this->_name = name;
-	this->clients.push_back(client);
-	this->operators.push_back(client);
+	this->_clients.push_back(client);
+	this->_operators.push_back(client);
 }
 
 bool	Channel::operator==(const Channel& other) const
@@ -44,15 +44,15 @@ Channel	&Channel::operator=(const Channel& other)
 	if (this != &other)
 	{
 		this->_name = other.getName();
-		this->clients = other.clients;
-		this->operators = other.operators;
+		this->_clients = other._clients;
+		this->_operators = other._operators;
 	}
 	return (*this);
 }
 
 bool Channel::isOperator(Client& client)
 {
-	if (std::find(this->operators.begin(), this->operators.end(), client) != this->operators.end())
+	if (std::find(this->_operators.begin(), this->_operators.end(), client) != this->_operators.end())
 		{ return (true); }
 	else
 		{ return (false); }
@@ -62,7 +62,7 @@ void Channel::setOperator(Client& client)
 {
 	if (this->isOperator(client))
 		{ throw std::runtime_error("Client is already an operator"); }
-	this->operators.push_back(client);
+	this->_operators.push_back(client);
 	client.send("you operator the channel\r\n");
 	return ;
 }
@@ -71,14 +71,14 @@ void Channel::delOperator(Client& client)
 {
 	if (!this->isOperator(client))
 		{ throw std::runtime_error("Client is not an operator"); }
-	del(this->operators, client);
+	del(this->_operators, client);
 	return ;
 }
 
 
 bool Channel::isClient(Client& client)
 {
-	if (std::find(this->clients.begin(), this->clients.end(), client) != this->clients.end())
+	if (std::find(this->_clients.begin(), this->_clients.end(), client) != this->_clients.end())
 		{ return true; }
 	else
 		{ return false; }
@@ -88,7 +88,7 @@ void Channel::setClient(Client& client)
 {
 	if (this->isClient(client))
 		{ throw std::runtime_error("Client is already in the channel"); }
-	this->clients.push_back(client);
+	this->_clients.push_back(client);
 	return ;
 }
 
@@ -98,33 +98,33 @@ void Channel::delClient(Client& client)
 
 	if (!this->isClient(client))
 		{ throw std::runtime_error("Client is not in the channel"); }
-	it = std::find(this->clients.begin(), this->clients.end(), client);
-	this->clients.erase(it);
+	it = std::find(this->_clients.begin(), this->_clients.end(), client);
+	this->_clients.erase(it);
 	return ;
 }
 
 bool	Channel::hasMode(char mode)
 {
-	return (is_in(this->modes, mode));
+	return (is_in(this->_modes, mode));
 }
 
 void	Channel::setMode(char mode)
 {
-	set(this->modes, mode);
+	set(this->_modes, mode);
 	return ;
 }
 
 void	Channel::delMode(char mode)
 {
-	del(this->modes, mode);
+	del(this->_modes, mode);
 	return ;
 }
 
 void Channel::spawn(std::string msg)
 {
 	std::vector<Client>::iterator	it;
-	std::vector<Client>::iterator	ite = this->clients.end();
+	std::vector<Client>::iterator	ite = this->_clients.end();
 
-	for (it = this->clients.begin(); it != ite; ++it) { (*it).send(msg); }
+	for (it = this->_clients.begin(); it != ite; ++it) { (*it).send(msg); }
 	return ;
 }

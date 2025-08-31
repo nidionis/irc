@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:47 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/17 11:43:17 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:28:21 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ public:
 	bool			clientHasUser(std::string const& user);		// Server_Client.cpp
 
 	bool			hasChannel(std::string const& channel);		// Server_Channel.cpp
-	void			pushChannel(Channel& channel);				// Server_Channel.cpp
-	void			delChannel(Channel& channel);				// Server_Channel.cpp
+	//void			pushChannel(Channel& channel);				// Server_Channel.cpp
+	void			pushChannel(Channel const &channel);
+	//void			delChannel(Channel& channel);				// Server_Channel.cpp
 	Channel&		getChannel(std::string const& channel);		// Server_Channel.cpp
 };
 

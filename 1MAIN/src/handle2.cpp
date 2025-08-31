@@ -6,9 +6,10 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 14:44:23 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:01:53 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "handle.hpp"
 
@@ -17,43 +18,23 @@ Command: JOIN
 Parameters: <channel>{,<channel>} [<key>{,<key>}]
 Alt Params: 0
 
-// join a channel alone
-[15:32] << JOIN #test456%0A
-[15:32] >> :NickName!~UserName@45.148.156.203 JOIN #test456 * :RealName%0A
-[15:32] << MODE #test456%0A
-[15:32] >> :calamity.esper.net MODE #test456 +nt%0A
-[15:32] >> :calamity.esper.net 353 NickName = #test456 :@NickName!~UserName@45.148.156.203%0A
-[15:32] >> :calamity.esper.net 366 NickName #test456 :End of /NAMES list.%0A
-[15:32] >> :calamity.esper.net 324 NickName #test456 +nt%0A
-[15:32] >> :calamity.esper.net 329 NickName #test456 1754573574%0A
-[15:32] << MODE #test456 +b%0A
-[15:32] >> :calamity.esper.net 368 NickName #test456 :End of Channel Ban List%0A
+<< JOIN #test654%0A
+>> JOIN :Channel does not exist%0A
+>> JOIN : Succefully created%0A
+>> :NickName!~UserName@10.12.4.1 JOIN #test654 * :RealName%0A
+<< MODE #test654%0A
+<< MODE #test654 +b%0A
 
-// join a channel that has 2 other users
-[15:33] << JOIN #test852%0A
-[15:33] >> :NickName!~UserName@45.148.156.203 JOIN #test852 * :RealName%0A
-[15:33] << MODE #test852%0A
-[15:33] >> :calamity.esper.net 353 NickName = #test852 :NickName!~UserName@45.148.156.203 test1!~lahlsweh@45.148.156.203 @test2!~lahlsweh@45.148.156.203%0A
-[15:33] >> :calamity.esper.net 366 NickName #test852 :End of /NAMES list.%0A
-[15:33] >> :calamity.esper.net 324 NickName #test852 +nt%0A
-[15:33] >> :calamity.esper.net 329 NickName #test852 1754573556%0A
-[15:33] << MODE #test852 +b%0A
-[15:33] >> :calamity.esper.net 368 NickName #test852 :End of Channel Ban List%0A
-
-// join a channel alone, then 2 other users joins it
-[15:37] << JOIN #test123%0A
-[15:37] >> :NickName!~UserName@45.148.156.203 JOIN #test123 * :RealName%0A
-[15:37] << MODE #test123%0A
-[15:37] >> :calamity.esper.net MODE #test123 +nt%0A
-[15:37] >> :calamity.esper.net 353 NickName = #test123 :@NickName!~UserName@45.148.156.203%0A
-[15:37] >> :calamity.esper.net 366 NickName #test123 :End of /NAMES list.%0A
-[15:37] >> :calamity.esper.net 324 NickName #test123 +nt%0A
-[15:37] >> :calamity.esper.net 329 NickName #test123 1754573841%0A
-[15:37] << MODE #test123 +b%0A
-[15:37] >> :calamity.esper.net 368 NickName #test123 :End of Channel Ban List%0A
-[15:37] >> :test2!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
-[15:37] >> :test1!~lahlsweh@45.148.156.203 JOIN #test123 * :Lucas Ahlsweh%0A
-
+<< JOIN #test654%0A
+>> :NickName!~UserName@45.148.156.203 JOIN #test654 * :RealName%0A
+<< MODE #test654%0A
+>> :swepipe.esper.net MODE #test654 +nt%0A
+>> :swepipe.esper.net 353 NickName = #test654 :@NickName!~UserName@45.148.156.203%0A
+>> :swepipe.esper.net 366 NickName #test654 :End of /NAMES list.%0A
+>> :swepipe.esper.net 324 NickName #test654 +nt%0A
+>> :swepipe.esper.net 329 NickName #test654 1756638341%0A
+<< MODE #test654 +b%0A
+>> :swepipe.esper.net 368 NickName #test654 :End of Channel Ban List%0A
 
 => do not implement the MODE replies in cmdJoin(), those will be handled in cmdMode()
 */
@@ -65,6 +46,11 @@ void	cmdJoin(Server& server, Client& client, std::string args)
     Channel channel;
     std::string reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
         + "@" + getLocalIPv4Address() + "JOIN " + server.getName() + " * :" + client.getRealname() + "\r\n";
+    std::string	channel_str = popWd(args);
+    std::string	key = lastWord(args);
+    Channel		channel;
+	std::string	reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
+		+ "@" + getLocalIPv4Address() + " JOIN " + channel_str + " * :" + client.getRealname() + "\r\n";
 
     if (client.isLogged() == false)
     {
@@ -150,7 +136,10 @@ Parameters: <target> [<modestring> [<mode arguments>...]]
 
 void	cmdMode(Server& server, Client& client, std::string args)
 {
-	std::string	item = popWd(args);
+	(void)server;
+	(void)client;
+	(void)args;
+	/*std::string	item = popWd(args);
 	std::string	mode_chars = popWd(args);
 	Channel		channel;
 
@@ -187,7 +176,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
 	{
 		if (server.clientHasUser(item))
 			{ std::cout << "[debug] do something with user here" << std::endl; }
-	}
+	}*/
 	return ;
 }
 
