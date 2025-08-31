@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 13:57:59 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/17 10:22:07 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:27:58 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 	catch (const std::exception& err) { std::cerr << err.what() << std::endl; }
 	try { server.pollLoop(); }
 	catch (const std::exception& err) { std::cerr << err.what() << std::endl; }
-	server.serverCleanup();
+	//server.serverCleanup();
 	return (0);
 }
 

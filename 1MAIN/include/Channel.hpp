@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 15:02:41 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:19:53 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ private:
 	std::string			_name;
 	std::string			_key;
 	std::string			_topic;
-	std::vector<Client>	clients;
-	std::vector<Client>	operators;
-	std::vector<char>	modes;
+	std::vector<Client>	_clients;
+	std::vector<Client>	_operators;
+	std::vector<char>	_modes;
 
 public:
 	Channel(void);
