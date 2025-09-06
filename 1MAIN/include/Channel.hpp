@@ -26,6 +26,7 @@
 type get##f_name() const { return name; } \
 void set##f_name(type value) { name = value; }
 
+
 class Client;
 
 class Channel

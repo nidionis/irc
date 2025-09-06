@@ -76,6 +76,10 @@ void	cmdJoin(Server& server, Client& client, std::string args)
             channel = server.getChannel(channel_str);
             try
             {
+                if (channel.hasMode('i')) {
+                    std::string ERR_INVITEONLYCHAN = client.getNickname() + " " + channel.getName() + " :Cannot join channel (+i)\r\n";
+                    throw std::runtime_error(ERR_INVITEONLYCHAN);
+                }
                 if (channel.getKey() != "" && channel.getKey() != key) {
                     throw std::runtime_error("JOIN :Invalid channel key\r\n");
                 }
@@ -281,20 +285,28 @@ void	cmdMode(Server& server, Client& client, std::string args)
 			{
 				if (!strchr(AVAILABLE_MODE, mode_chars[1]))
 					{ throw std::runtime_error("MODE :Invalid mode\r\n"); }
-			}
+			} else { throw std::runtime_error("MODE :Invalid mode\r\n"); }
 			if (mode_chars[0] == '+')
 			{
-				if (mode_chars[1] == 'k')
-					{ channel.setKey(args); }
-				else
-					{ channel.setMode(mode_chars[1]); }
+				switch (mode_chars[1]) {
+					case 'k':
+						channel.setKey(args);
+						break ;
+					default:
+						channel.setMode(mode_chars[1]);
+                        break ;
+				}
 			}
 			else if (mode_chars[0] == '-')
 			{
-				if (mode_chars[1] == 'k')
-					{ channel.setKey(""); }
-				else
-					{ channel.delMode(mode_chars[1]); }
+				switch (mode_chars[1]) {
+                    case 'k':
+                        channel.setKey("");
+                        break;
+                    default:
+                        channel.delMode(mode_chars[1]);
+                        break;
+                }
 			}
 		}
 	}
