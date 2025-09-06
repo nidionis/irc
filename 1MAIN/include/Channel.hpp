@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:21:13 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:44:56 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ private:
 	std::vector<char>	_modes;
 
 public:
+	int					max_users;
 	Channel(void);
 	Channel(Client& client, std::string& name);
 	Channel	&operator=(const Channel& other);

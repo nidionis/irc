@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:26:06 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:45:29 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 Channel::Channel(void)
 {
+	max_users = MAX_CLIENTS;
 	return ;
 }
 
