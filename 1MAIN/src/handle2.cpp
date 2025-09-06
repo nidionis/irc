@@ -227,7 +227,6 @@ NO RESPONSES FOR :
 +i success :
 << MODE #test123 +i%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +i %0A
-
 -i success :
 << MODE #test123 -i%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -i %0A
@@ -235,7 +234,6 @@ NO RESPONSES FOR :
 +t success : 
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +t %0A
 << MODE #test123 +t%0A
-
 -t success :
 << MODE #test123 -t%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -t %0A
@@ -243,7 +241,6 @@ NO RESPONSES FOR :
 +k always when valid argument :
 << MODE #test123 +k key%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +k key%0A
-
 -k success :
 << MODE #test123 -k%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -k *%0A
@@ -251,7 +248,6 @@ NO RESPONSES FOR :
 +o always when valid argument :
 << MODE #test123 +o lahlsweh%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +o lahlsweh%0A
-
 -o always when valid argument :
 << MODE #test123 -o lahlsweh%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -o lahlsweh%0A
@@ -259,11 +255,11 @@ NO RESPONSES FOR :
 +l always when valid argument :
 << MODE #test123 +l 25%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +l 25%0A
-
 -l success :
 << MODE #test123 -l%0A
 >> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -l %0A
 */
+
 void	cmdMode(Server& server, Client& client, std::string args)
 {
 	(void)server;
@@ -271,6 +267,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
 	(void)args;
 	std::string	item = popWd(args);
 	std::string	mode_chars = popWd(args);
+    std::string str_new_op;
 	Channel		channel;
 
 	if (client.isLogged() == false)
@@ -292,6 +289,9 @@ void	cmdMode(Server& server, Client& client, std::string args)
 					case 'k':
 						channel.setKey(args);
 						break ;
+					case 'o':
+						channel.setOperator(server.getClient(getHead(args)));
+						break ;
 					default:
 						channel.setMode(mode_chars[1]);
                         break ;
@@ -303,6 +303,9 @@ void	cmdMode(Server& server, Client& client, std::string args)
                     case 'k':
                         channel.setKey("");
                         break;
+					case 'o':
+						channel.delOperator(server.getClient(getHead(args)));
+						break ;
                     default:
                         channel.delMode(mode_chars[1]);
                         break;
@@ -410,8 +413,13 @@ void	cmdTopic(Server& server, Client& client, std::string args)
 		try
 		{
 			Channel&	channel = server.getChannel(channel_str);
-			if (channel.isOperator(client))
-				{ channel.setTopic(topic); }
+			if (channel.hasMode('t')) {
+				if (!channel.isOperator(client)) {
+					std::string ERR_CHANOPRIVSNEEDED = client.getNickname() + " " + channel.getName() + " :You're not channel operator";
+					throw std::runtime_error(ERR_CHANOPRIVSNEEDED);
+				}
+			}
+			channel.setTopic(topic);
 		}
 		catch (const std::runtime_error& err)
 		{
