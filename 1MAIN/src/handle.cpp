@@ -15,6 +15,7 @@
 //
 
 #include "handle.hpp"
+#include "irc_numeric.hpp"
 
 void	cmdDebug(Server& server, Client& client, std::string args)
 {
@@ -28,7 +29,12 @@ void	cmdDebug(Server& server, Client& client, std::string args)
 void	cmdCap(Server& server, Client& client, std::string args)
 {
 	if (getHead(args) == "")
-		{ throw (std::runtime_error(":" + server.getName() + " 461 " + client.getNickname() + " CAP :Not enough parameters\r\n")); }
+	{
+		// ERR_NEEDMOREPARAMS (461) CAP :Not enough parameters
+		throw std::runtime_error(
+			makeNumeric(server, client, ERR_NEEDMOREPARAMS, {"CAP"}, "Not enough parameters")
+		);
+	}
 	if (getHead(args) == "LS")
 		{ capLs(server, client, getNextWds(args)); }
 	else if (getHead(args) == "REQ")
@@ -36,7 +42,12 @@ void	cmdCap(Server& server, Client& client, std::string args)
 	else if (getHead(args) == "END")
 		{ capEnd(server, client, getNextWds(args)); }
 	else
-		{ throw (std::runtime_error(":" + server.getName() + " 410 " + client.getNickname() + getHead(args) + " :Invalid CAP subcommand\r\n")); }
+	{
+		// Use ERR_UNKNOWNCOMMAND (421) for invalid CAP subcommand
+		throw std::runtime_error(
+			makeNumeric(server, client, ERR_UNKNOWNCOMMAND, {"CAP"}, "Invalid CAP subcommand")
+		);
+	}
 	return ;
 }
 
@@ -47,9 +58,19 @@ void	cmdNick(Server& server, Client& client, std::string args)
 	if (!client.hasFlag(PASSWD_OK))
 		{ client.setmust_kill(true); return ; }
 	if (nick == "")
-		{ throw (std::runtime_error(":" + server.getName() + " 431 " + client.getNickname() + " : No nickname given\r\n")); }
+	{
+		// ERR_NONICKNAMEGIVEN (431) :No nickname given
+		throw std::runtime_error(
+			makeNumeric(server, client, ERR_NONICKNAMEGIVEN, {}, "No nickname given")
+		);
+	}
 	if (server.clientHasNick(nick))
-		{ throw (std::runtime_error (":" + server.getName() + " 433 * " + nick + " :Nickname is already in use.\r\n")); }
+	{
+		// ERR_NICKNAMEINUSE (433) * <nick> :Nickname is already in use.
+		throw std::runtime_error(
+			makeNumeric(server, std::string("*"), ERR_NICKNAMEINUSE, {nick}, "Nickname is already in use.")
+		);
+	}
 	if (client.getNickname() != "")
 		{ client.send( ":" + client.getNickname() + "!~" + client.getUsername() + "@" + client.getIp() + " NICK :" + nick + "\r\n"); }
 	client.setNickname(nick);
@@ -59,7 +80,6 @@ void	cmdNick(Server& server, Client& client, std::string args)
 
 void	cmdUser(Server& server, Client& client, std::string args)
 {
-	(void)server;
 	std::string	user = getHead(args);
 	std::string	realname = lastWord(args);
 
@@ -70,10 +90,10 @@ void	cmdUser(Server& server, Client& client, std::string args)
 	}
 	if (client.getUsername() != "")
 	{
-		std::string message462 = " :You may not reregister\r\n";
-		server.sendHead(client, "462");
-		client.send(message462);
-		throw std::runtime_error("");
+		// ERR_ALREADYREGISTRED (462) :You may not reregister
+		throw std::runtime_error(
+			makeNumeric(server, client, ERR_ALREADYREGISTRED, {}, "You may not reregister")
+		);
 	}
 	client.setUsername(user);
 	client.setRealname(realname);
@@ -144,9 +164,9 @@ void	cmdUserHost(Server& server, Client& client, std::string args)
 	std::string arg = getHead(args);
 	if (arg == client.getNickname())
 	{
-		std::string message302 = ":" + client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp() + "\n";
-		server.sendHead(client, "302");
-		client.send(message302);
+		// RPL_USERHOST (302) :<nick>=+~<user>@<host>
+		sendNumeric(server, client, RPL_USERHOST, {},
+		            client.getNickname() + "=+~" + client.getUsername() + "@" + server.getIp());
 	}
 }
 
@@ -155,9 +175,19 @@ void	cmdPass(Server& server, Client& client, std::string args)
 	std::string	passwd = trim(args);
 
 	if (client.hasFlag(PASSWD_OK))
-		{ throw (std::runtime_error(":" + server.getName() + " 462 " + client.getNickname() + " PASS :You may not reregister\r\n")); }
+	{
+		// ERR_ALREADYREGISTRED (462) :You may not reregister
+		throw std::runtime_error(
+			makeNumeric(server, client, ERR_ALREADYREGISTRED, {}, "You may not reregister")
+		);
+	}
 	if (passwd == "")
-		{ throw (std::runtime_error(":" + server.getName() + " 461 " + client.getNickname() + " PASS :Not enough parameters\r\n")); }
+	{
+		// ERR_NEEDMOREPARAMS (461) PASS :Not enough parameters
+		throw std::runtime_error(
+			makeNumeric(server, client, ERR_NEEDMOREPARAMS, {"PASS"}, "Not enough parameters")
+		);
+	}
 	if (server.checkPasswd(passwd))
 	{
 		client.setFlag(PASSWD_OK);
@@ -165,7 +195,8 @@ void	cmdPass(Server& server, Client& client, std::string args)
 	}
 	else
 	{
-		client.send(":" + server.getName() + " 464 " + client.getNickname() + " PASS :Password incorrect\r\n");
+		// ERR_PASSWDMISMATCH (464) :Password incorrect
+		client.send(makeNumeric(server, client, ERR_PASSWDMISMATCH, {}, "Password incorrect"));
 		client.setmust_kill(true);
 		return ;
 	}
@@ -188,13 +219,18 @@ void	processCommand(Server& server, Client& client, std::string args)
 			catch (std::runtime_error& err)
 			{
 				str_err = err.what();
-				client.send(str_err + "\r\n");
+				// Avoid double CRLF and also handle legacy errors without CRLF
+				if (str_err.size() >= 2 && str_err.substr(str_err.size() - 2) == "\r\n")
+					client.send(str_err);
+				else
+					client.send(str_err + "\r\n");
 				if (client.getmust_kill() == true) { return ; }
 			}
 			return ;
 		}
 	}
-	client.send(":" + server.getName() + " 421 " + client.getNickname() + ' ' + cmd_flg + " :Unknown command\r\n");
+	// ERR_UNKNOWNCOMMAND (421) <command> :Unknown command
+	client.send(makeNumeric(server, client, ERR_UNKNOWNCOMMAND, {cmd_flg}, "Unknown command"));
 	std::cout << "<<<<<<<<<<<<<<<<<<" << std::endl;
 	return ;
 }
