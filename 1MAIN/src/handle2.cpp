@@ -224,41 +224,13 @@ NO RESPONSES FOR :
 +l if no argument OR bad argument (number parsed atoi() way)
 -l if no argument
 
-+i success :
-<< MODE #test123 +i%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +i %0A
--i success :
-<< MODE #test123 -i%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -i %0A
-
-+t success : 
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +t %0A
-<< MODE #test123 +t%0A
--t success :
-<< MODE #test123 -t%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -t %0A
-
-+k always when valid argument :
-<< MODE #test123 +k key%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +k key%0A
--k success :
-<< MODE #test123 -k%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -k *%0A
-
-+o always when valid argument :
-<< MODE #test123 +o lahlsweh%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +o lahlsweh%0A
--o always when valid argument :
-<< MODE #test123 -o lahlsweh%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -o lahlsweh%0A
-
-+l always when valid argument :
-<< MODE #test123 +l 25%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 +l 25%0A
--l success :
-<< MODE #test123 -l%0A
->> :Nick2Name!~UserName@45.148.156.203 MODE #test123 -l %0A
+success :
+:Nick2Name!~UserName@45.148.156.203 MODE #test123 ARGS %0A
 */
+static void cmdAnswer(Client &client, Channel &channel, std::string mode_chars, std::string args) {
+	std::string answer = ":" + client.getNickname() + "!~" + client.getUsername() + "@" + getLocalIPv4Address() + " MODE " + channel.getName() + mode_chars + args + "\r\n";
+	client.send(answer);
+}
 
 void	cmdMode(Server& server, Client& client, std::string args)
 {
@@ -288,18 +260,22 @@ void	cmdMode(Server& server, Client& client, std::string args)
 				switch (mode_chars[1]) {
 					case 'k':
 						channel.setKey(args);
+						cmdAnswer(client, channel, mode_chars, args);
 						break ;
 					case 'o':
 						channel.setOperator(server.getClient(getHead(args)));
+						cmdAnswer(client, channel, mode_chars, args);
 						break ;
                     case 'l':
                         channel.max_users = atoi(args.c_str());
                         if (channel.max_users > MAX_CLIENTS) {
                             channel.max_users = MAX_CLIENTS;
                         }
+						cmdAnswer(client, channel, mode_chars, args);
                         break ;
 					default:
 						channel.setMode(mode_chars[1]);
+						cmdAnswer(client, channel, mode_chars, args);
                         break ;
 				}
 			}
@@ -308,15 +284,19 @@ void	cmdMode(Server& server, Client& client, std::string args)
 				switch (mode_chars[1]) {
                     case 'k':
                         channel.setKey("");
+						cmdAnswer(client, channel, mode_chars, args);
                         break;
 					case 'o':
 						channel.delOperator(server.getClient(getHead(args)));
+						cmdAnswer(client, channel, mode_chars, args);
 						break ;
                     case 'l':
                         channel.max_users = MAX_CLIENTS;
+						cmdAnswer(client, channel, mode_chars, args);
 						break ;
                     default:
                         channel.delMode(mode_chars[1]);
+						cmdAnswer(client, channel, mode_chars, args);
                         break;
                 }
 			}
