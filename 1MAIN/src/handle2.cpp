@@ -314,6 +314,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
 						break ;
                     case 'l':
                         channel.max_users = MAX_CLIENTS;
+						break ;
                     default:
                         channel.delMode(mode_chars[1]);
                         break;
