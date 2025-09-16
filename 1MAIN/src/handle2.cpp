@@ -69,7 +69,7 @@ void	cmdJoin(Server& server, Client& client, std::string args)
         client.setmust_kill(true);
         return ;
     }
-    if (channel_str[0] == '#' && channel_str.length() < LEN_MAX_NAME)// && isValidName(channel_str.substr(1)))
+    if (channel_str[0] == '#' && channel_str.length() < LEN_MAX_NAME)
     {
         try
         {
@@ -135,6 +135,7 @@ Parameters: <channel>{,<channel>} [<reason>]
 [16:09] << PART #test654 :%0A
 [16:09] >> :Nick2Name!~UserName@45.148.156.203 PART #test654%0A
 */
+
 void	cmdPart(Server& server, Client& client, std::string args)
 {
     (void)server;
@@ -274,8 +275,11 @@ void	cmdMode(Server& server, Client& client, std::string args)
 		{ client.setmust_kill(true); return ; }
 	if (item[0] == '#') {
 		try { channel = server.getChannel(item); }
-		catch (const std::runtime_error& err)
-			{ throw std::runtime_error(err.what()); }
+		catch (const std::runtime_error& err) {
+			server.sendHead(client, "403");
+			client.send(item);
+			throw std::runtime_error(err.what());
+		}
 		if (channel.isOperator(client))
 		{
 			if (mode_chars[0] == '+' || mode_chars[0] == '-')
@@ -325,6 +329,11 @@ void	cmdMode(Server& server, Client& client, std::string args)
 	{
 		if (server.clientHasUser(item))
 			{ std::cout << "[debug] do something with user here" << std::endl; }
+		else {
+			server.sendHead(client, "403");
+			client.send(item);
+			client.send(" : Client not found");
+		}
 	}
 	return ;
 }
