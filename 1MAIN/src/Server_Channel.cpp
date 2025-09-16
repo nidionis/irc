@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server_Channel.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:19:00 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:36:35 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:22:00 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,5 @@ Channel	&Server::getChannel(std::string const& channel_str)
 		if (this->_channels[i].getName() == channel_str)
 			{ return this->_channels[i]; }
 	}
-	throw (std::runtime_error("channel not found"));
+	throw (std::runtime_error("No such channel"));
 }

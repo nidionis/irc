@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle2.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 13:40:28 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:34:57 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:26:35 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
 		try { channel = server.getChannel(item); }
 		catch (const std::runtime_error& err) {
 			server.sendHead(client, "403");
-			client.send(item);
+			client.send(item + " :");
 			throw std::runtime_error(err.what());
 		}
 		if (channel.isOperator(client))
