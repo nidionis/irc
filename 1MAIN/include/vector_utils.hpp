@@ -17,6 +17,8 @@
 #ifndef VECTOR_UTILS_HPP
 # define VECTOR_UTILS_HPP
 
+
+# include <iostream>
 # include <vector>
 
 // Template implementation in header file

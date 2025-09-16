@@ -19,6 +19,18 @@
 
 // Template implementation in header file
 template <typename T>
+bool	print_vec(std::vector<T>& v)
+{
+	// create an iterator
+	typename std::vector<T>::iterator	it;
+
+	for (it = v.begin(); it != v.end(); ++it)
+	{ std::cout << *it ; }
+	return (false);
+};
+
+// Template implementation in header file
+template <typename T>
 bool	is_in(std::vector<T>& v, const T x)
 {
 	// create an iterator
