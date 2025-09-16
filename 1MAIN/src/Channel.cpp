@@ -62,7 +62,7 @@ bool Channel::isOperator(Client& client)
 void Channel::setOperator(Client& client)
 {
 	if (this->isOperator(client))
-		{ throw std::runtime_error("Client is already an operator"); }
+		{ throw std::runtime_error("Client is already an operator\r\n"); }
 	this->_operators.push_back(client);
 	client.send("you operator the channel\r\n");
 	return ;
@@ -88,7 +88,7 @@ bool Channel::isClient(Client& client)
 void Channel::setClient(Client& client)
 {
 	if (this->isClient(client))
-		{ throw std::runtime_error("Client is already in the channel"); }
+		{ throw std::runtime_error("Client is already in the channel\r\n"); }
 	this->_clients.push_back(client);
 	return ;
 }
@@ -98,7 +98,7 @@ void Channel::delClient(Client& client)
 	std::vector<Client>::iterator	it;
 
 	if (!this->isClient(client))
-		{ throw std::runtime_error("Client is not in the channel"); }
+		{ throw std::runtime_error("Client is not in the channel\r\n"); }
 	it = std::find(this->_clients.begin(), this->_clients.end(), client);
 	this->_clients.erase(it);
 	return ;

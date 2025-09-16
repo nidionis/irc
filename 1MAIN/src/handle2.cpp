@@ -313,7 +313,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
 		else {
 			server.sendHead(client, "403");
 			client.send(item);
-			client.send(" : Client not found");
+			client.send(" : Client not found\r\n");
 		}
 	}
 	return ;
