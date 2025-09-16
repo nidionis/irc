@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:21:18 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/10 15:03:35 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:14:43 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ bool	print_vec(std::vector<T>& v)
 	// create an iterator
 	typename std::vector<T>::iterator	it;
 
+	std::cout << "TEST VECTOR: ";
 	for (it = v.begin(); it != v.end(); ++it)
 	{ std::cout << *it ; }
+	std::cout << std::endl;
 	return (false);
 };
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:45:29 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:15:27 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,9 @@ bool	Channel::hasMode(char mode)
 
 void	Channel::setMode(char mode)
 {
+	print_vec(this->_modes);
 	set(this->_modes, mode);
+	print_vec(this->_modes);
 	return ;
 }
 
