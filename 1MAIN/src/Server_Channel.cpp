@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 14:19:00 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/09/16 13:22:00 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:45:00 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ Channel	&Server::getChannel(std::string const& channel_str)
 	for (size_t i = 0; i < this->_channels.size(); i++)
 	{
 		if (this->_channels[i].getName() == channel_str)
-			{ return this->_channels[i]; }
+		{
+			return (this->_channels[i]);
+		}
 	}
 	throw (std::runtime_error("No such channel"));
 }

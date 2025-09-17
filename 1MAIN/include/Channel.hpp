@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:51 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:44:56 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:45:12 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define GETTER_SETTER(type, name, f_name) \
 type get##f_name() const { return name; } \
 void set##f_name(type value) { name = value; }
-
 
 class Client;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 10:29:47 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/08/31 17:36:24 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:44:57 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ public:
 	// missing copy constructor									// Server.cpp
 	~Server(void);												// Server.cpp
 
-    void        handle(char* buffer, Client& client);
+    void        	handle(char* buffer, Client& client);
 	std::string&	getName(void);								// Server.cpp
 	std::string		getIp(void);								// Server.cpp
 	in_port_t		getPort(void);								// Server.cpp

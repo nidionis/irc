@@ -6,7 +6,7 @@
 /*   By: lahlsweh <lahlsweh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 11:20:21 by lahlsweh          #+#    #+#             */
-/*   Updated: 2025/09/16 14:15:27 by lahlsweh         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:25:16 by lahlsweh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,15 @@ void Channel::delClient(Client& client)
 
 bool	Channel::hasMode(char mode)
 {
+	std::cout << "hasMode(" << mode << ") [this=" << this << "] : ";
+	print_vec(this->_modes);
 	return (is_in(this->_modes, mode));
 }
 
 void	Channel::setMode(char mode)
 {
-	print_vec(this->_modes);
 	set(this->_modes, mode);
+	std::cout << "setMode(" << mode << ") [this=" << this << "] : ";
 	print_vec(this->_modes);
 	return ;
 }
