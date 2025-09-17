@@ -64,43 +64,32 @@ void	cmdJoin(Server& server, Client& client, std::string args)
 	std::string	reply_success = ":" + client.getNickname() + "!~" + client.getUsername()
 		+ "@" + getLocalIPv4Address() + " JOIN " + channel_str + " * :" + client.getRealname() + "\r\n";
 
-    if (client.isLogged() == false)
-    {
+    if (client.isLogged() == false) {
         client.setmust_kill(true);
         return ;
-    }
-    if (channel_str[0] == '#' && channel_str.length() < LEN_MAX_NAME)
-    {
-        try
-        {
+    } if (channel_str[0] == '#' && channel_str.length() < LEN_MAX_NAME) {
+        try {
             channel = server.getChannel(channel_str);
-            try
-            {
+            try {
                 if (channel.hasMode('i')) {
                     std::string ERR_INVITEONLYCHAN = client.getNickname() + " " + channel.getName() + " :Cannot join channel (+i)\r\n";
                     throw std::runtime_error(ERR_INVITEONLYCHAN);
-                }
-                if (channel.getKey() != "" && channel.getKey() != key) {
+                } if (channel.getKey() != "" && channel.getKey() != key) {
                     throw std::runtime_error("JOIN :Invalid channel key\r\n");
                 }
                 channel.setClient(client);
                 client.send(reply_success);
-            }
-            catch (std::runtime_error& err)
-            {
+            } catch (std::runtime_error& err) {
                 client.send("JOIN :You are already in the channel\r\n");
             }
         }
         catch (const std::runtime_error& err)
         {
             client.send("JOIN :Channel does not exist\r\n");
-            try
-            {
+            try {
                 client.newChannel(channel_str);
                 client.send(reply_success);
-            }
-            catch (std::runtime_error& err)
-            {
+            } catch (std::runtime_error& err) {
                 client.send("JOIN : failed :Too many channels\r\n");
             }
         }
@@ -150,8 +139,7 @@ void	cmdPart(Server& server, Client& client, std::string args)
 		client.send(" PART :");
 		client.send("not enough parameters\r\n");
 		return ;
-	}
-	try {
+	} try {
 		channel = server.getChannel(str_channel);
 		std::string msg = client.getNickname() + " is leaving " + channel.getName();
 		channel.spawn(msg);
@@ -252,15 +240,14 @@ void	cmdMode(Server& server, Client& client, std::string args)
 			client.send(item + " :");
 			throw std::runtime_error(err.what());
 		}
-		if (channel.isOperator(client))
-		{
-			if (mode_chars[0] == '+' || mode_chars[0] == '-')
-			{
-				if (!strchr(AVAILABLE_MODE, mode_chars[1]))
-					{ throw std::runtime_error("MODE :Invalid mode\r\n"); }
-			} else { throw std::runtime_error("MODE :Invalid mode\r\n"); }
-			if (mode_chars[0] == '+')
-			{
+		if (channel.isOperator(client)) {
+			if (mode_chars[0] == '+' || mode_chars[0] == '-') {
+				if (!strchr(AVAILABLE_MODE, mode_chars[1])) {
+				throw std::runtime_error("MODE :Invalid mode\r\n");
+				}
+			} else {
+				throw std::runtime_error("MODE :Invalid mode\r\n");
+			} if (mode_chars[0] == '+') {
 				switch (mode_chars[1]) {
 					case 'k':
 						channel.setKey(args);
@@ -283,8 +270,7 @@ void	cmdMode(Server& server, Client& client, std::string args)
                         break ;
 				}
 			}
-			else if (mode_chars[0] == '-')
-			{
+			else if (mode_chars[0] == '-') {
 				switch (mode_chars[1]) {
                     case 'k':
                         channel.setKey("");
@@ -305,12 +291,10 @@ void	cmdMode(Server& server, Client& client, std::string args)
                 }
 			}
 		}
-	}
-	else
-	{
-		if (server.clientHasUser(item))
-			{ std::cout << "[debug] do something with user here" << std::endl; }
-		else {
+	} else {
+		if (server.clientHasUser(item)) {
+			std::cout << "[debug] do something with user here" << std::endl;
+			} else {
 			server.sendHead(client, "403");
 			client.send(item);
 			client.send(" : Client not found\r\n");
@@ -369,17 +353,16 @@ void	cmdKick(Server& server, Client& client, std::string args)
 	Client		&kicked = server.getClient(getHead(args));
 	std::string	reason = getNextWds(args);
 
-	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
-	if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
-	{
-		try
-		{
+	if (client.isLogged() == false) {
+		client.setmust_kill(true);
+		return ;
+	} if (channel_str[0] == '#' && isValidName(channel_str.substr(1))) {
+		try {
 			Channel&	channel = server.getChannel(channel_str);
-			if (channel.isOperator(client))
-			{
-				try { channel.delClient(client); }
-				catch (std::runtime_error& err)
-				{
+			if (channel.isOperator(client)) {
+				try {
+					channel.delClient(client);
+				} catch (std::runtime_error& err) {
 					client.send("JOIN : Nick ");
 					client.send(kicked.getNickname());
 					client.send("not in the channel\r\n");
@@ -405,11 +388,11 @@ void	cmdTopic(Server& server, Client& client, std::string args)
 	std::string	topic = getNextWds(args);
 	std::string	err_str;
 
-	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
-	if (channel_str[0] == '#' && isValidName(channel_str.substr(1)))
-	{
-		try
-		{
+	if (client.isLogged() == false) {
+		client.setmust_kill(true);
+		return ;
+	} if (channel_str[0] == '#' && isValidName(channel_str.substr(1))) {
+		try {
 			Channel&	channel = server.getChannel(channel_str);
 			if (channel.hasMode('t')) {
 				if (!channel.isOperator(client)) {
@@ -418,9 +401,7 @@ void	cmdTopic(Server& server, Client& client, std::string args)
 				}
 			}
 			channel.setTopic(topic);
-		}
-		catch (const std::runtime_error& err)
-		{
+		} catch (const std::runtime_error& err) {
 			client.send("TOPIC : " + err_str + "\r\n");
 		}
 	}
@@ -463,23 +444,22 @@ void	cmdPrivmsg(Server& server, Client& client, std::string args)
 	Client		dest;
 
 	name = trim(name, OPERATOR_OP);
-	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
-	if (name[0] == '#' && isValidName(name.substr(1)))
-	{
-		try
-		{
+	if (client.isLogged() == false) {
+		client.setmust_kill(true);
+		return ;
+	} if (name[0] == '#' && isValidName(name.substr(1))) {
+		try {
 			Channel&	channel = server.getChannel(name);
 			channel.spawn(client.getNickname() + " : " + msg);
+		} catch (const std::runtime_error& err) {
+			client.send(err.what());
 		}
-		catch (const std::runtime_error& err)
-			{ client.send(err.what()); }
-	}
-	else if (server.clientHasNick(name))
-	{
+	} else if (server.clientHasNick(name)) {
 		dest = server.getClient(name);
 		dest.send(client.getNickname() + " : " + msg + "\r\n");
+	} else {
+		throw std::runtime_error("PRIVMSG : channel or client not found");
 	}
-	else { throw std::runtime_error("PRIVMSG : channel or client not found"); }
 	throw (std::runtime_error("PRIVMSG : Failure"));
 }
 
@@ -519,18 +499,25 @@ void	cmdInvite(Server& server, Client& client, std::string args)
 	Client	dest;
 	Channel	channel;
 
-	if (client.isLogged() == false) { client.setmust_kill(true); return ; }
-	try { dest = server.getClient(popWd(args)); }
-	catch (std::runtime_error& err)
-		{ throw std::runtime_error(err.what()); }
-	try { channel = server.getChannel(popWd(args)); }
-	catch (std::runtime_error& err)
-		{ throw std::runtime_error(err.what()); }
-	if
-	(channel.hasMode('i'))
-	{
-		if (channel.isOperator(client))
-			{ throw (std::runtime_error(client.getNickname() + channel.getName() + "you are not operrator")); }
+	if (client.isLogged() == false) {
+		client.setmust_kill(true);
+		return ;
+	}
+
+	try {
+        dest = server.getClient(popWd(args));
+	} catch (std::runtime_error& err) {
+            throw std::runtime_error(err.what());
+    }
+    try {
+        channel = server.getChannel(popWd(args));
+    } catch (std::runtime_error& err) {
+        throw std::runtime_error(err.what());
+	}
+	if (channel.hasMode('i')) {
+		if (channel.isOperator(client)) {
+				throw (std::runtime_error(client.getNickname() + channel.getName() + "you are not operrator"));
+		}
 	}
 	dest.send(client.getNickname() + " INVITE " + dest.getNickname() + " " + channel.getName() + "\r\n");
 	channel.setClient(dest);

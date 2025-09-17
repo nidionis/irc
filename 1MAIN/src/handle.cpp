@@ -44,8 +44,7 @@ void	cmdNick(Server& server, Client& client, std::string args)
 {
 	std::string	nick = getHead(args);
 
-	if (!client.hasFlag(PASSWD_OK))
-		{ client.setmust_kill(true); return ; }
+	if (!client.hasFlag(PASSWD_OK)) { client.setmust_kill(true); return ; }
 	if (nick == "")
 		{ throw (std::runtime_error(":" + server.getName() + " 431 " + client.getNickname() + " : No nickname given\r\n")); }
 	if (server.clientHasNick(nick))
@@ -63,13 +62,10 @@ void	cmdUser(Server& server, Client& client, std::string args)
 	std::string	user = getHead(args);
 	std::string	realname = lastWord(args);
 
-	if (!client.hasFlag(PASSWD_OK))
-	{
+	if (!client.hasFlag(PASSWD_OK)) {
 		client.setmust_kill(true);
 		return ;
-	}
-	if (client.getUsername() != "")
-	{
+	} if (client.getUsername() != "") {
 		std::string message462 = " :You may not reregister\r\n";
 		server.sendHead(client, "462");
 		client.send(message462);
@@ -170,7 +166,6 @@ void	cmdPass(Server& server, Client& client, std::string args)
 		return ;
 	}
 }
-
 
 void	processCommand(Server& server, Client& client, std::string args)
 {

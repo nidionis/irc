@@ -17,11 +17,9 @@
 #ifndef VECTOR_UTILS_TPP
 # define VECTOR_UTILS_TPP
 
-// Template implementation in header file
 template <typename T>
 bool	print_vec(std::vector<T>& v)
 {
-	// create an iterator
 	typename std::vector<T>::iterator	it;
 
 	for (it = v.begin(); it != v.end(); ++it)
@@ -30,11 +28,9 @@ bool	print_vec(std::vector<T>& v)
 	return (false);
 };
 
-// Template implementation in header file
 template <typename T>
 bool	is_in(std::vector<T>& v, const T x)
 {
-	// create an iterator
 	typename std::vector<T>::iterator	it;
 
 	for (it = v.begin(); it != v.end(); ++it)
@@ -49,11 +45,9 @@ void	set(std::vector<T>& v, const T x)
 	return ;
 };
 
-// Corrected version of the template function
 template <typename T>
 void	del(std::vector<T>& v, T x)
 {
-	// Correct spelling of 'iterator'
 	typename std::vector<T>::iterator	it;
 	
 	it = std::find(v.begin(), v.end(), x);
@@ -69,7 +63,5 @@ bool	has(std::vector<T> v, T x)
 		{ if (*it == x) { return true; } }
 	return (false);
 };
-
-// Template specialization is not needed as the implementation is now in the header
 
 #endif //VECTOR_UTILS_TPP

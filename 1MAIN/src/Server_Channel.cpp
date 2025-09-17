@@ -49,10 +49,15 @@ void	Server::delChannel(Channel& channel)
 
 Channel	&Server::getChannel(std::string const& channel_str)
 {
+	std::cout << "from getChannel, channel_str=";
+	std::cout << channel_str;
+	std::cout << std::endl;
 	for (size_t i = 0; i < this->_channels.size(); i++)
 	{
 		if (this->_channels[i].getName() == channel_str)
 		{
+            std::cout << "found";
+            std::cout << std::endl;
 			return (this->_channels[i]);
 		}
 	}
